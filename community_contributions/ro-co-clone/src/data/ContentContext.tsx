@@ -46,8 +46,14 @@ function loadContent(): SiteContent {
     return {
       ...structuredClone(defaultContent),
       ...parsed,
+      version: defaultContent.version,
       settings: { ...defaultContent.settings, ...parsed.settings },
       media: parsed.media?.length ? parsed.media : defaultContent.media,
+      howItWorks: parsed.howItWorks?.length ? parsed.howItWorks : defaultContent.howItWorks,
+      faqs: parsed.faqs?.length ? parsed.faqs : defaultContent.faqs,
+      moreCare: parsed.moreCare?.length ? parsed.moreCare : defaultContent.moreCare,
+      guides: parsed.guides?.length ? parsed.guides : defaultContent.guides,
+      products: parsed.products?.length ? parsed.products : defaultContent.products,
     };
   } catch {
     return structuredClone(defaultContent);

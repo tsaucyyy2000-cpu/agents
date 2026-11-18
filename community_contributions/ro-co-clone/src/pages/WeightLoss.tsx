@@ -2,14 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useContent } from "../data/ContentContext";
 import "./Category.css";
-
-const steps = [
-  "Answer a short online health questionnaire.",
-  "A clinician reviews eligibility and may prescribe.",
-  "Insurance or cash-pay pathways are explained clearly.",
-  "Medication ships or is routed to a pharmacy.",
-  "Ongoing messaging and check-ins keep you supported.",
-];
+import "./Flows.css";
 
 export function WeightLoss() {
   const { content, mediaById } = useContent();
@@ -17,9 +10,18 @@ export function WeightLoss() {
   const products = content.products.filter(
     (product) => product.category === "weight" && product.active,
   );
+  const faqs = content.faqs.filter((faq) => faq.area === "weight" || faq.area === "general");
   const hero = category ? mediaById[category.heroImageId] : undefined;
   const [weight, setWeight] = useState(220);
   const projected = useMemo(() => Math.round(weight * 0.15), [weight]);
+  const steps =
+    category?.steps ??
+    [
+      "Answer a short online health questionnaire.",
+      "A clinician reviews eligibility and may prescribe.",
+      "Insurance or cash-pay pathways are explained clearly.",
+      "Begin treatment with ongoing check-ins.",
+    ];
 
   if (!category) return null;
 
@@ -34,6 +36,9 @@ export function WeightLoss() {
             <div className="hero-actions">
               <Link to="/visit" className="btn btn-primary">
                 {category.ctaLabel}
+              </Link>
+              <Link to="/insurance-check" className="btn btn-secondary">
+                Coverage check
               </Link>
               <a href="#meds" className="btn btn-secondary">
                 Browse options
@@ -83,9 +88,14 @@ export function WeightLoss() {
                   {med.tag ? <span className="chip">{med.tag}</span> : null}
                   <h3>{med.name}</h3>
                   <p>{med.meta}</p>
-                  <Link to="/visit" className="text-link">
-                    Start visit
-                  </Link>
+                  <div className="cta-row">
+                    <Link to={`/products/${med.id}`} className="text-link">
+                      Details
+                    </Link>
+                    <Link to="/visit" className="text-link">
+                      Start visit
+                    </Link>
+                  </div>
                 </article>
               );
             })}
@@ -124,9 +134,28 @@ export function WeightLoss() {
               <strong>{content.settings.membershipFirstMonth}</strong> first month demo
             </p>
             <p>Then {content.settings.membershipOngoing} depending on plan (placeholder).</p>
-            <Link to="/visit" className="btn btn-primary">
-              Begin online visit
-            </Link>
+            <div className="cta-row">
+              <Link to="/visit" className="btn btn-primary">
+                Begin online visit
+              </Link>
+              <Link to="/checkout?product=weekly-glp1" className="btn btn-secondary">
+                Plan review
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-tight">
+        <div className="container">
+          <h2>Weight FAQs</h2>
+          <div className="faq-list">
+            {faqs.map((faq) => (
+              <details key={faq.id}>
+                <summary>{faq.question}</summary>
+                <p>{faq.answer}</p>
+              </details>
+            ))}
           </div>
         </div>
       </section>

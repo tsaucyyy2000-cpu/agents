@@ -7,8 +7,11 @@ import { Overview } from "./admin/Overview";
 import { ProductsAdmin } from "./admin/ProductsAdmin";
 import { SettingsAdmin } from "./admin/SettingsAdmin";
 import { Layout } from "./components/Layout";
+import { Checkout } from "./pages/Checkout";
+import { GuideDetail, GuidesIndex } from "./pages/Guides";
 import { Hair } from "./pages/Hair";
 import { Home } from "./pages/Home";
+import { HowItWorks } from "./pages/HowItWorks";
 import {
   AboutPage,
   HelpPage,
@@ -16,6 +19,8 @@ import {
   SafetyPage,
   TermsPage,
 } from "./pages/InfoPage";
+import { InsuranceCheck } from "./pages/InsuranceCheck";
+import { ProductDetail } from "./pages/ProductDetail";
 import { SexualHealth } from "./pages/SexualHealth";
 import { Skin } from "./pages/Skin";
 import { Visit } from "./pages/Visit";
@@ -31,6 +36,12 @@ export default function App() {
         <Route path="hair" element={<Hair />} />
         <Route path="skin" element={<Skin />} />
         <Route path="visit" element={<Visit />} />
+        <Route path="how-it-works" element={<HowItWorks />} />
+        <Route path="insurance-check" element={<InsuranceCheck />} />
+        <Route path="checkout" element={<Checkout />} />
+        <Route path="guides" element={<GuidesIndex />} />
+        <Route path="guides/:guideId" element={<GuideDetail />} />
+        <Route path="products/:productId" element={<ProductDetail />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="help" element={<HelpPage />} />
         <Route path="safety" element={<SafetyPage />} />

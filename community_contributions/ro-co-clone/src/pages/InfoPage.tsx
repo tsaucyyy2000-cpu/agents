@@ -58,7 +58,8 @@ export function HelpPage() {
       lede="Demo help only. Use these paths to review the clone."
       bullets={[
         "Home and care areas: /, /weight-loss, /sexual-health, /hair, /skin",
-        "Online visit prototype: /visit (writes local leads)",
+        "Flows: /how-it-works, /insurance-check, /visit, /checkout",
+        "Content: /guides, /products/:id",
         "Admin dashboard: /admin (content, products, media, leads, settings)",
       ]}
     />
