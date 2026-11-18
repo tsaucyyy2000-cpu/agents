@@ -70,6 +70,16 @@
   padding-inline: 1.15rem;
 }
 
+.header-admin-link {
+  font-size: 0.95rem;
+  color: var(--color-ink-muted);
+  padding: 0.35rem 0.25rem;
+}
+
+.header-admin-link:hover {
+  color: var(--color-slate);
+}
+
 .menu-toggle {
   display: none;
   width: 42px;
@@ -90,8 +100,10 @@
 }
 
 .mobile-menu {
+  display: none;
   position: fixed;
   inset: var(--nav-h) 0 0;
+  z-index: 40;
   background: var(--color-white);
   padding: 1.5rem;
   transform: translateY(-8px);
@@ -101,6 +113,7 @@
 }
 
 .mobile-menu.is-open {
+  display: block;
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
@@ -118,7 +131,8 @@
 }
 
 @media (max-width: 860px) {
-  .desktop-nav {
+  .desktop-nav,
+  .header-admin-link {
     display: none;
   }
 
