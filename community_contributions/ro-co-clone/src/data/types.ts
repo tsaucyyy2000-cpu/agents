@@ -21,6 +21,8 @@ export interface Product {
   tag?: string;
   imageId: string;
   active: boolean;
+  description?: string;
+  priceLabel?: string;
 }
 
 export interface Guide {
@@ -28,6 +30,8 @@ export interface Guide {
   title: string;
   read: string;
   imageId: string;
+  summary?: string;
+  body?: string[];
 }
 
 export interface Testimonial {
@@ -43,6 +47,27 @@ export interface Expert {
   imageId: string;
 }
 
+export interface FaqItem {
+  id: string;
+  question: string;
+  answer: string;
+  area?: CareArea | "general";
+}
+
+export interface HowStep {
+  id: string;
+  title: string;
+  copy: string;
+}
+
+export interface MoreCareItem {
+  id: string;
+  title: string;
+  copy: string;
+  imageId: string;
+  to: string;
+}
+
 export interface CategoryPage {
   slug: CareArea;
   path: string;
@@ -52,6 +77,7 @@ export interface CategoryPage {
   ctaLabel: string;
   heroImageId: string;
   bullets: string[];
+  steps?: string[];
 }
 
 export interface SiteSettings {
@@ -87,5 +113,8 @@ export interface SiteContent {
   experts: Expert[];
   media: MediaAsset[];
   convenience: { title: string; copy: string }[];
+  howItWorks: HowStep[];
+  faqs: FaqItem[];
+  moreCare: MoreCareItem[];
   leads: Lead[];
 }

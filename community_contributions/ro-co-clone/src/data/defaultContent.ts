@@ -1,9 +1,9 @@
 import type { SiteContent } from "./types";
 
-export const STORAGE_KEY = "ro-clone-site-content-v1";
+export const STORAGE_KEY = "ro-clone-site-content-v2";
 
 export const defaultContent: SiteContent = {
-  version: 1,
+  version: 2,
   updatedAt: new Date().toISOString(),
   settings: {
     brandName: "ro",
@@ -42,6 +42,12 @@ export const defaultContent: SiteContent = {
         "Insurance or cash-pay pathways explained clearly",
         "Ongoing messaging metaphors for support",
       ],
+      steps: [
+        "Start an online visit",
+        "Provider reviews eligibility",
+        "Explore coverage or cash-pay options",
+        "Begin treatment with ongoing check-ins",
+      ],
     },
     {
       slug: "sexual-health",
@@ -56,6 +62,12 @@ export const defaultContent: SiteContent = {
         "Choose daily vs on-demand formats",
         "Keep packaging and messaging discreet",
       ],
+      steps: [
+        "Share goals in a private visit",
+        "Review format options",
+        "Confirm a plan with a provider if appropriate",
+        "Track what works for you",
+      ],
     },
     {
       slug: "hair",
@@ -66,6 +78,12 @@ export const defaultContent: SiteContent = {
       ctaLabel: "Build a hair plan",
       heroImageId: "cat-hair",
       bullets: ["Topical foam or liquid", "Oral support when appropriate", "Progress photos and check-ins"],
+      steps: [
+        "Describe your pattern and goals",
+        "Get a personalized routine outline",
+        "Start topical/oral options if appropriate",
+        "Check in on progress over time",
+      ],
     },
     {
       slug: "skin",
@@ -76,6 +94,12 @@ export const defaultContent: SiteContent = {
       ctaLabel: "Start skin visit",
       heroImageId: "cat-skin",
       bullets: ["Texture and tone", "Breakout cycles", "Aging and firmness"],
+      steps: [
+        "Upload or describe skin concerns",
+        "Receive a routine framework",
+        "Adjust products as skin responds",
+        "Message for guidance when needed",
+      ],
     },
   ],
   products: [
@@ -83,10 +107,13 @@ export const defaultContent: SiteContent = {
       id: "weekly-glp1",
       name: "Weekly GLP-1 plan",
       category: "weight",
-      meta: "Weight · from $149/mo membership",
+      meta: "Weight · membership + medication path",
       tag: "In stock",
       imageId: "product-glp1",
       active: true,
+      description:
+        "Demo product card for a weekly injectable-style pathway with membership support metaphors.",
+      priceLabel: "From $149/mo membership (demo)",
     },
     {
       id: "dual-action",
@@ -96,6 +123,8 @@ export const defaultContent: SiteContent = {
       tag: "Popular",
       imageId: "product-sparks",
       active: true,
+      description: "Placeholder for an on-demand format emphasizing timing flexibility.",
+      priceLabel: "Plan pricing varies (demo)",
     },
     {
       id: "density-kit",
@@ -105,6 +134,8 @@ export const defaultContent: SiteContent = {
       tag: "New",
       imageId: "product-hair",
       active: true,
+      description: "Combo kit storytelling for density goals—original placeholder copy only.",
+      priceLabel: "Kit + membership (demo)",
     },
     {
       id: "oral-option",
@@ -114,13 +145,67 @@ export const defaultContent: SiteContent = {
       tag: "New",
       imageId: "product-glp1",
       active: true,
+      description: "Oral pathway card for people exploring non-injectable formats.",
+      priceLabel: "Cash-pay demo label",
+    },
+    {
+      id: "skin-routine",
+      name: "Guided skin routine",
+      category: "skin",
+      meta: "Skin · Rx/OTC mix metaphor",
+      tag: "Available",
+      imageId: "product-skin",
+      active: true,
+      description: "Routine-builder card for texture, tone, and breakout goals.",
+      priceLabel: "Membership demo",
     },
   ],
   guides: [
-    { id: "g1", title: "How oral GLP-1 pathways differ", read: "8 min", imageId: "guide-1" },
-    { id: "g2", title: "Timing tips when on-demand treatment falls short", read: "5 min", imageId: "guide-2" },
-    { id: "g3", title: "What counts as normal shedding", read: "6 min", imageId: "guide-3" },
-    { id: "g4", title: "Comparing weekly vs daily options", read: "11 min", imageId: "guide-4" },
+    {
+      id: "g1",
+      title: "How oral GLP-1 pathways differ",
+      read: "8 min",
+      imageId: "guide-1",
+      summary: "A structural explainer for daily vs weekly formats.",
+      body: [
+        "This clone article is original placeholder text for layout review.",
+        "It mirrors a content-hub pattern: short intro, a few takeaways, and a CTA back into visit.",
+        "No live marketing paragraphs were copied.",
+      ],
+    },
+    {
+      id: "g2",
+      title: "Timing tips when on-demand treatment falls short",
+      read: "5 min",
+      imageId: "guide-2",
+      summary: "Format and timing tradeoffs for sexual-health pathways.",
+      body: [
+        "Use this stub to review guide typography and related-product rails.",
+        "Replace with your own editorial later via Admin export/import.",
+      ],
+    },
+    {
+      id: "g3",
+      title: "What counts as normal shedding",
+      read: "6 min",
+      imageId: "guide-3",
+      summary: "Hair-goal education tile with progress-check language.",
+      body: [
+        "Placeholder education copy for shedding vs thinning narratives.",
+        "Links back to hair category and visit flow.",
+      ],
+    },
+    {
+      id: "g4",
+      title: "Comparing weekly vs daily options",
+      read: "11 min",
+      imageId: "guide-4",
+      summary: "Side-by-side comparison pattern without branded claims.",
+      body: [
+        "Weekly and daily are presented as structural choices only.",
+        "Providers on the live site decide clinically; this demo does not.",
+      ],
+    },
   ],
   testimonials: [
     {
@@ -153,6 +238,7 @@ export const defaultContent: SiteContent = {
     { id: "product-glp1", label: "GLP-1 product", src: "/media/product-glp1.svg", alt: "Product placeholder", kind: "product" },
     { id: "product-sparks", label: "Timed support product", src: "/media/product-sparks.svg", alt: "Product placeholder", kind: "product" },
     { id: "product-hair", label: "Hair kit product", src: "/media/product-hair.svg", alt: "Product placeholder", kind: "product" },
+    { id: "product-skin", label: "Skin kit product", src: "/media/product-skin.svg", alt: "Product placeholder", kind: "product" },
     { id: "guide-1", label: "Guide 1", src: "/media/guide-1.svg", alt: "Guide artwork", kind: "guide" },
     { id: "guide-2", label: "Guide 2", src: "/media/guide-2.svg", alt: "Guide artwork", kind: "guide" },
     { id: "guide-3", label: "Guide 3", src: "/media/guide-3.svg", alt: "Guide artwork", kind: "guide" },
@@ -161,6 +247,15 @@ export const defaultContent: SiteContent = {
     { id: "expert-2", label: "Expert 2", src: "/media/expert-2.svg", alt: "Expert portrait placeholder", kind: "expert" },
     { id: "expert-3", label: "Expert 3", src: "/media/expert-3.svg", alt: "Expert portrait placeholder", kind: "expert" },
     { id: "admin-hero", label: "Admin hero", src: "/media/admin-hero.svg", alt: "Admin panel artwork", kind: "other" },
+    { id: "how-it-works", label: "How it works", src: "/media/how-it-works.svg", alt: "Process illustration", kind: "other" },
+    { id: "insurance-check", label: "Insurance check", src: "/media/insurance-check.svg", alt: "Coverage check illustration", kind: "other" },
+    { id: "checkout-review", label: "Checkout review", src: "/media/checkout-review.svg", alt: "Plan review illustration", kind: "other" },
+    { id: "visit-hero", label: "Visit hero", src: "/media/visit-hero.svg", alt: "Online visit illustration", kind: "other" },
+    { id: "member-story-1", label: "Member story 1", src: "/media/member-story-1.svg", alt: "Member story placeholder", kind: "other" },
+    { id: "member-story-2", label: "Member story 2", src: "/media/member-story-2.svg", alt: "Member story placeholder", kind: "other" },
+    { id: "more-fertility", label: "More care fertility", src: "/media/more-fertility.svg", alt: "Additional care area", kind: "other" },
+    { id: "more-sleep", label: "More care sleep", src: "/media/more-sleep.svg", alt: "Additional care area", kind: "other" },
+    { id: "faq-band", label: "FAQ band", src: "/media/faq-band.svg", alt: "FAQ illustration", kind: "other" },
   ],
   convenience: [
     {
@@ -174,6 +269,82 @@ export const defaultContent: SiteContent = {
     {
       title: "Discreet delivery",
       copy: "Shipments arrive in plain packaging on a schedule that fits your life.",
+    },
+  ],
+  howItWorks: [
+    {
+      id: "h1",
+      title: "Tell us your goal",
+      copy: "Pick a care area and answer a short health questionnaire online.",
+    },
+    {
+      id: "h2",
+      title: "Get a plan",
+      copy: "A provider reviews eligibility and suggests options when appropriate.",
+    },
+    {
+      id: "h3",
+      title: "Check coverage pathways",
+      copy: "Explore insurance-check or cash-pay metaphors before confirming.",
+    },
+    {
+      id: "h4",
+      title: "Stay supported",
+      copy: "Message, track progress, and adjust as your needs change.",
+    },
+  ],
+  faqs: [
+    {
+      id: "f1",
+      area: "general",
+      question: "Is this the real ro.co site?",
+      answer: "No. This is a local structural recreation with original placeholder copy and SVG media.",
+    },
+    {
+      id: "f2",
+      area: "weight",
+      question: "How does membership pricing work in the demo?",
+      answer: "Labels like first-month and ongoing prices are editable placeholders in Admin → Settings.",
+    },
+    {
+      id: "f3",
+      area: "general",
+      question: "Where do visit leads go?",
+      answer: "They stay in browser localStorage and appear under Admin → Leads.",
+    },
+    {
+      id: "f4",
+      area: "sexual-health",
+      question: "Can I compare formats?",
+      answer: "Yes—category pages and product cards are structured for onset/duration style comparisons.",
+    },
+    {
+      id: "f5",
+      area: "hair",
+      question: "Are progress photos required?",
+      answer: "The live product may ask for them; this clone only shows the pattern as optional storytelling.",
+    },
+    {
+      id: "f6",
+      area: "skin",
+      question: "Is this medical advice?",
+      answer: "No. Demo only—no real prescribing or clinical review happens here.",
+    },
+  ],
+  moreCare: [
+    {
+      id: "m1",
+      title: "Fertility-adjacent education",
+      copy: "Placeholder tile for adjacent care discovery patterns.",
+      imageId: "more-fertility",
+      to: "/help",
+    },
+    {
+      id: "m2",
+      title: "Sleep & energy",
+      copy: "Another “more from Ro” style discovery card with original copy.",
+      imageId: "more-sleep",
+      to: "/how-it-works",
     },
   ],
   leads: [],

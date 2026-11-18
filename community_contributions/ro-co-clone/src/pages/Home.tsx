@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useContent } from "../data/ContentContext";
+import "./Flows.css";
 import "./Home.css";
 
 export function Home() {
@@ -107,12 +108,37 @@ export function Home() {
                   )}
                   <h3>{product.name}</h3>
                   <p>{product.meta}</p>
-                  <Link to="/visit" className="text-link">
-                    Check eligibility
-                  </Link>
+                  <div className="cta-row">
+                    <Link to={`/products/${product.id}`} className="text-link">
+                      Details
+                    </Link>
+                    <Link to="/visit" className="text-link">
+                      Check eligibility
+                    </Link>
+                  </div>
                 </article>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-tight">
+        <div className="container">
+          <div className="section-head inline">
+            <h2>How it works</h2>
+            <Link to="/how-it-works" className="text-link">
+              Full process
+            </Link>
+          </div>
+          <div className="step-grid">
+            {content.howItWorks.map((step, index) => (
+              <article key={step.id} className="step-card">
+                <span>{index + 1}</span>
+                <h3>{step.title}</h3>
+                <p>{step.copy}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
@@ -193,13 +219,15 @@ export function Home() {
         <div className="container">
           <div className="section-head inline">
             <h2>Health guide</h2>
-            <p>Editorial tiles mirrored from the content hub pattern.</p>
+            <Link to="/guides" className="text-link">
+              View all
+            </Link>
           </div>
           <div className="guide-grid">
             {content.guides.map((guide) => {
               const image = mediaById[guide.imageId];
               return (
-                <article key={guide.id}>
+                <Link key={guide.id} to={`/guides/${guide.id}`} className="guide-card-link">
                   {image ? (
                     <img className="guide-thumb" src={image.src} alt={image.alt} />
                   ) : (
@@ -207,9 +235,58 @@ export function Home() {
                   )}
                   <h3>{guide.title}</h3>
                   <p>{guide.read} read</p>
-                </article>
+                </Link>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <div className="section-head">
+            <h2>More from this clone</h2>
+            <p>Adjacent discovery tiles with local SVG art.</p>
+          </div>
+          <div className="more-care-grid">
+            {content.moreCare.map((item) => {
+              const image = mediaById[item.imageId];
+              return (
+                <Link key={item.id} to={item.to} className="more-care-card">
+                  {image ? <img src={image.src} alt={image.alt} /> : null}
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.copy}</p>
+                  </div>
+                </Link>
+              );
+            })}
+            <Link to="/insurance-check" className="more-care-card">
+              <img
+                src={mediaById["insurance-check"]?.src ?? "/media/insurance-check.svg"}
+                alt="Coverage check"
+              />
+              <div>
+                <h3>Coverage check demo</h3>
+                <p>Prototype insurance pathway before visit or checkout.</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-tight">
+        <div className="container">
+          <h2>FAQs</h2>
+          <div className="faq-list">
+            {content.faqs
+              .filter((faq) => faq.area === "general")
+              .map((faq) => (
+                <details key={faq.id}>
+                  <summary>{faq.question}</summary>
+                  <p>{faq.answer}</p>
+                </details>
+              ))}
           </div>
         </div>
       </section>
@@ -217,10 +294,13 @@ export function Home() {
       <section className="cta-band">
         <div className="container cta-band-inner">
           <h2>Ready when you are</h2>
-          <p>Start a mock online visit and manage content from /admin.</p>
+          <p>Start a mock online visit, coverage check, or plan review.</p>
           <div className="hero-actions">
             <Link to="/visit" className="btn btn-on-dark">
               Get started
+            </Link>
+            <Link to="/checkout" className="btn btn-secondary">
+              Plan review
             </Link>
             <Link to="/admin" className="btn btn-secondary">
               Open admin

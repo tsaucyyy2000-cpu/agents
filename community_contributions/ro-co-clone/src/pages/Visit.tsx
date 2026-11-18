@@ -3,28 +3,44 @@ import type { FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { useContent } from "../data/ContentContext";
 import "./Visit.css";
+import "./Flows.css";
 
 const goals = ["Weight", "Sexual health", "Hair", "Skin"] as const;
-
 type Goal = (typeof goals)[number];
 
 export function Visit() {
-  const { addLead } = useContent();
+  const { content, mediaById, addLead } = useContent();
   const [step, setStep] = useState(0);
   const [goal, setGoal] = useState<Goal>("Weight");
   const [state, setState] = useState("");
+  const [productId, setProductId] = useState(content.products[0]?.id ?? "");
   const [done, setDone] = useState(false);
+  const hero = mediaById["visit-hero"];
+
+  const goalCategory =
+    goal === "Weight"
+      ? "weight"
+      : goal === "Sexual health"
+        ? "sexual-health"
+        : goal === "Hair"
+          ? "hair"
+          : "skin";
+
+  const goalProducts = content.products.filter(
+    (product) => product.active && product.category === goalCategory,
+  );
 
   function onSubmit(event: FormEvent) {
     event.preventDefault();
-    if (step < 2) {
+    if (step < 3) {
       setStep((current) => current + 1);
       return;
     }
+    const product = content.products.find((item) => item.id === productId);
     addLead({
       goal,
       state,
-      notes: "Submitted via mock online visit",
+      notes: `Visit demo · preferred ${product?.name ?? productId}`,
     });
     setDone(true);
   }
@@ -32,8 +48,15 @@ export function Visit() {
   return (
     <div className="visit-page">
       <div className="container visit-shell">
+        {hero ? (
+          <img
+            src={hero.src}
+            alt={hero.alt}
+            style={{ width: "100%", borderRadius: 16, marginBottom: "1.25rem" }}
+          />
+        ) : null}
         <div className="visit-progress" aria-hidden="true">
-          {[0, 1, 2].map((index) => (
+          {[0, 1, 2, 3].map((index) => (
             <span key={index} className={index <= step ? "active" : ""} />
           ))}
         </div>
@@ -45,13 +68,13 @@ export function Visit() {
               Goal: <strong>{goal}</strong>
               {state ? ` · State: ${state}` : ""}
             </p>
-            <p>
-              Lead captured in Admin → Leads. No data leaves your browser and no clinician
-              is contacted.
-            </p>
+            <p>Continue into coverage check or plan review when you are ready.</p>
             <div className="hero-actions">
-              <Link to="/" className="btn btn-primary">
-                Back home
+              <Link to={`/checkout?product=${productId}`} className="btn btn-primary">
+                Review plan
+              </Link>
+              <Link to="/insurance-check" className="btn btn-secondary">
+                Coverage check
               </Link>
               <Link to="/admin/leads" className="btn btn-secondary">
                 View in admin
@@ -70,7 +93,21 @@ export function Visit() {
                       key={item}
                       type="button"
                       className={goal === item ? "selected" : ""}
-                      onClick={() => setGoal(item)}
+                      onClick={() => {
+                        setGoal(item);
+                        const nextCategory =
+                          item === "Weight"
+                            ? "weight"
+                            : item === "Sexual health"
+                              ? "sexual-health"
+                              : item === "Hair"
+                                ? "hair"
+                                : "skin";
+                        const first = content.products.find(
+                          (product) => product.active && product.category === nextCategory,
+                        );
+                        if (first) setProductId(first.id);
+                      }}
                     >
                       {item}
                     </button>
@@ -82,10 +119,7 @@ export function Visit() {
             {step === 1 && (
               <>
                 <h1>Where do you live?</h1>
-                <p className="lede">
-                  Live visits gate by licensed state. This clone only stores a demo value
-                  locally.
-                </p>
+                <p className="lede">Demo state gate only—stored locally.</p>
                 <label className="field">
                   <span>State</span>
                   <select
@@ -106,17 +140,34 @@ export function Visit() {
 
             {step === 2 && (
               <>
+                <h1>Prefer a starting option?</h1>
+                <p className="lede">Choose a product card to carry into plan review.</p>
+                <div className="goal-grid">
+                  {goalProducts.map((product) => (
+                    <button
+                      key={product.id}
+                      type="button"
+                      className={productId === product.id ? "selected" : ""}
+                      onClick={() => setProductId(product.id)}
+                    >
+                      {product.name}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {step === 3 && (
+              <>
                 <h1>Quick health snapshot</h1>
-                <p className="lede">
-                  A shortened questionnaire to mimic the online-visit cadence.
-                </p>
+                <p className="lede">Shortened questionnaire cadence before saving the lead.</p>
                 <label className="field checkbox">
                   <input type="checkbox" required />
                   <span>I understand this is a non-clinical demo.</span>
                 </label>
                 <label className="field checkbox">
                   <input type="checkbox" />
-                  <span>I want reminders about membership options.</span>
+                  <span>I want a coverage-check reminder.</span>
                 </label>
               </>
             )}
@@ -132,7 +183,7 @@ export function Visit() {
                 </button>
               )}
               <button type="submit" className="btn btn-primary">
-                {step === 2 ? "Finish demo visit" : "Continue"}
+                {step === 3 ? "Finish demo visit" : "Continue"}
               </button>
             </div>
           </form>

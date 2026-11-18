@@ -30,10 +30,10 @@ export function Footer() {
     {
       title: "Explore",
       items: [
-        { to: "/weight-loss", label: "Membership overview" },
-        { to: "/sexual-health", label: "Treatment options" },
-        { to: "/hair", label: "Hair goals" },
-        { to: "/skin", label: "Skin routines" },
+        { to: "/how-it-works", label: "How it works" },
+        { to: "/insurance-check", label: "Coverage check" },
+        { to: "/guides", label: "Health guides" },
+        { to: "/checkout", label: "Plan review" },
       ],
     },
   ];
