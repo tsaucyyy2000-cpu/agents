@@ -1,53 +1,51 @@
 import { Link } from "react-router-dom";
-
-const columns = [
-  {
-    title: "Care areas",
-    items: [
-      { to: "/weight-loss", label: "Weight loss" },
-      { to: "/sexual-health", label: "Sexual health" },
-      { to: "/hair", label: "Hair" },
-      { to: "/skin", label: "Skin" },
-    ],
-  },
-  {
-    title: "Company",
-    items: [
-      { to: "/", label: "About this clone" },
-      { to: "/visit", label: "Start a visit" },
-      { to: "/", label: "Careers (placeholder)" },
-      { to: "/", label: "Press (placeholder)" },
-    ],
-  },
-  {
-    title: "Support",
-    items: [
-      { to: "/", label: "Help center" },
-      { to: "/", label: "Safety info" },
-      { to: "/", label: "Privacy" },
-      { to: "/", label: "Terms" },
-    ],
-  },
-  {
-    title: "Explore",
-    items: [
-      { to: "/weight-loss", label: "Membership overview" },
-      { to: "/sexual-health", label: "Treatment options" },
-      { to: "/hair", label: "Hair goals" },
-      { to: "/skin", label: "Skin routines" },
-    ],
-  },
-];
+import { useContent } from "../data/ContentContext";
 
 export function Footer() {
+  const { content } = useContent();
+
+  const columns = [
+    {
+      title: "Care areas",
+      items: content.nav,
+    },
+    {
+      title: "Company",
+      items: [
+        { to: "/", label: "About this clone" },
+        { to: "/visit", label: "Start a visit" },
+        { to: "/admin", label: "Admin dashboard" },
+        { to: "/admin/settings", label: "Import / export" },
+      ],
+    },
+    {
+      title: "Support",
+      items: [
+        { to: "/admin/leads", label: "Lead inbox" },
+        { to: "/", label: "Safety info" },
+        { to: "/", label: "Privacy" },
+        { to: "/", label: "Terms" },
+      ],
+    },
+    {
+      title: "Explore",
+      items: [
+        { to: "/weight-loss", label: "Membership overview" },
+        { to: "/sexual-health", label: "Treatment options" },
+        { to: "/hair", label: "Hair goals" },
+        { to: "/skin", label: "Skin routines" },
+      ],
+    },
+  ];
+
   return (
     <footer className="site-footer">
       <div className="container footer-grid">
         <div>
-          <div className="footer-brand">ro</div>
+          <div className="footer-brand">{content.settings.brandName}</div>
           <p>
-            A local UI recreation of a telehealth marketing experience. Not
-            affiliated with Ro. Placeholder copy only.
+            A local UI recreation of a telehealth marketing experience. Not affiliated with
+            Ro. Placeholder copy only. Contact {content.settings.supportEmail}.
           </p>
         </div>
         {columns.map((column) => (
