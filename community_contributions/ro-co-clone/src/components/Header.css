@@ -70,15 +70,6 @@
   padding-inline: 1.15rem;
 }
 
-.header-admin-link {
-  font-size: 0.95rem;
-  color: var(--color-ink-muted);
-  padding: 0.35rem 0.25rem;
-}
-
-.header-admin-link:hover {
-  color: var(--color-slate);
-}
 
 .menu-toggle {
   display: none;
@@ -131,8 +122,7 @@
 }
 
 @media (max-width: 860px) {
-  .desktop-nav,
-  .header-admin-link {
+  .desktop-nav {
     display: none;
   }
 

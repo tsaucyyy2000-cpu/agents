@@ -10,6 +10,8 @@ const emptyProduct: Product = {
   tag: "",
   imageId: "product-glp1",
   active: true,
+  description: "",
+  priceLabel: "",
 };
 
 export function ProductsAdmin() {
@@ -25,6 +27,8 @@ export function ProductsAdmin() {
       name: draft.name.trim(),
       meta: draft.meta.trim(),
       tag: draft.tag?.trim() || undefined,
+      description: draft.description?.trim() || undefined,
+      priceLabel: draft.priceLabel?.trim() || undefined,
     };
     upsertProduct(product);
     setDraft(emptyProduct);
@@ -69,6 +73,21 @@ export function ProductsAdmin() {
             <input
               value={draft.meta}
               onChange={(event) => setDraft({ ...draft, meta: event.target.value })}
+            />
+          </label>
+          <label>
+            Price label (demo placeholder)
+            <input
+              value={draft.priceLabel ?? ""}
+              onChange={(event) => setDraft({ ...draft, priceLabel: event.target.value })}
+              placeholder="$45 first month · then $149/mo (demo)"
+            />
+          </label>
+          <label>
+            Description
+            <input
+              value={draft.description ?? ""}
+              onChange={(event) => setDraft({ ...draft, description: event.target.value })}
             />
           </label>
           <label>
@@ -131,6 +150,7 @@ export function ProductsAdmin() {
                 <td>
                   <strong>{product.name}</strong>
                   <div>{product.meta}</div>
+                  <div>{product.priceLabel ?? "No price label"}</div>
                 </td>
                 <td>{product.category}</td>
                 <td>{product.active ? "Active" : "Hidden"}</td>

@@ -234,6 +234,11 @@
   margin-bottom: 0.85rem;
 }
 
+.product-card .product-price {
+  color: var(--color-slate);
+  margin-top: -0.35rem;
+}
+
 .text-link {
   font-weight: 600;
   border-bottom: 1px solid currentColor;

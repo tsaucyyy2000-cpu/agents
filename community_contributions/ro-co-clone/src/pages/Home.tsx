@@ -94,7 +94,7 @@ export function Home() {
         <div className="container">
           <div className="section-head inline">
             <h2>Spotlight treatments</h2>
-            <p>Editable from Admin → Products.</p>
+            <p>Demo catalog with placeholder pricing labels.</p>
           </div>
           <div className="product-rail">
             {activeProducts.map((product) => {
@@ -108,6 +108,9 @@ export function Home() {
                   )}
                   <h3>{product.name}</h3>
                   <p>{product.meta}</p>
+                  {product.priceLabel ? (
+                    <p className="product-price">{product.priceLabel}</p>
+                  ) : null}
                   <div className="cta-row">
                     <Link to={`/products/${product.id}`} className="text-link">
                       Details
@@ -302,8 +305,8 @@ export function Home() {
             <Link to="/checkout" className="btn btn-secondary">
               Plan review
             </Link>
-            <Link to="/admin" className="btn btn-secondary">
-              Open admin
+            <Link to="/how-it-works" className="btn btn-secondary">
+              How it works
             </Link>
           </div>
         </div>

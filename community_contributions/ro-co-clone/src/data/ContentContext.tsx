@@ -35,6 +35,34 @@ interface ContentContextValue {
 
 const ContentContext = createContext<ContentContextValue | null>(null);
 
+function mergeProducts(stored: Product[] | undefined, defaults: Product[]): Product[] {
+  const byId = new Map<string, Product>();
+  for (const product of defaults) {
+    byId.set(product.id, { ...product });
+  }
+  for (const product of stored ?? []) {
+    const base = byId.get(product.id);
+    byId.set(product.id, {
+      ...(base ?? product),
+      ...product,
+      priceLabel: product.priceLabel || base?.priceLabel,
+      description: product.description || base?.description,
+    });
+  }
+  const ordered: Product[] = [];
+  for (const product of defaults) {
+    const merged = byId.get(product.id);
+    if (merged) {
+      ordered.push(merged);
+      byId.delete(product.id);
+    }
+  }
+  for (const remaining of byId.values()) {
+    ordered.push(remaining);
+  }
+  return ordered;
+}
+
 function loadContent(): SiteContent {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -53,7 +81,7 @@ function loadContent(): SiteContent {
       faqs: parsed.faqs?.length ? parsed.faqs : defaultContent.faqs,
       moreCare: parsed.moreCare?.length ? parsed.moreCare : defaultContent.moreCare,
       guides: parsed.guides?.length ? parsed.guides : defaultContent.guides,
-      products: parsed.products?.length ? parsed.products : defaultContent.products,
+      products: mergeProducts(parsed.products, defaultContent.products),
     };
   } catch {
     return structuredClone(defaultContent);

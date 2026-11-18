@@ -14,8 +14,8 @@ export function Footer() {
       items: [
         { to: "/about", label: "About this clone" },
         { to: "/visit", label: "Start a visit" },
-        { to: "/admin", label: "Admin dashboard" },
-        { to: "/admin/settings", label: "Import / export" },
+        { to: "/how-it-works", label: "How it works" },
+        { to: "/guides", label: "Health guides" },
       ],
     },
     {
