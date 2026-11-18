@@ -38,6 +38,9 @@ export function Header() {
         </nav>
 
         <div className="header-actions">
+          <Link to="/admin" className="header-admin-link">
+            Admin
+          </Link>
           <Link to="/visit" className="btn btn-primary header-cta">
             Get started
           </Link>
@@ -59,6 +62,7 @@ export function Header() {
         id="mobile-menu"
         className={`mobile-menu ${open ? "is-open" : ""}`}
         hidden={!open}
+        aria-hidden={!open}
       >
         <nav aria-label="Mobile">
           {content.nav.map((link) => (

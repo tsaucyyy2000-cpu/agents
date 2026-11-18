@@ -12,7 +12,7 @@ export function Footer() {
     {
       title: "Company",
       items: [
-        { to: "/", label: "About this clone" },
+        { to: "/about", label: "About this clone" },
         { to: "/visit", label: "Start a visit" },
         { to: "/admin", label: "Admin dashboard" },
         { to: "/admin/settings", label: "Import / export" },
@@ -21,10 +21,10 @@ export function Footer() {
     {
       title: "Support",
       items: [
-        { to: "/admin/leads", label: "Lead inbox" },
-        { to: "/", label: "Safety info" },
-        { to: "/", label: "Privacy" },
-        { to: "/", label: "Terms" },
+        { to: "/help", label: "Help center" },
+        { to: "/safety", label: "Safety info" },
+        { to: "/privacy", label: "Privacy" },
+        { to: "/terms", label: "Terms" },
       ],
     },
     {
