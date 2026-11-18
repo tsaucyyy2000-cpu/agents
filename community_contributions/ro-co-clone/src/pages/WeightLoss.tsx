@@ -77,28 +77,39 @@ export function WeightLoss() {
         <div className="container">
           <div className="section-head">
             <h2>A full suite of weight medications</h2>
-            <p>Managed in Admin → Products.</p>
+            <p>Demo catalog with placeholder pricing—not live Ro prices.</p>
           </div>
           <div className="med-grid">
-            {products.map((med) => {
-              const image = mediaById[med.imageId];
-              return (
-                <article key={med.id}>
-                  {image ? <img src={image.src} alt="" className="med-thumb" /> : null}
-                  {med.tag ? <span className="chip">{med.tag}</span> : null}
-                  <h3>{med.name}</h3>
-                  <p>{med.meta}</p>
-                  <div className="cta-row">
-                    <Link to={`/products/${med.id}`} className="text-link">
-                      Details
-                    </Link>
-                    <Link to="/visit" className="text-link">
-                      Start visit
-                    </Link>
-                  </div>
-                </article>
-              );
-            })}
+            {products.length === 0 ? (
+              <article className="empty-stub">
+                <h3>Options coming soon</h3>
+                <p>No active weight products in the demo catalog yet.</p>
+                <Link to="/visit" className="text-link">
+                  Start a visit anyway
+                </Link>
+              </article>
+            ) : (
+              products.map((med) => {
+                const image = mediaById[med.imageId];
+                return (
+                  <article key={med.id}>
+                    {image ? <img src={image.src} alt="" className="med-thumb" /> : null}
+                    {med.tag ? <span className="chip">{med.tag}</span> : null}
+                    <h3>{med.name}</h3>
+                    <p>{med.meta}</p>
+                    {med.priceLabel ? <p className="product-price">{med.priceLabel}</p> : null}
+                    <div className="cta-row">
+                      <Link to={`/products/${med.id}`} className="text-link">
+                        Details
+                      </Link>
+                      <Link to="/visit" className="text-link">
+                        Start visit
+                      </Link>
+                    </div>
+                  </article>
+                );
+              })
+            )}
           </div>
         </div>
       </section>

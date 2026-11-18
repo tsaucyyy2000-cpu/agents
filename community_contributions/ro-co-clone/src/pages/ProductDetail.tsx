@@ -34,9 +34,10 @@ export function ProductDetail() {
             {product.tag ? <span className="chip">{product.tag}</span> : null}
             <h1 style={{ margin: "0.75rem 0" }}>{product.name}</h1>
             <p className="lede">{product.description ?? product.meta}</p>
-            <p>
-              <strong>{product.priceLabel ?? product.meta}</strong>
+            <p className="product-price">
+              {product.priceLabel ?? "Pricing shown after plan review (demo)"}
             </p>
+            <p className="disclaimer">Demo placeholder labels only—not live Ro pricing.</p>
             <div className="cta-row" style={{ marginTop: "1.25rem" }}>
               <Link to={`/checkout?product=${product.id}`} className="btn btn-primary">
                 Review plan

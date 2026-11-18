@@ -76,8 +76,8 @@ export function Visit() {
               <Link to="/insurance-check" className="btn btn-secondary">
                 Coverage check
               </Link>
-              <Link to="/admin/leads" className="btn btn-secondary">
-                View in admin
+              <Link to="/" className="btn btn-secondary">
+                Back home
               </Link>
             </div>
           </div>

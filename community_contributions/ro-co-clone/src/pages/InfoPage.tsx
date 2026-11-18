@@ -28,9 +28,6 @@ export function InfoPage({ title, lede, bullets = [] }: InfoPageProps) {
           <Link to="/visit" className="btn btn-secondary">
             Start visit
           </Link>
-          <Link to="/admin" className="btn btn-secondary">
-            Admin
-          </Link>
         </div>
       </div>
     </div>
@@ -45,7 +42,7 @@ export function AboutPage() {
       bullets={[
         "Original/placeholder marketing copy only — live site text was not scraped verbatim.",
         "Original SVG media in /public/media — Ro CDN photography was not downloaded.",
-        "Editable content lives in localStorage and Admin → Settings import/export.",
+        "Editable demo content lives in browser localStorage (operator tools are not linked from the customer UI).",
       ]}
     />
   );
@@ -60,7 +57,7 @@ export function HelpPage() {
         "Home and care areas: /, /weight-loss, /sexual-health, /hair, /skin",
         "Flows: /how-it-works, /insurance-check, /visit, /checkout",
         "Content: /guides, /products/:id",
-        "Admin dashboard: /admin (content, products, media, leads, settings)",
+        "Operators can open /admin by direct URL only (not linked from customer pages).",
       ]}
     />
   );

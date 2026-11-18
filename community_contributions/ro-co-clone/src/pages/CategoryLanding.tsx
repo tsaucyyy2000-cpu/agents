@@ -71,28 +71,69 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
         <div className="container">
           <div className="section-head">
             <h2>Treatment formats</h2>
-            <p>Product mosaic driven by admin content.</p>
+            <p>Demo mosaic with placeholder pricing labels.</p>
           </div>
           <div className="med-grid">
-            {products.map((option) => {
-              const image = mediaById[option.imageId];
-              return (
-                <article key={option.id}>
-                  {image ? <img src={image.src} alt="" className="med-thumb" /> : null}
-                  {option.tag ? <span className="chip">{option.tag}</span> : null}
-                  <h3>{option.name}</h3>
-                  <p>{option.meta}</p>
-                  <div className="cta-row">
-                    <Link to={`/products/${option.id}`} className="text-link">
-                      View details
-                    </Link>
-                    <Link to={`/checkout?product=${option.id}`} className="text-link">
-                      Review plan
-                    </Link>
-                  </div>
-                </article>
-              );
-            })}
+            {products.length === 0 ? (
+              <article className="empty-stub">
+                <h3>Formats coming soon</h3>
+                <p>This category has no active products yet—start a visit to explore the flow.</p>
+                <Link to="/visit" className="text-link">
+                  Start visit
+                </Link>
+              </article>
+            ) : (
+              products.map((option) => {
+                const image = mediaById[option.imageId];
+                return (
+                  <article key={option.id}>
+                    {image ? <img src={image.src} alt="" className="med-thumb" /> : null}
+                    {option.tag ? <span className="chip">{option.tag}</span> : null}
+                    <h3>{option.name}</h3>
+                    <p>{option.meta}</p>
+                    {option.priceLabel ? (
+                      <p className="product-price">{option.priceLabel}</p>
+                    ) : null}
+                    <div className="cta-row">
+                      <Link to={`/products/${option.id}`} className="text-link">
+                        View details
+                      </Link>
+                      <Link to={`/checkout?product=${option.id}`} className="text-link">
+                        Review plan
+                      </Link>
+                    </div>
+                  </article>
+                );
+              })
+            )}
+          </div>
+        </div>
+      </section>
+
+      <section className="section membership">
+        <div className="container membership-grid">
+          <div>
+            <h2>Membership labels (demo)</h2>
+            <ul>
+              {category.bullets.map((bullet) => (
+                <li key={bullet}>{bullet}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="price-card">
+            <p className="eyebrow">Placeholder pricing</p>
+            <p className="price">
+              <strong>{content.settings.membershipFirstMonth}</strong> first month demo
+            </p>
+            <p>Then {content.settings.membershipOngoing} depending on plan (not live Ro prices).</p>
+            <div className="cta-row">
+              <Link to="/visit" className="btn btn-primary">
+                {category.ctaLabel}
+              </Link>
+              <Link to="/checkout" className="btn btn-secondary">
+                Plan review
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -101,12 +142,19 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
         <div className="container">
           <h2>FAQs</h2>
           <div className="faq-list">
-            {faqs.map((faq) => (
-              <details key={faq.id}>
-                <summary>{faq.question}</summary>
-                <p>{faq.answer}</p>
+            {faqs.length === 0 ? (
+              <details open>
+                <summary>Is this medical advice?</summary>
+                <p>No. Demo only—no real prescribing or clinical review happens here.</p>
               </details>
-            ))}
+            ) : (
+              faqs.map((faq) => (
+                <details key={faq.id}>
+                  <summary>{faq.question}</summary>
+                  <p>{faq.answer}</p>
+                </details>
+              ))
+            )}
           </div>
         </div>
       </section>

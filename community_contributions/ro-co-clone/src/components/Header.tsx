@@ -38,9 +38,6 @@ export function Header() {
         </nav>
 
         <div className="header-actions">
-          <Link to="/admin" className="header-admin-link">
-            Admin
-          </Link>
           <Link to="/visit" className="btn btn-primary header-cta">
             Get started
           </Link>
@@ -77,9 +74,6 @@ export function Header() {
           ))}
           <Link to="/visit" className="btn btn-primary" onClick={() => setOpen(false)}>
             Get started
-          </Link>
-          <Link to="/admin" className="mobile-link" onClick={() => setOpen(false)}>
-            Admin
           </Link>
         </nav>
       </div>

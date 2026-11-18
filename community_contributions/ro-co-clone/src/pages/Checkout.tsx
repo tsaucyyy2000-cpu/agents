@@ -13,9 +13,16 @@ export function Checkout() {
   const [confirmed, setConfirmed] = useState(false);
 
   const totalLabel = useMemo(() => {
-    if (plan === "annual") return content.settings.membershipOngoing;
-    return content.settings.membershipFirstMonth + " first month";
-  }, [plan, content.settings]);
+    if (plan === "annual") {
+      return product?.priceLabel
+        ? `${product.priceLabel} · annual prepay demo`
+        : content.settings.membershipOngoing;
+    }
+    return (
+      product?.priceLabel ??
+      `${content.settings.membershipFirstMonth} first month · then ${content.settings.membershipOngoing}`
+    );
+  }, [plan, content.settings, product]);
 
   if (!product) return null;
 
@@ -63,8 +70,8 @@ export function Checkout() {
               <>
                 <p className="toast-ok">Demo order saved locally. Nothing was charged.</p>
                 <div className="cta-row">
-                  <Link to="/admin/leads" className="btn btn-primary">
-                    View lead
+                  <Link to="/visit" className="btn btn-primary">
+                    Start another visit
                   </Link>
                   <Link to="/" className="btn btn-secondary">
                     Home
@@ -94,7 +101,7 @@ export function Checkout() {
               <li>Provider messaging metaphor</li>
               <li>Progress tracking placeholders</li>
               <li>Shipping / pharmacy routing story</li>
-              <li>Editable pricing labels from Admin</li>
+              <li>Placeholder pricing (demo labels only)</li>
             </ul>
             <Link to="/insurance-check" className="text-link">
               Run coverage check first

@@ -164,6 +164,16 @@
   line-height: 1.5;
 }
 
+.product-price {
+  font-weight: 600;
+  color: var(--color-slate);
+  margin: 0.35rem 0 0.75rem;
+}
+
+.empty-stub {
+  grid-column: 1 / -1;
+}
+
 @media (max-width: 900px) {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
