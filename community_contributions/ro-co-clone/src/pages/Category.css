@@ -50,6 +50,15 @@
   box-shadow: var(--shadow-soft);
 }
 
+.cat-hero-img,
+.med-thumb {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 0.85rem;
+}
+
 .weight-widget label {
   display: block;
   margin-bottom: 0.75rem;

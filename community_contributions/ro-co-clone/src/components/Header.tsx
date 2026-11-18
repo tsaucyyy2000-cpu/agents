@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useContent } from "../data/ContentContext";
 import "./Header.css";
 
-const links = [
-  { to: "/weight-loss", label: "Weight loss" },
-  { to: "/sexual-health", label: "Sexual health" },
-  { to: "/hair", label: "Hair" },
-  { to: "/skin", label: "Skin" },
-];
-
 export function Header() {
+  const { content } = useContent();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -30,12 +25,12 @@ export function Header() {
   return (
     <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
       <div className="container header-inner">
-        <Link to="/" className="logo" aria-label="Ro home">
-          <span className="logo-mark">ro</span>
+        <Link to="/" className="logo" aria-label={`${content.settings.brandName} home`}>
+          <span className="logo-mark">{content.settings.brandName}</span>
         </Link>
 
         <nav className="desktop-nav" aria-label="Primary">
-          {links.map((link) => (
+          {content.nav.map((link) => (
             <NavLink key={link.to} to={link.to} className="nav-link">
               {link.label}
             </NavLink>
@@ -66,7 +61,7 @@ export function Header() {
         hidden={!open}
       >
         <nav aria-label="Mobile">
-          {links.map((link) => (
+          {content.nav.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
@@ -76,12 +71,11 @@ export function Header() {
               {link.label}
             </NavLink>
           ))}
-          <Link
-            to="/visit"
-            className="btn btn-primary"
-            onClick={() => setOpen(false)}
-          >
+          <Link to="/visit" className="btn btn-primary" onClick={() => setOpen(false)}>
             Get started
+          </Link>
+          <Link to="/admin" className="mobile-link" onClick={() => setOpen(false)}>
+            Admin
           </Link>
         </nav>
       </div>

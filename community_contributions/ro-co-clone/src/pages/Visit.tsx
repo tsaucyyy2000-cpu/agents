@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link } from "react-router-dom";
+import { useContent } from "../data/ContentContext";
 import "./Visit.css";
 
 const goals = ["Weight", "Sexual health", "Hair", "Skin"] as const;
@@ -8,6 +9,7 @@ const goals = ["Weight", "Sexual health", "Hair", "Skin"] as const;
 type Goal = (typeof goals)[number];
 
 export function Visit() {
+  const { addLead } = useContent();
   const [step, setStep] = useState(0);
   const [goal, setGoal] = useState<Goal>("Weight");
   const [state, setState] = useState("");
@@ -19,6 +21,11 @@ export function Visit() {
       setStep((current) => current + 1);
       return;
     }
+    addLead({
+      goal,
+      state,
+      notes: "Submitted via mock online visit",
+    });
     setDone(true);
   }
 
@@ -39,23 +46,16 @@ export function Visit() {
               {state ? ` · State: ${state}` : ""}
             </p>
             <p>
-              This is a UI prototype. No data leaves your browser and no clinician
+              Lead captured in Admin → Leads. No data leaves your browser and no clinician
               is contacted.
             </p>
             <div className="hero-actions">
               <Link to="/" className="btn btn-primary">
                 Back home
               </Link>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => {
-                  setDone(false);
-                  setStep(0);
-                }}
-              >
-                Restart
-              </button>
+              <Link to="/admin/leads" className="btn btn-secondary">
+                View in admin
+              </Link>
             </div>
           </div>
         ) : (
@@ -83,8 +83,8 @@ export function Visit() {
               <>
                 <h1>Where do you live?</h1>
                 <p className="lede">
-                  Live visits gate by licensed state. This clone only stores a
-                  demo value locally.
+                  Live visits gate by licensed state. This clone only stores a demo value
+                  locally.
                 </p>
                 <label className="field">
                   <span>State</span>
@@ -94,13 +94,11 @@ export function Visit() {
                     onChange={(event) => setState(event.target.value)}
                   >
                     <option value="">Select</option>
-                    {["California", "New York", "Texas", "Florida", "Illinois"].map(
-                      (name) => (
-                        <option key={name} value={name}>
-                          {name}
-                        </option>
-                      ),
-                    )}
+                    {["California", "New York", "Texas", "Florida", "Illinois"].map((name) => (
+                      <option key={name} value={name}>
+                        {name}
+                      </option>
+                    ))}
                   </select>
                 </label>
               </>
