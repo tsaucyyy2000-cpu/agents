@@ -10,6 +10,8 @@ import "./Flows.css";
 const goals = ["Weight", "Sexual health", "Hair", "Skin"] as const;
 type Goal = (typeof goals)[number];
 
+const stepLabels = ["Care area", "Location", "Option", "Confirm"] as const;
+
 function categoryForGoal(goal: Goal): CareArea {
   if (goal === "Weight") return "weight";
   if (goal === "Sexual health") return "sexual-health";
@@ -41,6 +43,7 @@ export function Visit() {
     () => content.products.filter((product) => product.active && product.category === goalCategory),
     [content.products, goalCategory],
   );
+  const selectedProduct = content.products.find((item) => item.id === productId);
 
   useEffect(() => {
     if (productId && goalProducts.some((product) => product.id === productId)) return;
@@ -56,6 +59,12 @@ export function Visit() {
       (product) => product.active && product.category === nextCategory,
     );
     if (first) setProductId(first.id);
+  }
+
+  function goToStep(next: number) {
+    setError("");
+    setDone(false);
+    setStep(next);
   }
 
   function onSubmit(event: FormEvent) {
@@ -80,11 +89,10 @@ export function Visit() {
       return;
     }
 
-    const product = content.products.find((item) => item.id === productId);
     addLead({
       goal,
       state,
-      notes: `Visit demo · preferred ${product?.name ?? productId}${
+      notes: `Visit demo · preferred ${selectedProduct?.name ?? productId}${
         coverageReminder ? " · coverage reminder" : ""
       }`,
     });
@@ -94,45 +102,95 @@ export function Visit() {
   return (
     <div className="visit-page">
       <div className="container visit-shell">
-        {hero ? (
-          <img
-            src={hero.src}
-            alt={hero.alt}
-            style={{ width: "100%", borderRadius: 16, marginBottom: "1.25rem" }}
-          />
+        <p className="visit-demo-chip">Demo intake · fictional answers OK</p>
+        {hero ? <img src={hero.src} alt={hero.alt} className="visit-hero-img" /> : null}
+
+        {!done ? (
+          <div className="visit-progress" role="list" aria-label="Visit steps">
+            {stepLabels.map((label, index) => (
+              <button
+                key={label}
+                type="button"
+                role="listitem"
+                className={`visit-step-chip ${index === step ? "is-current" : ""} ${
+                  index < step ? "is-done" : ""
+                }`}
+                disabled={index > step}
+                onClick={() => {
+                  if (index < step) goToStep(index);
+                }}
+              >
+                <span className="visit-step-index">{index + 1}</span>
+                <span className="visit-step-label">{label}</span>
+              </button>
+            ))}
+          </div>
         ) : null}
-        <div className="visit-progress" aria-hidden="true">
-          {[0, 1, 2, 3].map((index) => (
-            <span key={index} className={index <= step ? "active" : ""} />
-          ))}
-        </div>
 
         {done ? (
           <div className="visit-done">
-            <h1>Visit draft saved locally</h1>
-            <p>
-              Goal: <strong>{goal}</strong>
-              {state ? ` · State: ${state}` : ""}
-            </p>
-            <p>Continue into coverage check or plan review when you are ready.</p>
-            <div className="hero-actions">
-              <Link to={`/checkout?product=${productId}`} className="btn btn-primary">
-                Review plan
+            <h1>Demo visit saved locally</h1>
+            <p>Nothing was sent to a clinic. You can change answers and run again.</p>
+            <dl className="visit-summary">
+              <div>
+                <dt>Care area</dt>
+                <dd>
+                  {goal}
+                  <button type="button" className="text-link" onClick={() => goToStep(0)}>
+                    Change
+                  </button>
+                </dd>
+              </div>
+              <div>
+                <dt>State</dt>
+                <dd>
+                  {state || "—"}
+                  <button type="button" className="text-link" onClick={() => goToStep(1)}>
+                    Change
+                  </button>
+                </dd>
+              </div>
+              <div>
+                <dt>Starting option</dt>
+                <dd>
+                  {selectedProduct?.name ?? productId}
+                  <button type="button" className="text-link" onClick={() => goToStep(2)}>
+                    Change
+                  </button>
+                </dd>
+              </div>
+            </dl>
+            <div className="visit-actions visit-actions-static">
+              <Link to="/#find-care" className="btn btn-secondary">
+                Back to care areas
               </Link>
-              <Link to="/insurance-check" className="btn btn-secondary">
-                Coverage check
+              <Link to="/how-it-works" className="btn btn-secondary">
+                How it works
               </Link>
-              <Link to="/" className="btn btn-secondary">
-                Back home
-              </Link>
+              <button type="button" className="btn btn-primary" onClick={() => goToStep(0)}>
+                Edit answers
+              </button>
             </div>
           </div>
         ) : (
           <form className="visit-form" onSubmit={onSubmit} noValidate>
+            {step > 0 ? (
+              <div className="visit-answers">
+                <p>
+                  <strong>So far:</strong> {goal}
+                  {state ? ` · ${state}` : ""}
+                  {step > 2 && selectedProduct ? ` · ${selectedProduct.name}` : ""}
+                </p>
+                <button type="button" className="text-link" onClick={() => goToStep(0)}>
+                  Change care area
+                </button>
+              </div>
+            ) : null}
+
             {step === 0 && (
               <>
                 <h1>What are you here for?</h1>
-                <p className="lede">Pick a care area to personalize the demo flow.</p>
+                <p className="lede">Pick a care area. You can change this later.</p>
                 <div className="goal-grid">
                   {goals.map((item) => (
                     <button
@@ -151,7 +209,7 @@ export function Visit() {
             {step === 1 && (
               <>
                 <h1>Where do you live?</h1>
-                <p className="lede">Demo state gate only—stored locally.</p>
+                <p className="lede">Demo state gate only — stored in this browser.</p>
                 <label className="field">
                   <span>State</span>
                   <select
@@ -177,7 +235,7 @@ export function Visit() {
             {step === 2 && (
               <>
                 <h1>Prefer a starting option?</h1>
-                <p className="lede">Choose a product card to carry into plan review.</p>
+                <p className="lede">Choose a demo option. Pricing is not shown until verified.</p>
                 <div className="goal-grid">
                   {goalProducts.map((product) => (
                     <button
@@ -190,9 +248,7 @@ export function Visit() {
                       }}
                     >
                       <strong>{product.name}</strong>
-                      {product.priceLabel ? (
-                        <span className="goal-price">{product.priceLabel}</span>
-                      ) : null}
+                      <span className="goal-meta">{product.meta}</span>
                     </button>
                   ))}
                 </div>
@@ -204,8 +260,28 @@ export function Visit() {
 
             {step === 3 && (
               <>
-                <h1>Quick health snapshot</h1>
-                <p className="lede">Shortened questionnaire cadence before saving the lead.</p>
+                <h1>Confirm this demo visit</h1>
+                <p className="lede">Short acknowledgment before saving a local sample lead.</p>
+                <ul className="visit-review-list">
+                  <li>
+                    Care: <strong>{goal}</strong>{" "}
+                    <button type="button" className="text-link" onClick={() => goToStep(0)}>
+                      Edit
+                    </button>
+                  </li>
+                  <li>
+                    State: <strong>{state}</strong>{" "}
+                    <button type="button" className="text-link" onClick={() => goToStep(1)}>
+                      Edit
+                    </button>
+                  </li>
+                  <li>
+                    Option: <strong>{selectedProduct?.name ?? "—"}</strong>{" "}
+                    <button type="button" className="text-link" onClick={() => goToStep(2)}>
+                      Edit
+                    </button>
+                  </li>
+                </ul>
                 <label className="field checkbox">
                   <input
                     type="checkbox"
@@ -215,7 +291,7 @@ export function Visit() {
                       setError("");
                     }}
                   />
-                  <span>I understand this is a non-clinical demo.</span>
+                  <span>I understand this is a non-clinical demo with fictional data.</span>
                 </label>
                 <label className="field checkbox">
                   <input
@@ -223,7 +299,7 @@ export function Visit() {
                     checked={coverageReminder}
                     onChange={(event) => setCoverageReminder(event.target.checked)}
                   />
-                  <span>I want a coverage-check reminder.</span>
+                  <span>Remind me about the coverage-check prototype later.</span>
                 </label>
               </>
             )}
@@ -235,17 +311,18 @@ export function Visit() {
             ) : null}
 
             <div className="visit-actions">
-              {step > 0 && (
+              {step > 0 ? (
                 <button
                   type="button"
                   className="btn btn-secondary"
-                  onClick={() => {
-                    setError("");
-                    setStep((current) => current - 1);
-                  }}
+                  onClick={() => goToStep(step - 1)}
                 >
                   Back
                 </button>
+              ) : (
+                <Link to="/#find-care" className="btn btn-secondary">
+                  Care areas
+                </Link>
               )}
               <button type="submit" className="btn btn-primary">
                 {step === 3 ? "Finish demo visit" : "Continue"}

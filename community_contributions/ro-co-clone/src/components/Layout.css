@@ -1,0 +1,16 @@
+.site-chrome {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: var(--color-white);
+}
+
+.site-chrome .site-header {
+  position: relative;
+  top: auto;
+}
+
+.site-chrome .demo-banner {
+  position: relative;
+  top: auto;
+}

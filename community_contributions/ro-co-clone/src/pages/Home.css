@@ -178,6 +178,17 @@
   flex-wrap: wrap;
 }
 
+.care-finder-card .btn,
+.product-card .btn {
+  flex: 1 1 140px;
+}
+
+.hero-demo-note {
+  margin-top: 0.85rem;
+  font-size: 0.9rem;
+  color: var(--color-ink-muted);
+}
+
 .category-card {
   border-radius: 20px;
   padding: 1.5rem;

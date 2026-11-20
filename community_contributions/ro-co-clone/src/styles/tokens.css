@@ -26,7 +26,9 @@
   --shadow-soft: 0 18px 50px rgba(26, 26, 26, 0.08);
   --max: 1180px;
   --nav-h: 72px;
+  --demo-banner-h: 40px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --tap-min: 48px;
 }
 
 * {
