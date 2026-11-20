@@ -45,6 +45,16 @@
   background: var(--color-white);
   cursor: pointer;
   transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.85rem 1rem;
+  text-align: left;
+}
+
+.goal-price {
+  font-size: 0.85rem;
+  color: var(--color-ink-muted);
+  font-weight: 500;
 }
 
 .goal-grid button.selected,
@@ -91,4 +101,8 @@
 .visit-done p {
   color: var(--color-ink-muted);
   margin-bottom: 0.75rem;
+}
+
+.field-error {
+  margin-top: 0.5rem;
 }

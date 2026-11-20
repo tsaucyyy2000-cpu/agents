@@ -1,46 +1,92 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useContent } from "../data/ContentContext";
+import type { CareArea } from "../data/types";
+import { careAreaFromParam, goalLabelForArea } from "../utils/careRoutes";
 import "./Visit.css";
 import "./Flows.css";
 
 const goals = ["Weight", "Sexual health", "Hair", "Skin"] as const;
 type Goal = (typeof goals)[number];
 
+function categoryForGoal(goal: Goal): CareArea {
+  if (goal === "Weight") return "weight";
+  if (goal === "Sexual health") return "sexual-health";
+  if (goal === "Hair") return "hair";
+  return "skin";
+}
+
+function goalFromArea(area: CareArea): Goal {
+  return goalLabelForArea(area) as Goal;
+}
+
 export function Visit() {
   const { content, mediaById, addLead } = useContent();
+  const [params] = useSearchParams();
+  const initialArea = careAreaFromParam(params.get("goal"));
+  const initialProduct = params.get("product") ?? "";
   const [step, setStep] = useState(0);
-  const [goal, setGoal] = useState<Goal>("Weight");
+  const [goal, setGoal] = useState<Goal>(initialArea ? goalFromArea(initialArea) : "Weight");
   const [state, setState] = useState("");
-  const [productId, setProductId] = useState(content.products[0]?.id ?? "");
+  const [productId, setProductId] = useState(initialProduct);
+  const [demoAck, setDemoAck] = useState(false);
+  const [coverageReminder, setCoverageReminder] = useState(false);
+  const [error, setError] = useState("");
   const [done, setDone] = useState(false);
   const hero = mediaById["visit-hero"];
 
-  const goalCategory =
-    goal === "Weight"
-      ? "weight"
-      : goal === "Sexual health"
-        ? "sexual-health"
-        : goal === "Hair"
-          ? "hair"
-          : "skin";
-
-  const goalProducts = content.products.filter(
-    (product) => product.active && product.category === goalCategory,
+  const goalCategory = categoryForGoal(goal);
+  const goalProducts = useMemo(
+    () => content.products.filter((product) => product.active && product.category === goalCategory),
+    [content.products, goalCategory],
   );
+
+  useEffect(() => {
+    if (productId && goalProducts.some((product) => product.id === productId)) return;
+    const first = goalProducts[0];
+    if (first) setProductId(first.id);
+  }, [goalProducts, productId]);
+
+  function selectGoal(next: Goal) {
+    setGoal(next);
+    setError("");
+    const nextCategory = categoryForGoal(next);
+    const first = content.products.find(
+      (product) => product.active && product.category === nextCategory,
+    );
+    if (first) setProductId(first.id);
+  }
 
   function onSubmit(event: FormEvent) {
     event.preventDefault();
+    setError("");
+
+    if (step === 1 && !state) {
+      setError("Select a state to continue.");
+      return;
+    }
+    if (step === 2 && !productId) {
+      setError("Choose a starting option to continue.");
+      return;
+    }
+    if (step === 3 && !demoAck) {
+      setError("Confirm you understand this is a non-clinical demo.");
+      return;
+    }
+
     if (step < 3) {
       setStep((current) => current + 1);
       return;
     }
+
     const product = content.products.find((item) => item.id === productId);
     addLead({
       goal,
       state,
-      notes: `Visit demo · preferred ${product?.name ?? productId}`,
+      notes: `Visit demo · preferred ${product?.name ?? productId}${
+        coverageReminder ? " · coverage reminder" : ""
+      }`,
     });
     setDone(true);
   }
@@ -82,7 +128,7 @@ export function Visit() {
             </div>
           </div>
         ) : (
-          <form className="visit-form" onSubmit={onSubmit}>
+          <form className="visit-form" onSubmit={onSubmit} noValidate>
             {step === 0 && (
               <>
                 <h1>What are you here for?</h1>
@@ -93,21 +139,7 @@ export function Visit() {
                       key={item}
                       type="button"
                       className={goal === item ? "selected" : ""}
-                      onClick={() => {
-                        setGoal(item);
-                        const nextCategory =
-                          item === "Weight"
-                            ? "weight"
-                            : item === "Sexual health"
-                              ? "sexual-health"
-                              : item === "Hair"
-                                ? "hair"
-                                : "skin";
-                        const first = content.products.find(
-                          (product) => product.active && product.category === nextCategory,
-                        );
-                        if (first) setProductId(first.id);
-                      }}
+                      onClick={() => selectGoal(item)}
                     >
                       {item}
                     </button>
@@ -125,7 +157,11 @@ export function Visit() {
                   <select
                     required
                     value={state}
-                    onChange={(event) => setState(event.target.value)}
+                    aria-invalid={Boolean(error)}
+                    onChange={(event) => {
+                      setState(event.target.value);
+                      setError("");
+                    }}
                   >
                     <option value="">Select</option>
                     {["California", "New York", "Texas", "Florida", "Illinois"].map((name) => (
@@ -148,12 +184,21 @@ export function Visit() {
                       key={product.id}
                       type="button"
                       className={productId === product.id ? "selected" : ""}
-                      onClick={() => setProductId(product.id)}
+                      onClick={() => {
+                        setProductId(product.id);
+                        setError("");
+                      }}
                     >
-                      {product.name}
+                      <strong>{product.name}</strong>
+                      {product.priceLabel ? (
+                        <span className="goal-price">{product.priceLabel}</span>
+                      ) : null}
                     </button>
                   ))}
                 </div>
+                {goalProducts.length === 0 ? (
+                  <p className="field-error">No active products for this care area yet.</p>
+                ) : null}
               </>
             )}
 
@@ -162,22 +207,42 @@ export function Visit() {
                 <h1>Quick health snapshot</h1>
                 <p className="lede">Shortened questionnaire cadence before saving the lead.</p>
                 <label className="field checkbox">
-                  <input type="checkbox" required />
+                  <input
+                    type="checkbox"
+                    checked={demoAck}
+                    onChange={(event) => {
+                      setDemoAck(event.target.checked);
+                      setError("");
+                    }}
+                  />
                   <span>I understand this is a non-clinical demo.</span>
                 </label>
                 <label className="field checkbox">
-                  <input type="checkbox" />
+                  <input
+                    type="checkbox"
+                    checked={coverageReminder}
+                    onChange={(event) => setCoverageReminder(event.target.checked)}
+                  />
                   <span>I want a coverage-check reminder.</span>
                 </label>
               </>
             )}
+
+            {error ? (
+              <p className="field-error" role="alert">
+                {error}
+              </p>
+            ) : null}
 
             <div className="visit-actions">
               {step > 0 && (
                 <button
                   type="button"
                   className="btn btn-secondary"
-                  onClick={() => setStep((current) => current - 1)}
+                  onClick={() => {
+                    setError("");
+                    setStep((current) => current - 1);
+                  }}
                 >
                   Back
                 </button>

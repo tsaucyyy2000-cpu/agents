@@ -16,9 +16,14 @@ export function HowItWorks() {
             <p className="lede">
               Structural recreation of the live site’s process storytelling. Original copy only.
             </p>
-            <Link to="/visit" className="btn btn-primary">
-              Start online visit
-            </Link>
+            <div className="cta-row">
+              <Link to="/visit" className="btn btn-primary">
+                Start online visit
+              </Link>
+              <Link to="/#find-care" className="btn btn-secondary">
+                Choose a care area
+              </Link>
+            </div>
           </div>
           {hero ? <img src={hero.src} alt={hero.alt} className="flow-hero-img" /> : null}
         </div>
