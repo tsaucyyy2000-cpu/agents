@@ -440,7 +440,7 @@ export const defaultContent: SiteContent = {
       area: "weight",
       question: "How does membership pricing work in the demo?",
       answer:
-        "First-month and ongoing labels are editable demo placeholders—not live Ro prices.",
+        "Verified prices are not published on this preview. Cost is discussed during a demo visit once Trey supplies approved figures.",
     },
     {
       id: "f3",

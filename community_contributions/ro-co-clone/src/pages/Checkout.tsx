@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useContent } from "../data/ContentContext";
 import { visitPath } from "../utils/careRoutes";
@@ -14,18 +14,6 @@ export function Checkout() {
   const [ack, setAck] = useState(false);
   const [error, setError] = useState("");
   const [confirmed, setConfirmed] = useState(false);
-
-  const totalLabel = useMemo(() => {
-    if (plan === "annual") {
-      return product?.priceLabel
-        ? `${product.priceLabel} · annual prepay demo`
-        : content.settings.membershipOngoing;
-    }
-    return (
-      product?.priceLabel ??
-      `${content.settings.membershipFirstMonth} first month · then ${content.settings.membershipOngoing}`
-    );
-  }, [plan, content.settings, product]);
 
   if (!product) {
     return (
@@ -46,11 +34,11 @@ export function Checkout() {
       <section className="flow-hero warm">
         <div className="container flow-hero-grid">
           <div>
-            <p className="eyebrow">Plan review</p>
-            <h1>Confirm a demo membership plan</h1>
+            <p className="eyebrow">Demo plan review</p>
+            <h1>Confirm a sample membership cadence</h1>
             <p className="lede">
-              Checkout-ish prototype: choose a cadence, review placeholders, and save a local
-              lead. No payments are processed.
+              Prototype only: choose a cadence and save a local lead. No payments and no verified
+              prices are shown.
             </p>
           </div>
           {image ? <img src={image.src} alt={image.alt} className="flow-hero-img" /> : null}
@@ -62,7 +50,7 @@ export function Checkout() {
           <article className="flow-form-card">
             <h2>{product.name}</h2>
             <p>{product.description ?? product.meta}</p>
-            <p className="product-price">{product.priceLabel ?? "Price label missing in content store"}</p>
+            <p className="cost-pending">Dollar amounts hidden until verified pricing is supplied.</p>
             <div className="plan-toggle">
               <button
                 type="button"
@@ -76,11 +64,11 @@ export function Checkout() {
                 className={plan === "annual" ? "selected" : ""}
                 onClick={() => setPlan("annual")}
               >
-                Prepay annual
+                Annual cadence
               </button>
             </div>
             <p className="price-line">
-              Estimated label: <strong>{totalLabel}</strong>
+              Selected cadence: <strong>{plan}</strong> (demo)
             </p>
             {confirmed ? (
               <>
@@ -139,10 +127,10 @@ export function Checkout() {
               <li>Provider messaging metaphor</li>
               <li>Progress tracking placeholders</li>
               <li>Shipping / pharmacy routing story</li>
-              <li>Placeholder pricing (demo labels only)</li>
+              <li>No published dollar prices in this preview</li>
             </ul>
-            <Link to="/insurance-check" className="text-link">
-              Run coverage check first
+            <Link to="/visit" className="text-link">
+              Or start a demo visit first
             </Link>
           </aside>
         </div>

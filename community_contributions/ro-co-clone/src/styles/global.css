@@ -170,6 +170,16 @@
   margin: 0.35rem 0 0.75rem;
 }
 
+.cost-pending {
+  font-size: 0.92rem;
+  color: var(--color-ink-muted);
+  margin: 0.35rem 0 0.85rem;
+}
+
+.cta-row .btn {
+  min-height: var(--tap-min, 48px);
+}
+
 .empty-stub {
   grid-column: 1 / -1;
 }

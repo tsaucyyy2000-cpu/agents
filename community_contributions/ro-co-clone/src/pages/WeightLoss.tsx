@@ -43,7 +43,7 @@ export function WeightLoss() {
                 Coverage check
               </Link>
               <a href="#meds" className="btn btn-secondary">
-                Browse options &amp; cost
+                Browse options
               </a>
             </div>
           </div>
@@ -90,16 +90,16 @@ export function WeightLoss() {
       <section className="section" id="meds">
         <div className="container">
           <div className="section-head">
-            <h2>Options &amp; placeholder cost</h2>
-            <p>Demo catalog labels from the local content store—not scraped live prices.</p>
+            <h2>Options</h2>
+            <p>Demo catalog · verified prices are not published on this preview.</p>
           </div>
           <div className="med-grid">
             {products.length === 0 ? (
               <article className="empty-stub">
                 <h3>Options coming soon</h3>
                 <p>No active weight products in the demo catalog yet.</p>
-                <Link to={visitPath("weight")} className="text-link">
-                  Start a visit anyway
+                <Link to={visitPath("weight")} className="btn btn-primary">
+                  Start demo visit
                 </Link>
               </article>
             ) : (
@@ -111,20 +111,13 @@ export function WeightLoss() {
                     {med.tag ? <span className="chip">{med.tag}</span> : null}
                     <h3>{med.name}</h3>
                     <p>{med.meta}</p>
-                    {med.priceLabel ? (
-                      <p className="product-price">{med.priceLabel}</p>
-                    ) : (
-                      <p className="disclaimer">Price label missing — set in content store.</p>
-                    )}
+                    <p className="cost-pending">Cost reviewed during visit</p>
                     <div className="cta-row">
-                      <Link to={`/products/${med.id}`} className="text-link">
+                      <Link to={`/products/${med.id}`} className="btn btn-secondary">
                         Details
                       </Link>
-                      <Link to={visitPath("weight", med.id)} className="text-link">
-                        Start visit
-                      </Link>
-                      <Link to={`/checkout?product=${med.id}`} className="text-link">
-                        Review plan
+                      <Link to={visitPath("weight", med.id)} className="btn btn-primary">
+                        Start demo visit
                       </Link>
                     </div>
                   </article>
@@ -147,20 +140,19 @@ export function WeightLoss() {
             </ul>
           </div>
           <div className="price-card">
-            <p className="eyebrow">Membership</p>
+            <p className="eyebrow">Cost</p>
             <p className="price">
-              <strong>{content.settings.membershipFirstMonth}</strong> first month demo
+              <strong>Not published yet</strong>
             </p>
-            <p>Then {content.settings.membershipOngoing} depending on plan (placeholder).</p>
+            <p className="cost-pending">
+              Membership pricing stays hidden until verified figures are supplied.
+            </p>
             <div className="cta-row">
               <Link to={visitPath("weight", firstProductId)} className="btn btn-primary">
-                Begin online visit
+                Begin demo visit
               </Link>
-              <Link
-                to={firstProductId ? `/checkout?product=${firstProductId}` : "/checkout"}
-                className="btn btn-secondary"
-              >
-                Plan review
+              <Link to="/how-it-works" className="btn btn-secondary">
+                How it works
               </Link>
             </div>
           </div>

@@ -20,18 +20,14 @@ export function Home() {
 
   const activeProducts = content.products.filter((product) => product.active).slice(0, 3);
 
-  const careFinder = useMemo(() => {
-    return content.categories.map((category) => {
-      const priced = content.products.filter(
-        (product) => product.active && product.category === category.slug && product.priceLabel,
-      );
-      return {
+  const careFinder = useMemo(
+    () =>
+      content.categories.map((category) => ({
         ...category,
-        fromPrice: priced[0]?.priceLabel ?? content.settings.membershipFirstMonth + " first month (demo)",
         image: mediaById[category.heroImageId],
-      };
-    });
-  }, [content.categories, content.products, content.settings.membershipFirstMonth, mediaById]);
+      })),
+    [content.categories, mediaById],
+  );
 
   return (
     <div className="home">
@@ -39,7 +35,7 @@ export function Home() {
         <div className="hero-glow" aria-hidden="true" />
         <div className="container hero-grid">
           <div className="hero-copy">
-            <p className="eyebrow">Online care, built around goals</p>
+            <p className="eyebrow">Demo · Online care paths</p>
             <h1>
               <span className="hero-brand">{content.settings.brandName}</span>
               <span className="hero-line">{content.settings.tagline}</span>
@@ -51,11 +47,11 @@ export function Home() {
             </p>
             <p className="hero-support">{content.homeSupport}</p>
             <div className="hero-actions">
-              <Link to="/visit" className="btn btn-primary">
-                Start free visit
+              <Link to="/#find-care" className="btn btn-primary">
+                Choose a care area
               </Link>
-              <Link to="/weight-loss" className="btn btn-secondary">
-                Explore weight care
+              <Link to="/visit" className="btn btn-secondary">
+                Start demo visit
               </Link>
             </div>
           </div>
@@ -64,11 +60,7 @@ export function Home() {
               {heroImage ? (
                 <img className="hero-image" src={heroImage.src} alt={heroImage.alt} />
               ) : null}
-              <div className="hero-stat">
-                <strong>{content.settings.memberCountLabel}</strong>
-                <span>members (demo marketing claim)</span>
-              </div>
-              <p>Calm slate · teal energy · goal-first IA</p>
+              <p className="hero-demo-note">Local demo preview · generated media · not affiliated with Ro</p>
             </div>
           </div>
         </div>
@@ -78,10 +70,7 @@ export function Home() {
         <div className="container">
           <div className="section-head">
             <h2>What do you need help with?</h2>
-            <p>
-              Pick a care area, skim placeholder cost, then open the service page or start a demo
-              visit.
-            </p>
+            <p>Pick a care area, see how the demo works, then start a fictional visit.</p>
           </div>
           <div className="care-finder-grid">
             {careFinder.map((item) => {
@@ -100,13 +89,13 @@ export function Home() {
                   ) : null}
                   <h3>{item.eyebrow}</h3>
                   <p>{item.lede}</p>
-                  <p className="product-price">From {item.fromPrice}</p>
+                  <p className="cost-pending">Cost reviewed during visit · no public prices yet</p>
                   <div className="cta-row">
                     <Link to={item.path} className="btn btn-secondary">
-                      How it works &amp; cost
+                      How it works
                     </Link>
                     <Link to={visitPath(item.slug)} className="btn btn-primary">
-                      Start visit
+                      Start demo visit
                     </Link>
                   </div>
                 </article>
@@ -119,8 +108,8 @@ export function Home() {
       <section className="section-tight product-strip">
         <div className="container">
           <div className="section-head inline">
-            <h2>Spotlight treatments</h2>
-            <p>Demo catalog with placeholder pricing labels.</p>
+            <h2>Spotlight options</h2>
+            <p>Demo catalog · pricing withheld until verified</p>
           </div>
           <div className="product-rail">
             {activeProducts.map((product) => {
@@ -134,14 +123,12 @@ export function Home() {
                   )}
                   <h3>{product.name}</h3>
                   <p>{product.meta}</p>
-                  {product.priceLabel ? (
-                    <p className="product-price">{product.priceLabel}</p>
-                  ) : null}
+                  <p className="cost-pending">Pricing after eligibility (demo)</p>
                   <div className="cta-row">
-                    <Link to={`/products/${product.id}`} className="text-link">
+                    <Link to={`/products/${product.id}`} className="btn btn-secondary">
                       Details
                     </Link>
-                    <Link to={visitPath(product.category, product.id)} className="text-link">
+                    <Link to={visitPath(product.category, product.id)} className="btn btn-primary">
                       Check eligibility
                     </Link>
                   </div>
@@ -175,10 +162,8 @@ export function Home() {
       <section className="section convenience">
         <div className="container convenience-grid">
           <div>
-            <h2>100% online, built for busy schedules</h2>
-            <p>
-              Convenience storytelling kept in three beats. Edit copy later via content export/import.
-            </p>
+            <h2>100% online demo flow</h2>
+            <p>Convenience beats for layout review. Not a live care promise.</p>
           </div>
           <ul>
             {content.convenience.map((item) => (
@@ -191,68 +176,10 @@ export function Home() {
         </div>
       </section>
 
-      <section className="section social-proof">
-        <div className="container">
-          <div className="proof-banner">
-            <div>
-              <p className="eyebrow">Member voices (demo quotes)</p>
-              <h2>Placeholder social proof for layout review</h2>
-            </div>
-            <div className="proof-metric">
-              <strong>{content.settings.satisfactionLabel}</strong>
-              <span>demo satisfaction label — replace before launch</span>
-            </div>
-          </div>
-          <div className="quote-rail">
-            {content.testimonials.map((item) => (
-              <blockquote key={item.id}>
-                <p>“{item.quote}”</p>
-                <footer>
-                  {item.name} · demo
-                </footer>
-              </blockquote>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section experts">
-        <div className="container experts-grid">
-          <div>
-            <h2>Care team placeholders</h2>
-            <p>
-              Layout slots only. Do not treat names/roles as verified credentials until Trey
-              supplies approved bios.
-            </p>
-            <ul className="expert-bullets">
-              <li>Replace roles with reviewed provider profiles before launch</li>
-              <li>Keep portraits as local placeholders until licensed photos exist</li>
-              <li>No clinical claims attached to these cards</li>
-            </ul>
-          </div>
-          <div className="expert-cards">
-            {content.experts.map((expert) => {
-              const image = mediaById[expert.imageId];
-              return (
-                <article key={expert.id}>
-                  {image ? (
-                    <img className="avatar" src={image.src} alt={image.alt} />
-                  ) : (
-                    <div className="avatar" />
-                  )}
-                  <h3>{expert.name}</h3>
-                  <p>{expert.role}</p>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       <section className="section-tight guides">
         <div className="container">
           <div className="section-head inline">
-            <h2>Health guide</h2>
+            <h2>Health guides</h2>
             <Link to="/guides" className="text-link">
               View all
             </Link>
@@ -276,39 +203,6 @@ export function Home() {
         </div>
       </section>
 
-      <section className="section">
-        <div className="container">
-          <div className="section-head">
-            <h2>More from this clone</h2>
-            <p>Adjacent discovery tiles with local SVG art.</p>
-          </div>
-          <div className="more-care-grid">
-            {content.moreCare.map((item) => {
-              const image = mediaById[item.imageId];
-              return (
-                <Link key={item.id} to={item.to} className="more-care-card">
-                  {image ? <img src={image.src} alt={image.alt} /> : null}
-                  <div>
-                    <h3>{item.title}</h3>
-                    <p>{item.copy}</p>
-                  </div>
-                </Link>
-              );
-            })}
-            <Link to="/insurance-check" className="more-care-card">
-              <img
-                src={mediaById["insurance-check"]?.src ?? "/media/insurance-check.svg"}
-                alt="Coverage check"
-              />
-              <div>
-                <h3>Coverage check demo</h3>
-                <p>Prototype insurance pathway before visit or checkout.</p>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </section>
-
       <section className="section-tight">
         <div className="container">
           <h2>FAQs</h2>
@@ -327,17 +221,14 @@ export function Home() {
 
       <section className="cta-band">
         <div className="container cta-band-inner">
-          <h2>Ready when you are</h2>
-          <p>Start a mock online visit, coverage check, or plan review.</p>
+          <h2>Ready to try the demo?</h2>
+          <p>Fictional intake only — change answers anytime before you finish.</p>
           <div className="hero-actions">
-            <Link to="/visit" className="btn btn-on-dark">
-              Get started
+            <Link to="/#find-care" className="btn btn-on-dark">
+              Choose care
             </Link>
-            <Link to="/checkout" className="btn btn-secondary">
-              Plan review
-            </Link>
-            <Link to="/how-it-works" className="btn btn-secondary">
-              How it works
+            <Link to="/visit" className="btn btn-secondary">
+              Start demo visit
             </Link>
           </div>
         </div>

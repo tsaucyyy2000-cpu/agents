@@ -40,7 +40,7 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
                 Coverage check
               </Link>
               <a href="#options" className="btn btn-secondary">
-                See options &amp; cost
+                See options
               </a>
             </div>
           </div>
@@ -75,16 +75,16 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
       <section className="section" id="options">
         <div className="container">
           <div className="section-head">
-            <h2>Options &amp; placeholder cost</h2>
-            <p>Demo mosaic with labels from the local content store—not live competitor prices.</p>
+            <h2>Options</h2>
+            <p>Demo catalog · verified prices are not published on this preview.</p>
           </div>
           <div className="med-grid">
             {products.length === 0 ? (
               <article className="empty-stub">
                 <h3>Formats coming soon</h3>
                 <p>This category has no active products yet—start a visit to explore the flow.</p>
-                <Link to={visitPath(slug)} className="text-link">
-                  Start visit
+                <Link to={visitPath(slug)} className="btn btn-primary">
+                  Start demo visit
                 </Link>
               </article>
             ) : (
@@ -96,20 +96,13 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
                     {option.tag ? <span className="chip">{option.tag}</span> : null}
                     <h3>{option.name}</h3>
                     <p>{option.meta}</p>
-                    {option.priceLabel ? (
-                      <p className="product-price">{option.priceLabel}</p>
-                    ) : (
-                      <p className="disclaimer">Price label missing — set in content store.</p>
-                    )}
+                    <p className="cost-pending">Cost reviewed during visit</p>
                     <div className="cta-row">
-                      <Link to={`/products/${option.id}`} className="text-link">
-                        View details
+                      <Link to={`/products/${option.id}`} className="btn btn-secondary">
+                        Details
                       </Link>
-                      <Link to={visitPath(slug, option.id)} className="text-link">
-                        Start visit
-                      </Link>
-                      <Link to={`/checkout?product=${option.id}`} className="text-link">
-                        Review plan
+                      <Link to={visitPath(slug, option.id)} className="btn btn-primary">
+                        Start demo visit
                       </Link>
                     </div>
                   </article>
@@ -123,7 +116,7 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
       <section className="section membership">
         <div className="container membership-grid">
           <div>
-            <h2>Membership labels (demo)</h2>
+            <h2>What membership covers (demo)</h2>
             <ul>
               {category.bullets.map((bullet) => (
                 <li key={bullet}>{bullet}</li>
@@ -131,20 +124,19 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
             </ul>
           </div>
           <div className="price-card">
-            <p className="eyebrow">Placeholder pricing</p>
+            <p className="eyebrow">Cost</p>
             <p className="price">
-              <strong>{content.settings.membershipFirstMonth}</strong> first month demo
+              <strong>Not published yet</strong>
             </p>
-            <p>Then {content.settings.membershipOngoing} depending on plan (demo labels).</p>
+            <p className="cost-pending">
+              Membership pricing stays hidden until Trey supplies verified figures.
+            </p>
             <div className="cta-row">
               <Link to={visitPath(slug, firstProductId)} className="btn btn-primary">
                 {category.ctaLabel}
               </Link>
-              <Link
-                to={firstProductId ? `/checkout?product=${firstProductId}` : "/checkout"}
-                className="btn btn-secondary"
-              >
-                Plan review
+              <Link to="/how-it-works" className="btn btn-secondary">
+                How it works
               </Link>
             </div>
           </div>
