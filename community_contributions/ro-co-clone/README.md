@@ -2,7 +2,7 @@
 
 A Vite + React recreation of the **ro.co** top-of-funnel marketing experience, plus a local **admin dashboard** that can update site content, products, media, and visit leads.
 
-Not affiliated with Ro. Uses original/placeholder copy and original SVG media (no scraped Ro CDN assets).
+Not affiliated with Ro. Uses original/placeholder copy and original generated photoreal media (no scraped Ro CDN assets).
 
 ## Run
 
@@ -38,4 +38,4 @@ Content persists in `localStorage` key `ro-clone-site-content-v2`.
 
 ## Media
 
-Original SVG placeholders live in `public/media/`. Add your own files there or register remote URLs in Admin → Media. Do not copy Ro-hosted brand photography or live product pricing.
+Original generated photoreal JPEGs (plus SVG placeholders for expert/admin tiles) live in `public/media/`. Register paths in Admin → Media. Do not copy Ro-hosted brand photography or live product pricing.

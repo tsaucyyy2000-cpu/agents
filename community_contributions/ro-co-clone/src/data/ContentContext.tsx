@@ -63,6 +63,38 @@ function mergeProducts(stored: Product[] | undefined, defaults: Product[]): Prod
   return ordered;
 }
 
+function mergeMedia(stored: MediaAsset[] | undefined, defaults: MediaAsset[]): MediaAsset[] {
+  const byId = new Map<string, MediaAsset>();
+  for (const asset of defaults) {
+    byId.set(asset.id, { ...asset });
+  }
+  for (const asset of stored ?? []) {
+    const base = byId.get(asset.id);
+    const prefersDefaultSrc =
+      Boolean(base) &&
+      (asset.src.endsWith(".svg") || asset.src === base?.src || !asset.src.trim());
+    byId.set(asset.id, {
+      ...(base ?? asset),
+      ...asset,
+      src: prefersDefaultSrc && base ? base.src : asset.src || base?.src || asset.src,
+      alt: asset.alt || base?.alt || asset.alt,
+      label: asset.label || base?.label || asset.label,
+    });
+  }
+  const ordered: MediaAsset[] = [];
+  for (const asset of defaults) {
+    const merged = byId.get(asset.id);
+    if (merged) {
+      ordered.push(merged);
+      byId.delete(asset.id);
+    }
+  }
+  for (const remaining of byId.values()) {
+    ordered.push(remaining);
+  }
+  return ordered;
+}
+
 function loadContent(): SiteContent {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -76,7 +108,7 @@ function loadContent(): SiteContent {
       ...parsed,
       version: defaultContent.version,
       settings: { ...defaultContent.settings, ...parsed.settings },
-      media: parsed.media?.length ? parsed.media : defaultContent.media,
+      media: mergeMedia(parsed.media, defaultContent.media),
       howItWorks: parsed.howItWorks?.length ? parsed.howItWorks : defaultContent.howItWorks,
       faqs: parsed.faqs?.length ? parsed.faqs : defaultContent.faqs,
       moreCare: parsed.moreCare?.length ? parsed.moreCare : defaultContent.moreCare,
