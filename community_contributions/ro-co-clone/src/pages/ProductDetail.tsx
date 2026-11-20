@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useContent } from "../data/ContentContext";
+import { visitPath } from "../utils/careRoutes";
 import "./Flows.css";
 
 export function ProductDetail() {
@@ -42,7 +43,7 @@ export function ProductDetail() {
               <Link to={`/checkout?product=${product.id}`} className="btn btn-primary">
                 Review plan
               </Link>
-              <Link to="/visit" className="btn btn-secondary">
+              <Link to={visitPath(product.category, product.id)} className="btn btn-secondary">
                 Start visit
               </Link>
               <Link to="/insurance-check" className="btn btn-secondary">

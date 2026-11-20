@@ -147,10 +147,35 @@
   max-width: none;
 }
 
-.category-grid {
+.category-grid,
+.care-finder-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
+}
+
+.care-finder-card {
+  border-radius: 20px;
+  padding: 1.35rem;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.care-finder-card h3 {
+  font-size: 1.45rem;
+  margin: 0;
+}
+
+.care-finder-card p {
+  color: var(--color-ink-muted);
+  margin: 0;
+}
+
+.care-finder-card .cta-row {
+  margin-top: auto;
+  flex-wrap: wrap;
 }
 
 .category-card {
@@ -491,6 +516,7 @@
   }
 
   .category-grid,
+  .care-finder-grid,
   .product-rail,
   .quote-rail,
   .expert-cards,
@@ -505,6 +531,7 @@
   }
 
   .category-grid,
+  .care-finder-grid,
   .product-rail,
   .quote-rail,
   .expert-cards,

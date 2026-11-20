@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useContent } from "../data/ContentContext";
 import type { CareArea } from "../data/types";
+import { visitPath } from "../utils/careRoutes";
 import "./Category.css";
 import "./Flows.css";
 
@@ -18,6 +19,7 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
     (product) => product.category === slug && product.active,
   );
   const faqs = content.faqs.filter((faq) => faq.area === slug || faq.area === "general");
+  const firstProductId = products[0]?.id;
 
   if (!category) return null;
   const hero = mediaById[category.heroImageId];
@@ -31,12 +33,15 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
             <h1>{category.title}</h1>
             <p className="lede">{category.lede}</p>
             <div className="cta-row">
-              <Link to="/visit" className="btn btn-primary">
+              <Link to={visitPath(slug, firstProductId)} className="btn btn-primary">
                 {category.ctaLabel}
               </Link>
               <Link to="/insurance-check" className="btn btn-secondary">
                 Coverage check
               </Link>
+              <a href="#options" className="btn btn-secondary">
+                See options &amp; cost
+              </a>
             </div>
           </div>
           <div className="feature-panel">
@@ -54,7 +59,7 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
       {category.steps && category.steps.length > 0 ? (
         <section className="section-tight timeline">
           <div className="container">
-            <h2>Your path on this category</h2>
+            <h2>How it works</h2>
             <ol>
               {category.steps.map((step, index) => (
                 <li key={step}>
@@ -67,18 +72,18 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
         </section>
       ) : null}
 
-      <section className="section">
+      <section className="section" id="options">
         <div className="container">
           <div className="section-head">
-            <h2>Treatment formats</h2>
-            <p>Demo mosaic with placeholder pricing labels.</p>
+            <h2>Options &amp; placeholder cost</h2>
+            <p>Demo mosaic with labels from the local content store—not live competitor prices.</p>
           </div>
           <div className="med-grid">
             {products.length === 0 ? (
               <article className="empty-stub">
                 <h3>Formats coming soon</h3>
                 <p>This category has no active products yet—start a visit to explore the flow.</p>
-                <Link to="/visit" className="text-link">
+                <Link to={visitPath(slug)} className="text-link">
                   Start visit
                 </Link>
               </article>
@@ -93,10 +98,15 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
                     <p>{option.meta}</p>
                     {option.priceLabel ? (
                       <p className="product-price">{option.priceLabel}</p>
-                    ) : null}
+                    ) : (
+                      <p className="disclaimer">Price label missing — set in content store.</p>
+                    )}
                     <div className="cta-row">
                       <Link to={`/products/${option.id}`} className="text-link">
                         View details
+                      </Link>
+                      <Link to={visitPath(slug, option.id)} className="text-link">
+                        Start visit
                       </Link>
                       <Link to={`/checkout?product=${option.id}`} className="text-link">
                         Review plan
@@ -125,12 +135,15 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
             <p className="price">
               <strong>{content.settings.membershipFirstMonth}</strong> first month demo
             </p>
-            <p>Then {content.settings.membershipOngoing} depending on plan (not live Ro prices).</p>
+            <p>Then {content.settings.membershipOngoing} depending on plan (demo labels).</p>
             <div className="cta-row">
-              <Link to="/visit" className="btn btn-primary">
+              <Link to={visitPath(slug, firstProductId)} className="btn btn-primary">
                 {category.ctaLabel}
               </Link>
-              <Link to="/checkout" className="btn btn-secondary">
+              <Link
+                to={firstProductId ? `/checkout?product=${firstProductId}` : "/checkout"}
+                className="btn btn-secondary"
+              >
                 Plan review
               </Link>
             </div>
@@ -156,6 +169,20 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
               ))
             )}
           </div>
+        </div>
+      </section>
+
+      <section className="section safety-band">
+        <div className="container">
+          <h2>Safety note (demo)</h2>
+          <p className="lede">
+            This page is a structural recreation. It does not provide medical advice, diagnose
+            conditions, or prescribe medication. Replace with your own reviewed safety content
+            before any real launch.
+          </p>
+          <Link to="/safety" className="text-link">
+            Open safety stub
+          </Link>
         </div>
       </section>
     </div>

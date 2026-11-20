@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useContent } from "../data/ContentContext";
+import { visitPath } from "../utils/careRoutes";
 import "./Flows.css";
 
 export function Checkout() {
@@ -10,6 +11,8 @@ export function Checkout() {
   const product = content.products.find((item) => item.id === productId) ?? content.products[0];
   const image = product ? mediaById[product.imageId] : mediaById["checkout-review"];
   const [plan, setPlan] = useState<"monthly" | "annual">("monthly");
+  const [ack, setAck] = useState(false);
+  const [error, setError] = useState("");
   const [confirmed, setConfirmed] = useState(false);
 
   const totalLabel = useMemo(() => {
@@ -24,7 +27,19 @@ export function Checkout() {
     );
   }, [plan, content.settings, product]);
 
-  if (!product) return null;
+  if (!product) {
+    return (
+      <div className="flow-page section">
+        <div className="container">
+          <h1>No products available</h1>
+          <p className="lede">Add demo products in the content store before reviewing a plan.</p>
+          <Link to="/" className="btn btn-secondary">
+            Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flow-page">
@@ -47,6 +62,7 @@ export function Checkout() {
           <article className="flow-form-card">
             <h2>{product.name}</h2>
             <p>{product.description ?? product.meta}</p>
+            <p className="product-price">{product.priceLabel ?? "Price label missing in content store"}</p>
             <div className="plan-toggle">
               <button
                 type="button"
@@ -70,7 +86,7 @@ export function Checkout() {
               <>
                 <p className="toast-ok">Demo order saved locally. Nothing was charged.</p>
                 <div className="cta-row">
-                  <Link to="/visit" className="btn btn-primary">
+                  <Link to={visitPath(product.category, product.id)} className="btn btn-primary">
                     Start another visit
                   </Link>
                   <Link to="/" className="btn btn-secondary">
@@ -79,20 +95,42 @@ export function Checkout() {
                 </div>
               </>
             ) : (
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => {
-                  addLead({
-                    goal: product.category,
-                    state: "N/A",
-                    notes: `Checkout demo · ${product.name} · ${plan}`,
-                  });
-                  setConfirmed(true);
-                }}
-              >
-                Confirm demo plan
-              </button>
+              <>
+                <label className="field checkbox">
+                  <input
+                    type="checkbox"
+                    checked={ack}
+                    onChange={(event) => {
+                      setAck(event.target.checked);
+                      setError("");
+                    }}
+                  />
+                  <span>I understand this confirms a local demo only—no payment or Rx.</span>
+                </label>
+                {error ? (
+                  <p className="field-error" role="alert">
+                    {error}
+                  </p>
+                ) : null}
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => {
+                    if (!ack) {
+                      setError("Confirm the demo acknowledgment to continue.");
+                      return;
+                    }
+                    addLead({
+                      goal: product.category,
+                      state: "N/A",
+                      notes: `Checkout demo · ${product.name} · ${plan}`,
+                    });
+                    setConfirmed(true);
+                  }}
+                >
+                  Confirm demo plan
+                </button>
+              </>
             )}
           </article>
           <aside className="flow-form-card">

@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import type { FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { useContent } from "../data/ContentContext";
 import "./Flows.css";
@@ -8,6 +9,7 @@ export function InsuranceCheck() {
   const hero = mediaById["insurance-check"];
   const [carrier, setCarrier] = useState("");
   const [memberId, setMemberId] = useState("");
+  const [error, setError] = useState("");
   const [done, setDone] = useState(false);
 
   const result = useMemo(() => {
@@ -18,6 +20,16 @@ export function InsuranceCheck() {
     return "Prior-auth style follow-up (demo)";
   }, [carrier, memberId, done]);
 
+  function onSubmit(event: FormEvent) {
+    event.preventDefault();
+    if (!carrier.trim() || !memberId.trim()) {
+      setError("Enter both carrier and member ID placeholders to run the demo check.");
+      return;
+    }
+    setError("");
+    setDone(true);
+  }
+
   return (
     <div className="flow-page">
       <section className="flow-hero cool">
@@ -26,8 +38,8 @@ export function InsuranceCheck() {
             <p className="eyebrow">Coverage check</p>
             <h1>See a demo insurance pathway</h1>
             <p className="lede">
-              Local prototype only—no payer APIs. Enter any placeholder values to unlock a
-              fake result, then continue to visit/checkout.
+              Local prototype only—no payer APIs. Enter any placeholder values to unlock a fake
+              result, then continue to visit/checkout.
             </p>
           </div>
           {hero ? <img src={hero.src} alt={hero.alt} className="flow-hero-img" /> : null}
@@ -47,37 +59,49 @@ export function InsuranceCheck() {
                 <Link to="/checkout" className="btn btn-secondary">
                   Jump to plan review
                 </Link>
-                <button type="button" className="btn btn-secondary" onClick={() => setDone(false)}>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    setDone(false);
+                    setError("");
+                  }}
+                >
                   Run again
                 </button>
               </div>
             </>
           ) : (
-            <form
-              className="flow-form"
-              onSubmit={(event) => {
-                event.preventDefault();
-                setDone(true);
-              }}
-            >
+            <form className="flow-form" onSubmit={onSubmit} noValidate>
               <label>
                 Insurance carrier (placeholder)
                 <input
-                  required
                   value={carrier}
-                  onChange={(event) => setCarrier(event.target.value)}
+                  aria-invalid={Boolean(error) && !carrier.trim()}
+                  onChange={(event) => {
+                    setCarrier(event.target.value);
+                    setError("");
+                  }}
                   placeholder="Demo Health Plan"
                 />
               </label>
               <label>
                 Member ID (placeholder)
                 <input
-                  required
                   value={memberId}
-                  onChange={(event) => setMemberId(event.target.value)}
+                  aria-invalid={Boolean(error) && !memberId.trim()}
+                  onChange={(event) => {
+                    setMemberId(event.target.value);
+                    setError("");
+                  }}
                   placeholder="ABC123"
                 />
               </label>
+              {error ? (
+                <p className="field-error" role="alert">
+                  {error}
+                </p>
+              ) : null}
               <button className="btn btn-primary" type="submit">
                 Run demo check
               </button>

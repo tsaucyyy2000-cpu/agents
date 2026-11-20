@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useContent } from "../data/ContentContext";
+import { visitPath } from "../utils/careRoutes";
 import "./Flows.css";
 import "./Home.css";
 
@@ -18,6 +19,19 @@ export function Home() {
   }, [content.heroGoals.length]);
 
   const activeProducts = content.products.filter((product) => product.active).slice(0, 3);
+
+  const careFinder = useMemo(() => {
+    return content.categories.map((category) => {
+      const priced = content.products.filter(
+        (product) => product.active && product.category === category.slug && product.priceLabel,
+      );
+      return {
+        ...category,
+        fromPrice: priced[0]?.priceLabel ?? content.settings.membershipFirstMonth + " first month (demo)",
+        image: mediaById[category.heroImageId],
+      };
+    });
+  }, [content.categories, content.products, content.settings.membershipFirstMonth, mediaById]);
 
   return (
     <div className="home">
@@ -60,15 +74,17 @@ export function Home() {
         </div>
       </section>
 
-      <section className="section categories">
+      <section className="section categories" id="find-care">
         <div className="container">
           <div className="section-head">
-            <h2>Prescription-ready paths for everyday health goals</h2>
-            <p>Four primary care areas mirrored from the live top-of-funnel.</p>
+            <h2>What do you need help with?</h2>
+            <p>
+              Pick a care area, skim placeholder cost, then open the service page or start a demo
+              visit.
+            </p>
           </div>
-          <div className="category-grid">
-            {content.categories.map((item) => {
-              const image = mediaById[item.heroImageId];
+          <div className="care-finder-grid">
+            {careFinder.map((item) => {
               const tone =
                 item.slug === "weight"
                   ? "mint"
@@ -78,12 +94,22 @@ export function Home() {
                       ? "calm"
                       : "peach";
               return (
-                <Link key={item.path} to={item.path} className={`category-card tone-${tone}`}>
-                  {image ? <img src={image.src} alt="" className="category-thumb" /> : null}
+                <article key={item.path} className={`care-finder-card tone-${tone}`}>
+                  {item.image ? (
+                    <img src={item.image.src} alt="" className="category-thumb" />
+                  ) : null}
                   <h3>{item.eyebrow}</h3>
                   <p>{item.lede}</p>
-                  <span className="card-cta">View options</span>
-                </Link>
+                  <p className="product-price">From {item.fromPrice}</p>
+                  <div className="cta-row">
+                    <Link to={item.path} className="btn btn-secondary">
+                      How it works &amp; cost
+                    </Link>
+                    <Link to={visitPath(item.slug)} className="btn btn-primary">
+                      Start visit
+                    </Link>
+                  </div>
+                </article>
               );
             })}
           </div>
@@ -115,7 +141,7 @@ export function Home() {
                     <Link to={`/products/${product.id}`} className="text-link">
                       Details
                     </Link>
-                    <Link to="/visit" className="text-link">
+                    <Link to={visitPath(product.category, product.id)} className="text-link">
                       Check eligibility
                     </Link>
                   </div>
@@ -169,19 +195,21 @@ export function Home() {
         <div className="container">
           <div className="proof-banner">
             <div>
-              <p className="eyebrow">Member voices</p>
-              <h2>People stick with care when support feels close and clear</h2>
+              <p className="eyebrow">Member voices (demo quotes)</p>
+              <h2>Placeholder social proof for layout review</h2>
             </div>
             <div className="proof-metric">
               <strong>{content.settings.satisfactionLabel}</strong>
-              <span>say the experience feels supportive (demo figure)</span>
+              <span>demo satisfaction label — replace before launch</span>
             </div>
           </div>
           <div className="quote-rail">
             {content.testimonials.map((item) => (
               <blockquote key={item.id}>
                 <p>“{item.quote}”</p>
-                <footer>{item.name}</footer>
+                <footer>
+                  {item.name} · demo
+                </footer>
               </blockquote>
             ))}
           </div>
@@ -191,12 +219,15 @@ export function Home() {
       <section className="section experts">
         <div className="container experts-grid">
           <div>
-            <h2>Clinical leadership, summarized</h2>
-            <p>Named clinician layouts without copying live biographies.</p>
+            <h2>Care team placeholders</h2>
+            <p>
+              Layout slots only. Do not treat names/roles as verified credentials until Trey
+              supplies approved bios.
+            </p>
             <ul className="expert-bullets">
-              <li>Board-certified specialists across obesity, derm, and more</li>
-              <li>Published research informing program design</li>
-              <li>Policy and public-health advisors in the mix</li>
+              <li>Replace roles with reviewed provider profiles before launch</li>
+              <li>Keep portraits as local placeholders until licensed photos exist</li>
+              <li>No clinical claims attached to these cards</li>
             </ul>
           </div>
           <div className="expert-cards">

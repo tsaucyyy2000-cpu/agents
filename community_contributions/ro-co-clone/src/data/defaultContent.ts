@@ -27,14 +27,14 @@ export const defaultContent: SiteContent = {
     "Calm and clarify skin",
   ],
   homeSupport:
-    "A recreation of the marketing experience: browse care areas, compare placeholder pricing, and start a guided online visit—demo data only.",
+    "Browse care areas, compare demo placeholder pricing, and start a guided online visit. Demo data only—not affiliated with Ro or Sesame.",
   categories: [
     {
       slug: "weight",
       path: "/weight-loss",
       eyebrow: "Weight care",
-      title: "Online access to GLP-1 style weight programs",
-      lede: "Eligibility CTA, projection widget, medication suite, timeline, and FAQ—using original placeholder copy.",
+      title: "Online weight-care pathways (demo)",
+      lede: "See how the visit works, review placeholder membership labels, and choose a next step—eligibility, coverage check, or plan review.",
       ctaLabel: "See if you qualify",
       heroImageId: "cat-weight",
       bullets: [
@@ -258,9 +258,9 @@ export const defaultContent: SiteContent = {
     },
   ],
   experts: [
-    { id: "e1", name: "Clinician portrait", role: "Chief Medical Officer", imageId: "expert-1" },
-    { id: "e2", name: "Clinician portrait", role: "Clinical Strategy Lead", imageId: "expert-2" },
-    { id: "e3", name: "Clinician portrait", role: "Education Lead", imageId: "expert-3" },
+    { id: "e1", name: "Portrait placeholder", role: "Role TBD — supply approved bio", imageId: "expert-1" },
+    { id: "e2", name: "Portrait placeholder", role: "Role TBD — supply approved bio", imageId: "expert-2" },
+    { id: "e3", name: "Portrait placeholder", role: "Role TBD — supply approved bio", imageId: "expert-3" },
   ],
   media: [
     { id: "hero-home", label: "Home hero", src: "/media/hero-home.svg", alt: "Soft teal wellness gradient", kind: "hero" },
