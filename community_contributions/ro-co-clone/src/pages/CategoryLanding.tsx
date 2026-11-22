@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { JourneyRail } from "../components/JourneyRail";
+import { StickyMobileCta } from "../components/StickyMobileCta";
 import { useContent } from "../data/ContentContext";
 import type { CareArea } from "../data/types";
 import { visitPath } from "../utils/careRoutes";
@@ -20,6 +22,7 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
   );
   const faqs = content.faqs.filter((faq) => faq.area === slug || faq.area === "general");
   const firstProductId = products[0]?.id;
+  const visitHref = visitPath(slug, firstProductId);
 
   if (!category) return null;
   const hero = mediaById[category.heroImageId];
@@ -29,20 +32,28 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
       <section className={`cat-hero ${toneBySlug[slug]}`}>
         <div className="container cat-hero-grid">
           <div>
+            <JourneyRail
+              steps={[
+                { label: "Home", to: "/", done: true },
+                { label: "Care", current: true },
+                { label: "Visit", to: visitHref },
+              ]}
+            />
             <p className="eyebrow">{category.eyebrow}</p>
             <h1>{category.title}</h1>
             <p className="lede">{category.lede}</p>
             <div className="cta-row">
-              <Link to={visitPath(slug, firstProductId)} className="btn btn-primary">
+              <Link to={visitHref} className="btn btn-primary">
                 {category.ctaLabel}
               </Link>
-              <Link to="/insurance-check" className="btn btn-secondary">
-                Coverage check
+              <Link to="/how-it-works" className="btn btn-secondary">
+                How it works
               </Link>
               <a href="#options" className="btn btn-secondary">
                 See options
               </a>
             </div>
+            <p className="cat-fine">Next: demo intake · Back/Edit stay available on every step</p>
           </div>
           <div className="feature-panel">
             {hero ? <img className="cat-hero-img" src={hero.src} alt={hero.alt} /> : null}
@@ -59,7 +70,9 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
       {category.steps && category.steps.length > 0 ? (
         <section className="section-tight timeline">
           <div className="container">
+            <p className="section-kicker">Process</p>
             <h2>How it works</h2>
+            <p className="section-dek">Short path from interest to a fictional visit in this demo.</p>
             <ol>
               {category.steps.map((step, index) => (
                 <li key={step}>
@@ -74,6 +87,7 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
 
       <section className="section" id="options">
         <div className="container">
+          <p className="section-kicker">Options</p>
           <div className="section-head">
             <h2>Options</h2>
             <p>Demo catalog · verified prices are not published on this preview.</p>
@@ -116,6 +130,7 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
       <section className="section membership">
         <div className="container membership-grid">
           <div>
+            <p className="section-kicker">Membership</p>
             <h2>What membership covers (demo)</h2>
             <ul>
               {category.bullets.map((bullet) => (
@@ -129,14 +144,14 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
               <strong>Not published yet</strong>
             </p>
             <p className="cost-pending">
-              Membership pricing stays hidden until Trey supplies verified figures.
+              Membership pricing stays hidden until verified figures are supplied.
             </p>
             <div className="cta-row">
-              <Link to={visitPath(slug, firstProductId)} className="btn btn-primary">
+              <Link to={visitHref} className="btn btn-primary">
                 {category.ctaLabel}
               </Link>
-              <Link to="/how-it-works" className="btn btn-secondary">
-                How it works
+              <Link to="/insurance-check" className="btn btn-secondary">
+                Coverage check
               </Link>
             </div>
           </div>
@@ -145,6 +160,7 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
 
       <section className="section-tight">
         <div className="container">
+          <p className="section-kicker">FAQ</p>
           <h2>FAQs</h2>
           <div className="faq-list">
             {faqs.length === 0 ? (
@@ -166,17 +182,46 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
 
       <section className="section safety-band">
         <div className="container">
+          <p className="section-kicker">Safety</p>
           <h2>Safety note (demo)</h2>
-          <p className="lede">
-            This page is a structural recreation. It does not provide medical advice, diagnose
-            conditions, or prescribe medication. Replace with your own reviewed safety content
-            before any real launch.
-          </p>
-          <Link to="/safety" className="text-link">
-            Open safety stub
-          </Link>
+          <div className="isi-block">
+            <h3>Important safety information · placeholder</h3>
+            <p>
+              This page is a structural recreation. It does not provide medical advice, diagnose
+              conditions, or prescribe medication.
+            </p>
+            <ul>
+              <li>Replace with your own reviewed safety content before any real launch.</li>
+              <li>Live programs require a licensed clinician decision for every patient.</li>
+            </ul>
+            <Link to="/safety" className="text-link">
+              Open safety page
+            </Link>
+          </div>
         </div>
       </section>
+
+      <section className="cta-band cat-cta-band">
+        <div className="container cta-band-inner">
+          <p className="section-kicker section-kicker-on-dark">Next · Visit</p>
+          <h2>Continue to the demo intake</h2>
+          <p>Answers stay in this browser. Use Back and Edit on every step.</p>
+          <div className="hero-actions">
+            <Link to={visitHref} className="btn btn-on-dark">
+              Start demo visit
+            </Link>
+            <Link to="/#find-care" className="btn btn-secondary">
+              Other care areas
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <StickyMobileCta
+        to={visitHref}
+        label="Start demo visit"
+        fine="Fictional intake · change answers anytime"
+      />
     </div>
   );
 }

@@ -7,6 +7,9 @@ export function DemoBanner() {
       <div className="container demo-banner-inner">
         <strong>Demo preview</strong>
         <span>Not a real clinic · No payments or prescriptions · Sample data only</span>
+        <Link to="/disclosure" className="demo-banner-link">
+          Disclosure
+        </Link>
         <Link to="/about" className="demo-banner-link">
           About this demo
         </Link>

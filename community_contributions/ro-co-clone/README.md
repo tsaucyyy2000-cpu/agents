@@ -22,6 +22,7 @@ Open the printed local URL (default `http://127.0.0.1:5173`).
 - `/how-it-works`, `/insurance-check`, `/checkout`, `/guides`
 - `/products/:id`, `/visit`
 - Info stubs: `/about`, `/help`, `/safety`, `/privacy`, `/terms`
+- Legal/consent stubs: `/cookie-policy`, `/privacy-choices`, `/consumer-health-privacy`, `/disclosure`
 
 Customer-facing chrome does **not** link to admin. Open `/admin` by direct URL only.
 

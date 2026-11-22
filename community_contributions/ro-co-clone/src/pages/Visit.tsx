@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { JourneyRail } from "../components/JourneyRail";
 import { useContent } from "../data/ContentContext";
 import type { CareArea } from "../data/types";
 import { careAreaFromParam, goalLabelForArea } from "../utils/careRoutes";
@@ -102,6 +103,13 @@ export function Visit() {
   return (
     <div className="visit-page">
       <div className="container visit-shell">
+        <JourneyRail
+          steps={[
+            { label: "Home", to: "/", done: true },
+            { label: "Care", to: "/#find-care", done: true },
+            { label: "Visit", current: true },
+          ]}
+        />
         <p className="visit-demo-chip">Demo intake · fictional answers OK</p>
         {hero ? <img src={hero.src} alt={hero.alt} className="visit-hero-img" /> : null}
 
@@ -262,6 +270,13 @@ export function Visit() {
               <>
                 <h1>Confirm this demo visit</h1>
                 <p className="lede">Short acknowledgment before saving a local sample lead.</p>
+                <div className="callout">
+                  <p>
+                    Saved only in this browser. No clinic, pharmacy, or payment system receives
+                    these answers. Read the <Link to="/privacy">privacy note</Link> if you want
+                    the storage details.
+                  </p>
+                </div>
                 <ul className="visit-review-list">
                   <li>
                     Care: <strong>{goal}</strong>{" "}
@@ -282,25 +297,28 @@ export function Visit() {
                     </button>
                   </li>
                 </ul>
-                <label className="field checkbox">
-                  <input
-                    type="checkbox"
-                    checked={demoAck}
-                    onChange={(event) => {
-                      setDemoAck(event.target.checked);
-                      setError("");
-                    }}
-                  />
-                  <span>I understand this is a non-clinical demo with fictional data.</span>
-                </label>
-                <label className="field checkbox">
-                  <input
-                    type="checkbox"
-                    checked={coverageReminder}
-                    onChange={(event) => setCoverageReminder(event.target.checked)}
-                  />
-                  <span>Remind me about the coverage-check prototype later.</span>
-                </label>
+                <fieldset className="visit-consent">
+                  <legend>Consent (demo)</legend>
+                  <label className="field checkbox">
+                    <input
+                      type="checkbox"
+                      checked={demoAck}
+                      onChange={(event) => {
+                        setDemoAck(event.target.checked);
+                        setError("");
+                      }}
+                    />
+                    <span>I understand this is a non-clinical demo with fictional data.</span>
+                  </label>
+                  <label className="field checkbox">
+                    <input
+                      type="checkbox"
+                      checked={coverageReminder}
+                      onChange={(event) => setCoverageReminder(event.target.checked)}
+                    />
+                    <span>Remind me about the coverage-check prototype later (optional).</span>
+                  </label>
+                </fieldset>
               </>
             )}
 

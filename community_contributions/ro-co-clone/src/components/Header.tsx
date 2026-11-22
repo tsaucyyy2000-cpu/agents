@@ -39,7 +39,7 @@ export function Header() {
 
         <div className="header-actions">
           <Link to="/visit" className="btn btn-primary header-cta">
-            Get started
+            Start demo visit
           </Link>
           <button
             type="button"
@@ -72,8 +72,11 @@ export function Header() {
               {link.label}
             </NavLink>
           ))}
+          <Link to="/#find-care" className="mobile-link" onClick={() => setOpen(false)}>
+            Choose care area
+          </Link>
           <Link to="/visit" className="btn btn-primary" onClick={() => setOpen(false)}>
-            Get started
+            Start demo visit
           </Link>
         </nav>
       </div>

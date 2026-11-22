@@ -38,6 +38,16 @@
   font-size: 1.05rem;
 }
 
+.cat-fine {
+  margin-top: 0.85rem;
+  font-size: 0.9rem;
+  color: var(--color-ink-muted);
+}
+
+.cat-cta-band {
+  margin-top: 0;
+}
+
 .weight-widget,
 .feature-panel,
 .price-card,
