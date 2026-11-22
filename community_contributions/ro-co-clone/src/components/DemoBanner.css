@@ -24,7 +24,6 @@
 }
 
 .demo-banner-link {
-  margin-left: auto;
   color: var(--color-teal);
   text-decoration: underline;
   text-underline-offset: 2px;
@@ -33,12 +32,16 @@
   align-items: center;
 }
 
+.demo-banner-inner .demo-banner-link:first-of-type {
+  margin-left: auto;
+}
+
 @media (max-width: 640px) {
   .demo-banner-inner {
     gap: 0.25rem 0.65rem;
   }
 
-  .demo-banner-link {
+  .demo-banner-inner .demo-banner-link:first-of-type {
     margin-left: 0;
   }
 }

@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { JourneyRail } from "../components/JourneyRail";
+import { StickyMobileCta } from "../components/StickyMobileCta";
 import { useContent } from "../data/ContentContext";
 import { visitPath } from "../utils/careRoutes";
 import "./Flows.css";
@@ -35,6 +37,13 @@ export function Home() {
         <div className="hero-glow" aria-hidden="true" />
         <div className="container hero-grid">
           <div className="hero-copy">
+            <JourneyRail
+              steps={[
+                { label: "Home", current: true },
+                { label: "Care", to: "/#find-care" },
+                { label: "Visit", to: "/visit" },
+              ]}
+            />
             <p className="eyebrow">Demo · Online care paths</p>
             <h1>
               <span className="hero-brand">{content.settings.brandName}</span>
@@ -54,6 +63,9 @@ export function Home() {
                 Start demo visit
               </Link>
             </div>
+            <p className="hero-fine">
+              Three taps on mobile: care area → how it works → demo intake. Edit anytime.
+            </p>
           </div>
           <div className="hero-visual">
             <div className="hero-panel">
@@ -68,9 +80,13 @@ export function Home() {
 
       <section className="section categories" id="find-care">
         <div className="container">
+          <p className="section-kicker">Step 1 · Care</p>
           <div className="section-head">
             <h2>What do you need help with?</h2>
-            <p>Pick a care area, see how the demo works, then start a fictional visit.</p>
+            <p className="section-dek">
+              Pick a care area, skim how the demo works, then start a fictional visit. Costs stay
+              hidden until verified.
+            </p>
           </div>
           <div className="care-finder-grid">
             {careFinder.map((item) => {
@@ -107,6 +123,7 @@ export function Home() {
 
       <section className="section-tight product-strip">
         <div className="container">
+          <p className="section-kicker">Spotlight</p>
           <div className="section-head inline">
             <h2>Spotlight options</h2>
             <p>Demo catalog · pricing withheld until verified</p>
@@ -141,6 +158,7 @@ export function Home() {
 
       <section className="section-tight">
         <div className="container">
+          <p className="section-kicker">Process</p>
           <div className="section-head inline">
             <h2>How it works</h2>
             <Link to="/how-it-works" className="text-link">
@@ -162,6 +180,7 @@ export function Home() {
       <section className="section convenience">
         <div className="container convenience-grid">
           <div>
+            <p className="section-kicker section-kicker-on-dark">Convenience</p>
             <h2>100% online demo flow</h2>
             <p>Convenience beats for layout review. Not a live care promise.</p>
           </div>
@@ -178,6 +197,7 @@ export function Home() {
 
       <section className="section-tight guides">
         <div className="container">
+          <p className="section-kicker">Guides</p>
           <div className="section-head inline">
             <h2>Health guides</h2>
             <Link to="/guides" className="text-link">
@@ -205,6 +225,7 @@ export function Home() {
 
       <section className="section-tight">
         <div className="container">
+          <p className="section-kicker">FAQ</p>
           <h2>FAQs</h2>
           <div className="faq-list">
             {content.faqs
@@ -219,8 +240,30 @@ export function Home() {
         </div>
       </section>
 
+      <section className="section safety-band">
+        <div className="container">
+          <p className="section-kicker">Safety</p>
+          <h2>Important safety note (demo)</h2>
+          <div className="isi-block">
+            <h3>Placeholder disclosure</h3>
+            <p>
+              This marketing recreation does not diagnose, treat, or prescribe. Replace with your
+              own counsel-reviewed medication safety language before any real launch.
+            </p>
+            <ul>
+              <li>Not everyone qualifies for treatment in a live program.</li>
+              <li>Talk to a licensed clinician about risks, interactions, and pregnancy plans.</li>
+            </ul>
+            <Link to="/safety" className="text-link">
+              Open safety page
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="cta-band">
         <div className="container cta-band-inner">
+          <p className="section-kicker section-kicker-on-dark">Step 2 · Visit</p>
           <h2>Ready to try the demo?</h2>
           <p>Fictional intake only — change answers anytime before you finish.</p>
           <div className="hero-actions">
@@ -233,6 +276,12 @@ export function Home() {
           </div>
         </div>
       </section>
+
+      <StickyMobileCta
+        to="/#find-care"
+        label="Choose a care area"
+        fine="Then continue into the demo visit · sample data only"
+      />
     </div>
   );
 }

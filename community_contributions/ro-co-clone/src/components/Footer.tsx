@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useContent } from "../data/ContentContext";
+import { openDemoConsent } from "../utils/demoConsent";
 
 export function Footer() {
   const { content } = useContent();
@@ -28,12 +29,12 @@ export function Footer() {
       ],
     },
     {
-      title: "Explore",
+      title: "Privacy choices",
       items: [
-        { to: "/how-it-works", label: "How it works" },
-        { to: "/insurance-check", label: "Coverage check" },
-        { to: "/guides", label: "Health guides" },
-        { to: "/checkout", label: "Plan review" },
+        { to: "/privacy-choices", label: "Your privacy choices" },
+        { to: "/cookie-policy", label: "Cookie policy" },
+        { to: "/consumer-health-privacy", label: "Consumer health data" },
+        { to: "/disclosure", label: "Demo disclosure" },
       ],
     },
   ];
@@ -62,8 +63,10 @@ export function Footer() {
         ))}
       </div>
       <div className="container footer-bottom">
-        <span>Demo recreation for local review.</span>
-        <span>No medical advice · No real prescriptions</span>
+        <span>Demo recreation for local review · No medical advice · No real prescriptions</span>
+        <button type="button" className="footer-linklike" onClick={() => openDemoConsent()}>
+          Cookie settings
+        </button>
       </div>
     </footer>
   );

@@ -14,7 +14,11 @@ import { Home } from "./pages/Home";
 import { HowItWorks } from "./pages/HowItWorks";
 import {
   AboutPage,
+  ConsumerHealthPrivacyPage,
+  CookiePolicyPage,
+  DisclosurePage,
   HelpPage,
+  PrivacyChoicesPage,
   PrivacyPage,
   SafetyPage,
   TermsPage,
@@ -47,6 +51,10 @@ export default function App() {
         <Route path="safety" element={<SafetyPage />} />
         <Route path="privacy" element={<PrivacyPage />} />
         <Route path="terms" element={<TermsPage />} />
+        <Route path="cookie-policy" element={<CookiePolicyPage />} />
+        <Route path="privacy-choices" element={<PrivacyChoicesPage />} />
+        <Route path="consumer-health-privacy" element={<ConsumerHealthPrivacyPage />} />
+        <Route path="disclosure" element={<DisclosurePage />} />
       </Route>
 
       <Route path="admin" element={<AdminLayout />}>

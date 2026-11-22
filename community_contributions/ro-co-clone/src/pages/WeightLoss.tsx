@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { JourneyRail } from "../components/JourneyRail";
+import { StickyMobileCta } from "../components/StickyMobileCta";
 import { useContent } from "../data/ContentContext";
 import { visitPath } from "../utils/careRoutes";
 import "./Category.css";
@@ -24,6 +26,7 @@ export function WeightLoss() {
       "Begin treatment with ongoing check-ins.",
     ];
   const firstProductId = products[0]?.id;
+  const visitHref = visitPath("weight", firstProductId);
 
   if (!category) return null;
 
@@ -32,20 +35,28 @@ export function WeightLoss() {
       <section className="cat-hero tone-weight">
         <div className="container cat-hero-grid">
           <div>
+            <JourneyRail
+              steps={[
+                { label: "Home", to: "/", done: true },
+                { label: "Care", current: true },
+                { label: "Visit", to: visitHref },
+              ]}
+            />
             <p className="eyebrow">{category.eyebrow}</p>
             <h1>{category.title}</h1>
             <p className="lede">{category.lede}</p>
             <div className="hero-actions">
-              <Link to={visitPath("weight", firstProductId)} className="btn btn-primary">
+              <Link to={visitHref} className="btn btn-primary">
                 {category.ctaLabel}
               </Link>
-              <Link to="/insurance-check" className="btn btn-secondary">
-                Coverage check
+              <Link to="/how-it-works" className="btn btn-secondary">
+                How it works
               </Link>
               <a href="#meds" className="btn btn-secondary">
                 Browse options
               </a>
             </div>
+            <p className="cat-fine">Next: demo intake · Back/Edit stay available on every step</p>
           </div>
           <aside className="weight-widget">
             {hero ? <img className="cat-hero-img" src={hero.src} alt={hero.alt} /> : null}
@@ -75,7 +86,9 @@ export function WeightLoss() {
 
       <section className="section-tight timeline">
         <div className="container">
+          <p className="section-kicker">Process</p>
           <h2>How it works</h2>
+          <p className="section-dek">Short path from interest to a fictional visit in this demo.</p>
           <ol>
             {steps.map((step, index) => (
               <li key={step}>
@@ -89,6 +102,7 @@ export function WeightLoss() {
 
       <section className="section" id="meds">
         <div className="container">
+          <p className="section-kicker">Options</p>
           <div className="section-head">
             <h2>Options</h2>
             <p>Demo catalog · verified prices are not published on this preview.</p>
@@ -131,6 +145,7 @@ export function WeightLoss() {
       <section className="section membership">
         <div className="container membership-grid">
           <div>
+            <p className="section-kicker">Membership</p>
             <h2>What’s in the membership (demo)</h2>
             <ul>
               {category.bullets.map((bullet) => (
@@ -148,11 +163,11 @@ export function WeightLoss() {
               Membership pricing stays hidden until verified figures are supplied.
             </p>
             <div className="cta-row">
-              <Link to={visitPath("weight", firstProductId)} className="btn btn-primary">
+              <Link to={visitHref} className="btn btn-primary">
                 Begin demo visit
               </Link>
-              <Link to="/how-it-works" className="btn btn-secondary">
-                How it works
+              <Link to="/insurance-check" className="btn btn-secondary">
+                Coverage check
               </Link>
             </div>
           </div>
@@ -161,6 +176,7 @@ export function WeightLoss() {
 
       <section className="section-tight">
         <div className="container">
+          <p className="section-kicker">FAQ</p>
           <h2>Weight FAQs</h2>
           <div className="faq-list">
             {faqs.map((faq) => (
@@ -175,16 +191,46 @@ export function WeightLoss() {
 
       <section className="section safety-band">
         <div className="container">
+          <p className="section-kicker">Safety</p>
           <h2>Safety note (demo)</h2>
-          <p className="lede">
-            Illustrative calculator and catalog only. Not medical advice. Add reviewed safety
-            disclosures before any real launch.
-          </p>
-          <Link to="/safety" className="text-link">
-            Open safety stub
-          </Link>
+          <div className="isi-block">
+            <h3>Important safety information · placeholder</h3>
+            <p>
+              Illustrative calculator and catalog only. Not medical advice. Add reviewed safety
+              disclosures before any real launch.
+            </p>
+            <ul>
+              <li>Not everyone qualifies for treatment in a live program.</li>
+              <li>Talk to a licensed clinician about risks and interactions.</li>
+            </ul>
+            <Link to="/safety" className="text-link">
+              Open safety page
+            </Link>
+          </div>
         </div>
       </section>
+
+      <section className="cta-band cat-cta-band">
+        <div className="container cta-band-inner">
+          <p className="section-kicker section-kicker-on-dark">Next · Visit</p>
+          <h2>Continue to the demo intake</h2>
+          <p>Answers stay in this browser. Use Back and Edit on every step.</p>
+          <div className="hero-actions">
+            <Link to={visitHref} className="btn btn-on-dark">
+              Start demo visit
+            </Link>
+            <Link to="/#find-care" className="btn btn-secondary">
+              Other care areas
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <StickyMobileCta
+        to={visitHref}
+        label="Start demo visit"
+        fine="Fictional intake · change answers anytime"
+      />
     </div>
   );
 }
