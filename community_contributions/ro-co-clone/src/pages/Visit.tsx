@@ -168,6 +168,37 @@ export function Visit() {
                 </dd>
               </div>
             </dl>
+            <div className="visit-next">
+              <h2>What you can try next</h2>
+              <p className="lede">
+                The demo intake is saved locally. Continue the sample journey—still no clinic, payments,
+                or verified prices.
+              </p>
+              <div className="visit-next-grid">
+                <article className="visit-next-card">
+                  <h3>Coverage check</h3>
+                  <p>Run the insurance pathway prototype with placeholder carrier details.</p>
+                  <Link
+                    to={`/insurance-check?goal=${encodeURIComponent(goalCategory)}${
+                      productId ? `&product=${encodeURIComponent(productId)}` : ""
+                    }`}
+                    className="btn btn-primary"
+                  >
+                    Check coverage demo
+                  </Link>
+                </article>
+                <article className="visit-next-card">
+                  <h3>Plan review</h3>
+                  <p>Pick a sample membership cadence and save another local lead.</p>
+                  <Link
+                    to={`/checkout?product=${encodeURIComponent(productId || "")}`}
+                    className="btn btn-primary"
+                  >
+                    Review sample plan
+                  </Link>
+                </article>
+              </div>
+            </div>
             <div className="visit-actions visit-actions-static">
               <Link to="/#find-care" className="btn btn-secondary">
                 Back to care areas
@@ -175,7 +206,7 @@ export function Visit() {
               <Link to="/how-it-works" className="btn btn-secondary">
                 How it works
               </Link>
-              <button type="button" className="btn btn-primary" onClick={() => goToStep(0)}>
+              <button type="button" className="btn btn-secondary" onClick={() => goToStep(0)}>
                 Edit answers
               </button>
             </div>

@@ -1,4 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
+import { DocumentMeta } from "../seo/DocumentMeta";
 import { DemoBanner } from "./DemoBanner";
 import { DemoConsentBanner } from "./DemoConsentBanner";
 import { Footer } from "./Footer";
@@ -7,10 +8,12 @@ import "./Layout.css";
 
 export function Layout() {
   const { pathname } = useLocation();
-  const stickyCtaPages = pathname === "/" || ["/weight-loss", "/sexual-health", "/hair", "/skin"].includes(pathname);
+  const stickyCtaPages =
+    pathname === "/" || ["/weight-loss", "/sexual-health", "/hair", "/skin"].includes(pathname);
 
   return (
     <div className="page">
+      <DocumentMeta />
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>

@@ -40,6 +40,9 @@ export function ProductDetail() {
               <Link to={visitPath(product.category, product.id)} className="btn btn-primary">
                 Start demo visit
               </Link>
+              <Link to={`/checkout?product=${encodeURIComponent(product.id)}`} className="btn btn-secondary">
+                Plan review
+              </Link>
               <Link to="/how-it-works" className="btn btn-secondary">
                 How it works
               </Link>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { JourneyRail } from "../components/JourneyRail";
 import { StickyMobileCta } from "../components/StickyMobileCta";
@@ -16,14 +16,13 @@ export function WeightLoss() {
   const faqs = content.faqs.filter((faq) => faq.area === "weight" || faq.area === "general");
   const hero = category ? mediaById[category.heroImageId] : undefined;
   const [weight, setWeight] = useState(220);
-  const projected = useMemo(() => Math.round(weight * 0.15), [weight]);
   const steps =
     category?.steps ??
     [
       "Answer a short online health questionnaire.",
-      "A clinician reviews eligibility and may prescribe.",
+      "A provider reviews eligibility for the demo pathway.",
       "Insurance or cash-pay pathways are explained clearly.",
-      "Begin treatment with ongoing check-ins.",
+      "Begin a sample plan metaphor with ongoing check-ins.",
     ];
   const firstProductId = products[0]?.id;
   const visitHref = visitPath("weight", firstProductId);
@@ -72,14 +71,16 @@ export function WeightLoss() {
             <div className="weight-readout">
               <div>
                 <strong>{weight}</strong>
-                <span>starting</span>
+                <span>demo starting lbs</span>
               </div>
               <div>
-                <strong>{projected}</strong>
-                <span>illustrative loss*</span>
+                <strong>—</strong>
+                <span>outcomes not projected</span>
               </div>
             </div>
-            <p className="disclaimer">*Demo calculator only. Not clinical guidance.</p>
+            <p className="disclaimer">
+              Layout slider only. No weight-loss predictions or clinical guidance.
+            </p>
           </aside>
         </div>
       </section>

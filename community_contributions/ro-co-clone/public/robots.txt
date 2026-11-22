@@ -1,0 +1,7 @@
+# Local demo — not for production indexing until launch approval.
+User-agent: *
+Disallow: /admin
+Disallow: /admin/
+
+# Sitemap lists public customer routes for local SEO audits.
+Sitemap: http://127.0.0.1:5173/sitemap.xml

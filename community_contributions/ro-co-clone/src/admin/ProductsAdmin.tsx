@@ -80,7 +80,7 @@ export function ProductsAdmin() {
             <input
               value={draft.priceLabel ?? ""}
               onChange={(event) => setDraft({ ...draft, priceLabel: event.target.value })}
-              placeholder="$45 first month · then $149/mo (demo)"
+              placeholder="Pricing pending verification (demo)"
             />
           </label>
           <label>
