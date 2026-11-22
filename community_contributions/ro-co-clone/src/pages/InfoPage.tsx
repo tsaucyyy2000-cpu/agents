@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
+import { SafetyHubLinks } from "./Isi";
 import "./InfoPage.css";
+import "./Isi.css";
 
 interface Section {
   id: string;
@@ -152,9 +154,10 @@ export function HelpPage() {
       lede="Demo help only. Use these paths to review the clone."
       bullets={[
         "Home and care areas: /, /weight-loss, /sexual-health, /hair, /skin",
-        "Flows: /how-it-works, /insurance-check, /visit, /checkout",
+        "Flows: /quiz/:slug, /visit, /how-it-works, /insurance-check, /checkout",
         "Content: /guides, /products/:id",
-        "Legal stubs: /privacy, /terms, /safety, /cookie-policy, /privacy-choices",
+        "Safety: /safety, /isi/glp1, /isi/minoxidil",
+        "Legal stubs: /privacy, /terms, /cookie-policy, /privacy-choices",
         "Operators can open /admin by direct URL only (not linked from customer pages).",
       ]}
     />
@@ -163,38 +166,84 @@ export function HelpPage() {
 
 export function SafetyPage() {
   return (
-    <InfoPage
-      kicker="Safety"
-      title="Safety info"
-      lede="Placeholder safety page for navigation review. This demo is not medical advice and does not prescribe medication."
-      updated="November 2026"
-      showToc
-      sections={[
-        {
-          id: "demo-only",
-          title: "Demo-only notice",
-          paragraphs: [
-            "Live telehealth sites include detailed medication safety disclosures reviewed by counsel and clinicians. This clone keeps abbreviated placeholders instead of copying those texts.",
-          ],
-          callout: {
-            tone: "warn",
-            text: "Do not use this preview to make care decisions. Replace with your own reviewed safety content before any real launch.",
-          },
-        },
-        {
-          id: "isi",
-          title: "Important safety information (placeholder)",
-          paragraphs: [
-            "Prescription treatments require a licensed clinician. Not everyone qualifies. Common side effects and serious risks vary by medication — your clinician decides what is appropriate.",
-          ],
-          bullets: [
-            "Tell a clinician about pregnancy plans, thyroid history, pancreatitis history, and other medications.",
-            "Seek emergency care for severe allergic reactions or thoughts of self-harm.",
-            "This list is incomplete and is shown only to exercise layout patterns.",
-          ],
-        },
-      ]}
-    />
+    <div className="info-page">
+      <header className="info-page-head">
+        <div className="container info-shell">
+          <p className="eyebrow">Safety</p>
+          <h1>Safety info</h1>
+          <p className="lede">
+            Placeholder safety hub for navigation review. This demo is not medical advice and does
+            not prescribe medication.
+          </p>
+          <p className="info-updated">Updated November 2026 · demo placeholder</p>
+        </div>
+      </header>
+
+      <div className="container legal-wrap">
+        <nav className="legal-toc" aria-label="On this page">
+          <p>On this page</p>
+          <ol>
+            <li>
+              <a href="#demo-only">Demo-only notice</a>
+            </li>
+            <li>
+              <a href="#isi-hub">ISI documents</a>
+            </li>
+            <li>
+              <a href="#mapping">Care-area mapping</a>
+            </li>
+          </ol>
+        </nav>
+
+        <div className="info-prose">
+          <section id="demo-only" className="info-section">
+            <h2>Demo-only notice</h2>
+            <p>
+              Live telehealth sites include detailed medication safety disclosures reviewed by
+              counsel and clinicians. This clone keeps abbreviated placeholders instead of copying
+              those texts.
+            </p>
+            <div className="callout warn">
+              <p>
+                Do not use this preview to make care decisions. Replace with your own reviewed
+                safety content before any real launch.
+              </p>
+            </div>
+          </section>
+
+          <section id="isi-hub" className="info-section">
+            <h2>ISI documents (illustrative)</h2>
+            <p>
+              Anchored stubs for GLP-1 and minoxidil only. Sexual-health and skin aisles link here
+              generally — they do <strong>not</strong> reuse the GLP-1 document.
+            </p>
+            <SafetyHubLinks />
+          </section>
+
+          <section id="mapping" className="info-section">
+            <h2>Care-area mapping</h2>
+            <ul>
+              <li>
+                Weight / weekly GLP-1 & oral option → <Link to="/isi/glp1">/isi/glp1</Link>
+              </li>
+              <li>
+                Hair / density kit & topical foam → <Link to="/isi/minoxidil">/isi/minoxidil</Link>
+              </li>
+              <li>Sexual health & skin → this hub only (no invented drug ISI)</li>
+            </ul>
+          </section>
+
+          <div className="hero-actions info-actions">
+            <Link to="/" className="btn btn-primary">
+              Back home
+            </Link>
+            <Link to="/visit" className="btn btn-secondary">
+              Start demo visit
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -212,7 +261,8 @@ export function PrivacyPage() {
           title: "What this demo stores",
           bullets: [
             "Site content edits and visit leads in localStorage (key ro-clone-site-content-v2).",
-            "Optional demo consent preference (key ro-clone-demo-consent-v1).",
+            "Optional demo consent preference (key ro-clone-demo-consent-v1) with CONSENT_VERSION.",
+            "Quiz intake consent (key ro-clone-intake-consent-v1) with the same CONSENT_VERSION.",
             "No account system, no server-side patient record, no payment data.",
           ],
         },

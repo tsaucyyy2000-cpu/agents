@@ -24,7 +24,9 @@ import {
   TermsPage,
 } from "./pages/InfoPage";
 import { InsuranceCheck } from "./pages/InsuranceCheck";
+import { IsiPage } from "./pages/Isi";
 import { ProductDetail } from "./pages/ProductDetail";
+import { Quiz } from "./pages/Quiz";
 import { SexualHealth } from "./pages/SexualHealth";
 import { Skin } from "./pages/Skin";
 import { Visit } from "./pages/Visit";
@@ -40,6 +42,7 @@ export default function App() {
         <Route path="hair" element={<Hair />} />
         <Route path="skin" element={<Skin />} />
         <Route path="visit" element={<Visit />} />
+        <Route path="quiz/:slug" element={<Quiz />} />
         <Route path="how-it-works" element={<HowItWorks />} />
         <Route path="insurance-check" element={<InsuranceCheck />} />
         <Route path="checkout" element={<Checkout />} />
@@ -49,6 +52,7 @@ export default function App() {
         <Route path="about" element={<AboutPage />} />
         <Route path="help" element={<HelpPage />} />
         <Route path="safety" element={<SafetyPage />} />
+        <Route path="isi/:slug" element={<IsiPage />} />
         <Route path="privacy" element={<PrivacyPage />} />
         <Route path="terms" element={<TermsPage />} />
         <Route path="cookie-policy" element={<CookiePolicyPage />} />

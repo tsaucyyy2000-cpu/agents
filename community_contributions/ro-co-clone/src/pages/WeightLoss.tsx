@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { IsiBlock } from "../components/IsiBlock";
 import { JourneyRail } from "../components/JourneyRail";
+import { PriceTag } from "../components/PriceTag";
+import { StepIndicator } from "../components/StepIndicator";
 import { StickyMobileCta } from "../components/StickyMobileCta";
 import { useContent } from "../data/ContentContext";
-import { visitPath } from "../utils/careRoutes";
+import { PENDING_PRICE } from "../utils/formatPrice";
+import { quizPath, visitPath } from "../utils/careRoutes";
 import "./Category.css";
 import "./Flows.css";
+import "./Isi.css";
 
 export function WeightLoss() {
   const { content, mediaById } = useContent();
@@ -26,6 +31,7 @@ export function WeightLoss() {
     ];
   const firstProductId = products[0]?.id;
   const visitHref = visitPath("weight", firstProductId);
+  const quizHref = quizPath("weight");
 
   if (!category) return null;
 
@@ -38,24 +44,26 @@ export function WeightLoss() {
               steps={[
                 { label: "Home", to: "/", done: true },
                 { label: "Care", current: true },
+                { label: "Quiz", to: quizHref },
                 { label: "Visit", to: visitHref },
               ]}
             />
+            <StepIndicator current={0} />
             <p className="eyebrow">{category.eyebrow}</p>
             <h1>{category.title}</h1>
             <p className="lede">{category.lede}</p>
             <div className="hero-actions">
-              <Link to={visitHref} className="btn btn-primary">
-                {category.ctaLabel}
+              <Link to={quizHref} className="btn btn-primary">
+                Start demo quiz
               </Link>
-              <Link to="/how-it-works" className="btn btn-secondary">
-                How it works
+              <Link to={visitHref} className="btn btn-secondary">
+                {category.ctaLabel}
               </Link>
               <a href="#meds" className="btn btn-secondary">
                 Browse options
               </a>
             </div>
-            <p className="cat-fine">Next: demo intake · Back/Edit stay available on every step</p>
+            <p className="cat-fine">Quiz → visit → checkout · Back/Edit stay available</p>
           </div>
           <aside className="weight-widget">
             {hero ? <img className="cat-hero-img" src={hero.src} alt={hero.alt} /> : null}
@@ -126,7 +134,7 @@ export function WeightLoss() {
                     {med.tag ? <span className="chip">{med.tag}</span> : null}
                     <h3>{med.name}</h3>
                     <p>{med.meta}</p>
-                    <p className="cost-pending">Cost reviewed during visit</p>
+                    <PriceTag price={PENDING_PRICE} />
                     <div className="cta-row">
                       <Link to={`/products/${med.id}`} className="btn btn-secondary">
                         Details
@@ -157,15 +165,10 @@ export function WeightLoss() {
           </div>
           <div className="price-card">
             <p className="eyebrow">Cost</p>
-            <p className="price">
-              <strong>Not published yet</strong>
-            </p>
-            <p className="cost-pending">
-              Membership pricing stays hidden until verified figures are supplied.
-            </p>
+            <PriceTag price={{ ...PENDING_PRICE, unit: "membership" }} />
             <div className="cta-row">
-              <Link to={visitHref} className="btn btn-primary">
-                Begin demo visit
+              <Link to={quizHref} className="btn btn-primary">
+                Start demo quiz
               </Link>
               <Link to="/insurance-check" className="btn btn-secondary">
                 Coverage check
@@ -194,31 +197,21 @@ export function WeightLoss() {
         <div className="container">
           <p className="section-kicker">Safety</p>
           <h2>Safety note (demo)</h2>
-          <div className="isi-block">
-            <h3>Important safety information · placeholder</h3>
-            <p>
-              Illustrative calculator and catalog only. Not medical advice. Add reviewed safety
-              disclosures before any real launch.
-            </p>
-            <ul>
-              <li>Not everyone qualifies for treatment in a live program.</li>
-              <li>Talk to a licensed clinician about risks and interactions.</li>
-            </ul>
-            <Link to="/safety" className="text-link">
-              Open safety page
-            </Link>
-          </div>
+          <IsiBlock slug="glp1" />
         </div>
       </section>
 
       <section className="cta-band cat-cta-band">
         <div className="container cta-band-inner">
-          <p className="section-kicker section-kicker-on-dark">Next · Visit</p>
-          <h2>Continue to the demo intake</h2>
-          <p>Answers stay in this browser. Use Back and Edit on every step.</p>
+          <p className="section-kicker section-kicker-on-dark">Next · Quiz</p>
+          <h2>Continue to the demo quiz</h2>
+          <p>Then the shared visit funnel. Answers stay in this browser.</p>
           <div className="hero-actions">
-            <Link to={visitHref} className="btn btn-on-dark">
-              Start demo visit
+            <Link to={quizHref} className="btn btn-on-dark">
+              Start demo quiz
+            </Link>
+            <Link to={visitHref} className="btn btn-secondary">
+              Skip to visit
             </Link>
             <Link to="/#find-care" className="btn btn-secondary">
               Other care areas
@@ -228,9 +221,9 @@ export function WeightLoss() {
       </section>
 
       <StickyMobileCta
-        to={visitHref}
-        label="Start demo visit"
-        fine="Fictional intake · change answers anytime"
+        to={quizHref}
+        label="Start demo quiz"
+        fine="Then continue into the shared visit funnel"
       />
     </div>
   );

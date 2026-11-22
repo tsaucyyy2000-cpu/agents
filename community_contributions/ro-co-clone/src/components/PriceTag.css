@@ -1,0 +1,30 @@
+.price-tag {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.price-tag-amount {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+.price-tag-value {
+  font-size: 1.65rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--color-slate);
+}
+
+.price-tag-unit {
+  font-size: 0.95rem;
+  color: var(--color-ink-muted);
+}
+
+.price-tag-note {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--color-ink-muted);
+}

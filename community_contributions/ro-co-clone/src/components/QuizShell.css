@@ -1,0 +1,121 @@
+.quiz-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 40rem;
+}
+
+.quiz-progress {
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.quiz-progress-bar {
+  height: 100%;
+  background: var(--grad-calm);
+  transition: width 0.25s var(--ease);
+}
+
+.quiz-progress-label {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--color-ink-muted);
+}
+
+.quiz-choice-grid {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.quiz-choice-grid button {
+  min-height: var(--tap-min);
+  text-align: left;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-white);
+  cursor: pointer;
+}
+
+.quiz-choice-grid button.selected,
+.quiz-choice-grid button[aria-pressed="true"] {
+  border-color: var(--color-slate);
+  background: var(--color-mint);
+}
+
+.quiz-number-field {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  max-width: 14rem;
+}
+
+.quiz-number-field input {
+  flex: 1;
+  min-height: var(--tap-min);
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+}
+
+.quiz-unit {
+  color: var(--color-ink-muted);
+  font-weight: 500;
+}
+
+.quiz-shell textarea {
+  width: 100%;
+  min-height: 6rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  resize: vertical;
+  font: inherit;
+}
+
+.quiz-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.quiz-consent-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 36rem;
+  padding: 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-plaster);
+}
+
+.quiz-consent-card .eyebrow {
+  margin: 0;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-muted);
+}
+
+.quiz-consent-card ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.quiz-consent-card li {
+  margin: 0.35rem 0;
+}
+
+.quiz-page {
+  padding: 1.5rem 0 3rem;
+}
+
+.quiz-page .container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

@@ -1,11 +1,17 @@
 import { Link } from "react-router-dom";
+import { IsiBlock } from "../components/IsiBlock";
 import { JourneyRail } from "../components/JourneyRail";
+import { PriceTag } from "../components/PriceTag";
+import { StepIndicator } from "../components/StepIndicator";
 import { StickyMobileCta } from "../components/StickyMobileCta";
 import { useContent } from "../data/ContentContext";
 import type { CareArea } from "../data/types";
-import { visitPath } from "../utils/careRoutes";
+import { isiSlugForProduct } from "../data/isi";
+import { PENDING_PRICE } from "../utils/formatPrice";
+import { quizPath, visitPath } from "../utils/careRoutes";
 import "./Category.css";
 import "./Flows.css";
+import "./Isi.css";
 
 const toneBySlug: Record<CareArea, string> = {
   weight: "tone-weight",
@@ -23,6 +29,8 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
   const faqs = content.faqs.filter((faq) => faq.area === slug || faq.area === "general");
   const firstProductId = products[0]?.id;
   const visitHref = visitPath(slug, firstProductId);
+  const quizHref = quizPath(slug);
+  const isiSlug = isiSlugForProduct(firstProductId ?? "", slug);
 
   if (!category) return null;
   const hero = mediaById[category.heroImageId];
@@ -36,24 +44,26 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
               steps={[
                 { label: "Home", to: "/", done: true },
                 { label: "Care", current: true },
+                { label: "Quiz", to: quizHref },
                 { label: "Visit", to: visitHref },
               ]}
             />
+            <StepIndicator current={0} />
             <p className="eyebrow">{category.eyebrow}</p>
             <h1>{category.title}</h1>
             <p className="lede">{category.lede}</p>
             <div className="cta-row">
-              <Link to={visitHref} className="btn btn-primary">
-                {category.ctaLabel}
+              <Link to={quizHref} className="btn btn-primary">
+                Start demo quiz
               </Link>
-              <Link to="/how-it-works" className="btn btn-secondary">
-                How it works
+              <Link to={visitHref} className="btn btn-secondary">
+                {category.ctaLabel}
               </Link>
               <a href="#options" className="btn btn-secondary">
                 See options
               </a>
             </div>
-            <p className="cat-fine">Next: demo intake · Back/Edit stay available on every step</p>
+            <p className="cat-fine">Quiz → visit → checkout · Back/Edit stay available</p>
           </div>
           <div className="feature-panel">
             {hero ? <img className="cat-hero-img" src={hero.src} alt={hero.alt} /> : null}
@@ -110,7 +120,7 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
                     {option.tag ? <span className="chip">{option.tag}</span> : null}
                     <h3>{option.name}</h3>
                     <p>{option.meta}</p>
-                    <p className="cost-pending">Cost reviewed during visit</p>
+                    <PriceTag price={PENDING_PRICE} />
                     <div className="cta-row">
                       <Link to={`/products/${option.id}`} className="btn btn-secondary">
                         Details
@@ -140,15 +150,10 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
           </div>
           <div className="price-card">
             <p className="eyebrow">Cost</p>
-            <p className="price">
-              <strong>Not published yet</strong>
-            </p>
-            <p className="cost-pending">
-              Membership pricing stays hidden until verified figures are supplied.
-            </p>
+            <PriceTag price={{ ...PENDING_PRICE, unit: "membership" }} />
             <div className="cta-row">
-              <Link to={visitHref} className="btn btn-primary">
-                {category.ctaLabel}
+              <Link to={quizHref} className="btn btn-primary">
+                Start demo quiz
               </Link>
               <Link to="/insurance-check" className="btn btn-secondary">
                 Coverage check
@@ -184,20 +189,20 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
         <div className="container">
           <p className="section-kicker">Safety</p>
           <h2>Safety note (demo)</h2>
-          <div className="isi-block">
-            <h3>Important safety information · placeholder</h3>
-            <p>
-              This page is a structural recreation. It does not provide medical advice, diagnose
-              conditions, or prescribe medication.
-            </p>
-            <ul>
-              <li>Replace with your own reviewed safety content before any real launch.</li>
-              <li>Live programs require a licensed clinician decision for every patient.</li>
-            </ul>
-            <Link to="/safety" className="text-link">
-              Open safety page
-            </Link>
-          </div>
+          {isiSlug ? (
+            <IsiBlock slug={isiSlug} />
+          ) : (
+            <div className="isi-block">
+              <h3>Important safety information · placeholder</h3>
+              <p>
+                This aisle has no drug-specific ISI stub. It does not reuse GLP-1 content. Open the
+                safety hub for the general demo notice.
+              </p>
+              <Link to="/safety" className="text-link">
+                Open safety hub
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
@@ -207,8 +212,11 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
           <h2>Continue to the demo intake</h2>
           <p>Answers stay in this browser. Use Back and Edit on every step.</p>
           <div className="hero-actions">
-            <Link to={visitHref} className="btn btn-on-dark">
-              Start demo visit
+            <Link to={quizHref} className="btn btn-on-dark">
+              Start demo quiz
+            </Link>
+            <Link to={visitHref} className="btn btn-secondary">
+              Skip to visit
             </Link>
             <Link to="/#find-care" className="btn btn-secondary">
               Other care areas
@@ -218,9 +226,9 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
       </section>
 
       <StickyMobileCta
-        to={visitHref}
-        label="Start demo visit"
-        fine="Fictional intake · change answers anytime"
+        to={quizHref}
+        label="Start demo quiz"
+        fine="Then continue into the shared visit funnel"
       />
     </div>
   );

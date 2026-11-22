@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { JourneyRail } from "../components/JourneyRail";
+import { PriceTag } from "../components/PriceTag";
+import { StepIndicator } from "../components/StepIndicator";
 import { useContent } from "../data/ContentContext";
-import { visitPath } from "../utils/careRoutes";
+import { PENDING_PRICE } from "../utils/formatPrice";
+import { quizPath, visitPath } from "../utils/careRoutes";
 import "./Flows.css";
 
 const carePath: Record<string, string> = {
@@ -50,10 +53,12 @@ export function Checkout() {
               steps={[
                 { label: "Home", to: "/", done: true },
                 { label: "Care", to: careHref, done: true },
+                { label: "Quiz", to: quizPath(product.category), done: true },
                 { label: "Visit", to: visitHref, done: true },
                 { label: "Plan", current: true },
               ]}
             />
+            <StepIndicator current={2} />
             <p className="eyebrow">Demo plan review</p>
             <h1>{confirmed ? "Demo plan confirmed locally" : "Confirm a sample membership cadence"}</h1>
             <p className="lede">
@@ -70,7 +75,7 @@ export function Checkout() {
           <article className="flow-form-card">
             <h2>{product.name}</h2>
             <p>{product.description ?? product.meta}</p>
-            <p className="cost-pending">Dollar amounts hidden until verified pricing is supplied.</p>
+            <PriceTag price={PENDING_PRICE} />
             {confirmed ? (
               <>
                 <p className="toast-ok" role="status">

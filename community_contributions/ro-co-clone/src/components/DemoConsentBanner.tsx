@@ -1,11 +1,11 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { readDemoConsent, writeDemoConsent } from "../utils/demoConsent";
+import { CONSENT_VERSION, hasCurrentDemoConsent, readDemoConsent, writeDemoConsent } from "../utils/demoConsent";
 import "./DemoConsentBanner.css";
 
 function initialVisible() {
   if (typeof window === "undefined") return false;
-  return !readDemoConsent()?.decided;
+  return !hasCurrentDemoConsent();
 }
 
 export function DemoConsentBanner() {
@@ -68,7 +68,8 @@ export function DemoConsentBanner() {
           <h2 id={titleId}>Demo privacy choices</h2>
           <p>
             This local preview stores sample preferences in your browser only. Nothing is sold or
-            shared. See the <Link to="/privacy">privacy note</Link> and{" "}
+            shared. Consent version {CONSENT_VERSION}. See the{" "}
+            <Link to="/privacy">privacy note</Link> and{" "}
             <Link to="/cookie-policy">cookie policy</Link>.
           </p>
 

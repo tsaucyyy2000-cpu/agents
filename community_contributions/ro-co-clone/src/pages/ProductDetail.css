@@ -1,0 +1,14 @@
+.product-detail-page .product-detail-grid,
+.product-detail-page .section-tight .container,
+.product-detail-page .section .container {
+  scroll-margin-top: 8rem;
+}
+
+.product-how-list {
+  margin: 0.75rem 0 1rem;
+  padding-left: 1.2rem;
+}
+
+.product-how-list li {
+  margin: 0.4rem 0;
+}
