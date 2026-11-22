@@ -9,8 +9,8 @@ export const defaultContent: SiteContent = {
     brandName: "ro",
     tagline: "Help with what you want next",
     supportEmail: "ops@clone.local",
-    membershipFirstMonth: "$45",
-    membershipOngoing: "$89–$149/mo",
+    membershipFirstMonth: "Pending verification",
+    membershipOngoing: "Pending verification",
     memberCountLabel: "3M+",
     satisfactionLabel: "95%",
   },
@@ -113,7 +113,7 @@ export const defaultContent: SiteContent = {
       active: true,
       description:
         "Demo product card for a weekly injectable-style pathway with membership support metaphors.",
-      priceLabel: "$45 first month · then $149/mo (demo)",
+      priceLabel: "Pricing pending verification (demo)",
     },
     {
       id: "oral-option",
@@ -124,7 +124,7 @@ export const defaultContent: SiteContent = {
       imageId: "product-glp1",
       active: true,
       description: "Oral pathway card for people exploring non-injectable formats.",
-      priceLabel: "From $199/mo cash-pay (demo)",
+      priceLabel: "Cash-pay pathway · pricing pending (demo)",
     },
     {
       id: "dual-action",
@@ -135,7 +135,7 @@ export const defaultContent: SiteContent = {
       imageId: "product-sparks",
       active: true,
       description: "Placeholder for an on-demand format emphasizing timing flexibility.",
-      priceLabel: "From $24/dose or $89/mo (demo)",
+      priceLabel: "On-demand or monthly · pricing pending (demo)",
     },
     {
       id: "daily-support",
@@ -146,7 +146,7 @@ export const defaultContent: SiteContent = {
       imageId: "product-sparks",
       active: true,
       description: "Placeholder daily-format card for compare-onset storytelling.",
-      priceLabel: "$79/mo membership (demo)",
+      priceLabel: "Daily format · pricing pending (demo)",
     },
     {
       id: "density-kit",
@@ -157,7 +157,7 @@ export const defaultContent: SiteContent = {
       imageId: "product-hair",
       active: true,
       description: "Combo kit storytelling for density goals—original placeholder copy only.",
-      priceLabel: "$49 starter kit · then $39/mo (demo)",
+      priceLabel: "Starter kit · pricing pending (demo)",
     },
     {
       id: "topical-foam",
@@ -168,7 +168,7 @@ export const defaultContent: SiteContent = {
       imageId: "product-hair",
       active: true,
       description: "Topical-only placeholder for people starting with a simpler routine.",
-      priceLabel: "$29/mo topical plan (demo)",
+      priceLabel: "Topical plan · pricing pending (demo)",
     },
     {
       id: "skin-routine",
@@ -179,7 +179,7 @@ export const defaultContent: SiteContent = {
       imageId: "product-skin",
       active: true,
       description: "Routine-builder card for texture, tone, and breakout goals.",
-      priceLabel: "$39/mo guided routine (demo)",
+      priceLabel: "Guided routine · pricing pending (demo)",
     },
     {
       id: "calm-serum",
@@ -190,7 +190,7 @@ export const defaultContent: SiteContent = {
       imageId: "product-skin",
       active: true,
       description: "Placeholder kit for redness and texture goals with check-in storytelling.",
-      priceLabel: "$54 kit · $32/mo refills (demo)",
+      priceLabel: "Calm kit · pricing pending (demo)",
     },
   ],
   guides: [
@@ -398,8 +398,8 @@ export const defaultContent: SiteContent = {
       copy: "Ask questions, share updates, and stay on track without waiting rooms.",
     },
     {
-      title: "Evidence-guided options",
-      copy: "Browse treatments that map to common goals—with clear safety context.",
+      title: "Guided option browsing",
+      copy: "Browse demo pathways that map to common goals—with placeholder safety context.",
     },
     {
       title: "Discreet delivery",

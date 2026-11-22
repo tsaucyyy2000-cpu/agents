@@ -1,19 +1,45 @@
-.demo-consent {
+.demo-consent-root {
   position: fixed;
-  left: 1rem;
-  right: 1rem;
-  bottom: 1rem;
-  z-index: 90;
-  max-width: 720px;
-  margin: 0 auto;
-  max-height: 88vh;
-  overflow-y: auto;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.demo-consent-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: rgba(15, 23, 42, 0.45);
+  cursor: default;
+}
+
+.demo-consent {
+  position: relative;
+  z-index: 1;
+  width: min(720px, calc(100% - 2rem));
+  margin: 0 1rem 1rem;
+  max-height: min(88vh, 640px);
+  display: flex;
+  flex-direction: column;
   background: var(--color-white);
   color: var(--color-slate);
   border: 1px solid var(--color-border-strong);
   border-radius: 18px;
   box-shadow: 0 24px 60px -20px rgba(26, 26, 26, 0.35);
-  padding: 1.15rem 1.25rem;
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.demo-consent-body {
+  padding: 1.15rem 1.25rem 0.5rem;
+  overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .demo-consent h2 {
@@ -21,7 +47,7 @@
   margin: 0 0 0.35rem;
 }
 
-.demo-consent > p {
+.demo-consent-body > p {
   color: var(--color-ink-muted);
   margin: 0 0 0.9rem;
   font-size: 0.95rem;
@@ -37,15 +63,26 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
+  flex: none;
+  padding: 0.85rem 1.25rem calc(0.95rem + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--color-border);
+  background: var(--color-white);
+  position: sticky;
+  bottom: 0;
 }
 
 .demo-consent-actions .btn {
   flex: 1 1 140px;
+  min-height: 48px;
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+  touch-action: manipulation;
 }
 
 .demo-consent-prefs {
   border-top: 1px solid var(--color-border);
-  margin: 0 0 0.9rem;
+  margin: 0 0 0.5rem;
   padding-top: 0.35rem;
 }
 
@@ -137,14 +174,26 @@
   color: var(--color-slate);
 }
 
+body.consent-open .sticky-mobile-cta,
+body.consent-open .visit-actions {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 @media (max-width: 560px) {
   .demo-consent {
-    left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100%;
+    margin: 0;
     border-radius: 16px 16px 0 0;
-    padding: 0.9rem 0.9rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
-    max-height: 70vh;
+    max-height: min(78vh, 560px);
+  }
+
+  .demo-consent-body {
+    padding: 0.9rem 0.9rem 0.35rem;
+  }
+
+  .demo-consent-actions {
+    padding: 0.75rem 0.9rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
   }
 
   .demo-consent-actions .btn {

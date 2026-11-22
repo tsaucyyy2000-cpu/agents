@@ -14,6 +14,15 @@ npm run dev
 
 Open the printed local URL (default `http://127.0.0.1:5173`).
 
+## SEO audit (local)
+
+```sh
+npx playwright install chromium
+npm run seo:audit:built
+```
+
+Crawls `public/sitemap.xml` against `vite preview` with Playwright (client-rendered titles, canonicals, JSON-LD). Demo pages stay `noindex` until launch approval. Flags unverified `$` and soft medical-claim patterns as `CLAIM` lines.
+
 ## Public pages
 
 - `/` home marketing composition
