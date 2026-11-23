@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { useContent } from "../data/ContentContext";
 import { SafetyHubLinks } from "./Isi";
 import "./InfoPage.css";
 import "./Isi.css";
@@ -106,45 +107,158 @@ export function InfoPage({
 }
 
 export function AboutPage() {
+  const { content } = useContent();
+  const supportEmail = content.settings.supportEmail || "ops@clone.local";
+
   return (
-    <InfoPage
-      kicker="About"
-      title="About this clone"
-      lede="Local Vite + React recreation of a telehealth marketing top-of-funnel for demo and review. Not affiliated with Ro."
-      updated="November 2026"
-      showToc
-      sections={[
-        {
-          id: "what",
-          title: "What this is",
-          bullets: [
-            "Original/placeholder marketing copy only — live site text was not scraped verbatim.",
-            "Original generated media in /public/media — Ro CDN photography was not downloaded.",
-            "Editable demo content lives in browser localStorage (operator tools are not linked from the customer UI).",
-          ],
-        },
-        {
-          id: "journey",
-          title: "Suggested review path",
-          paragraphs: [
-            "On mobile, walk Home → Choose a care area → Start demo visit. Use Back and Edit controls on the intake to confirm the full path.",
-          ],
-          bullets: [
-            "Home care finder anchors at /#find-care",
-            "Category landings: /weight-loss, /sexual-health, /hair, /skin",
-            "Demo intake: /visit with optional ?goal= and ?product=",
-          ],
-        },
-        {
-          id: "limits",
-          title: "Hard limits for this preview",
-          callout: {
-            tone: "warn",
-            text: "No real clinicians, prescriptions, payments, or insurance submissions. Sample data only.",
-          },
-        },
-      ]}
-    />
+    <div className="info-page about-page">
+      <header className="info-page-head">
+        <div className="container info-shell">
+          <p className="eyebrow">Demo · About</p>
+          <h1>About this clone</h1>
+          <p className="lede">
+            A local Vite + React marketing preview of a telehealth top-of-funnel. This is{" "}
+            <strong>not a real clinic</strong> — no licensed care, prescriptions, payments, or
+            insurance billing happen here. Not affiliated with Ro.
+          </p>
+          <p className="info-updated">Updated November 2026 · sample paths only</p>
+          <div className="hero-actions info-actions">
+            <Link to="/#find-care" className="btn btn-primary">
+              Choose care · start quiz
+            </Link>
+            <Link to="/how-it-works" className="btn btn-secondary">
+              How care works
+            </Link>
+            <Link to="/help" className="btn btn-secondary">
+              Help center
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      <div className="container legal-wrap">
+        <nav className="legal-toc" aria-label="On this page">
+          <p>On this page</p>
+          <ol>
+            <li>
+              <a href="#what">What this is</a>
+            </li>
+            <li>
+              <a href="#not-clinic">Not a real clinic</a>
+            </li>
+            <li>
+              <a href="#journey">Suggested review path</a>
+            </li>
+            <li>
+              <a href="#limits">Hard limits</a>
+            </li>
+            <li>
+              <a href="#contact">Contact (demo)</a>
+            </li>
+          </ol>
+        </nav>
+
+        <div className="info-prose">
+          <section id="what" className="info-section">
+            <h2>What this is</h2>
+            <ul>
+              <li>
+                Original/placeholder marketing copy only — live site text was not scraped
+                verbatim.
+              </li>
+              <li>
+                Original generated media in /public/media — Ro CDN photography was not
+                downloaded.
+              </li>
+              <li>
+                Editable demo content lives in browser localStorage (operator tools are not
+                linked from the customer UI).
+              </li>
+              <li>
+                Funnel IA matches the Help hub: care quiz → shared visit → optional coverage →
+                plan review.
+              </li>
+            </ul>
+          </section>
+
+          <section id="not-clinic" className="info-section">
+            <h2>Not a real clinic</h2>
+            <p>
+              Nothing on this preview diagnoses, treats, prescribes, or creates a patient
+              relationship. Use it to review layout, care-area discovery, and intake UX — not
+              for care decisions.
+            </p>
+            <div className="callout warn">
+              <p>
+                Demo framing only. If you need real telehealth, use a licensed provider — not
+                this clone.
+              </p>
+            </div>
+          </section>
+
+          <section id="journey" className="info-section">
+            <h2>Suggested review path</h2>
+            <p>
+              Start on Home, pick a care area, run the matching demo quiz, then continue into
+              the shared visit. Optional coverage check and plan review come after. Use Back /
+              Edit on the intake to confirm the full path.
+            </p>
+            <ul>
+              <li>
+                Care finder: <Link to="/#find-care">/#find-care</Link>
+              </li>
+              <li>
+                How care works: <Link to="/how-it-works">/how-it-works</Link>
+              </li>
+              <li>
+                Help hub: <Link to="/help">/help</Link>
+              </li>
+              <li>
+                Care landings:{" "}
+                <Link to="/weight-loss">/weight-loss</Link>,{" "}
+                <Link to="/sexual-health">/sexual-health</Link>, <Link to="/hair">/hair</Link>,{" "}
+                <Link to="/skin">/skin</Link>
+              </li>
+              <li>
+                Shared visit: <Link to="/visit">/visit</Link> (optional ?goal= and ?product=)
+              </li>
+            </ul>
+          </section>
+
+          <section id="limits" className="info-section">
+            <h2>Hard limits for this preview</h2>
+            <div className="callout warn">
+              <p>
+                No real clinicians, prescriptions, payments, or insurance submissions. Verified
+                prices, clinician bios, and testimonials stay withheld. Sample data only.
+              </p>
+            </div>
+          </section>
+
+          <section id="contact" className="info-section">
+            <h2>Contact (demo)</h2>
+            <p>
+              There is no phone line or chat agent for this preview. For questions about running
+              the clone locally, email{" "}
+              <a href={`mailto:${supportEmail}`}>{supportEmail}</a>. Do not send real patient
+              information.
+            </p>
+          </section>
+
+          <div className="hero-actions info-actions">
+            <Link to="/#find-care" className="btn btn-primary">
+              Choose care · start quiz
+            </Link>
+            <Link to="/how-it-works" className="btn btn-secondary">
+              How care works
+            </Link>
+            <Link to="/help" className="btn btn-secondary">
+              Help center
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

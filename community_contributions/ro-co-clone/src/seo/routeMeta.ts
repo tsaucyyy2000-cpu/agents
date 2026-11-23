@@ -148,7 +148,7 @@ export const PUBLIC_ROUTES: RouteMeta[] = [
     path: "/about",
     title: "About this clone",
     description:
-      "Local Vite + React recreation of a telehealth marketing funnel. Not affiliated with Ro.",
+      "Demo framing for this telehealth marketing clone — not a real clinic. Bridges to Help, how-it-works, and care finder. Soft contact via ops@clone.local.",
     schemaType: "AboutPage",
   },
   {
@@ -247,7 +247,7 @@ export function metaForPathname(pathname: string): RouteMeta {
       path: normalized,
       title: "Product detail (demo)",
       description:
-        "Demo product card with visit and plan-review CTAs. Pricing withheld until verified.",
+        "Demo catalog stub with related care quiz primary, care landing / how-it-works / Help bridges. Pricing withheld until verified.",
       schemaType: "WebPage",
       robots: DEFAULT_ROBOTS,
       sitemap: true,

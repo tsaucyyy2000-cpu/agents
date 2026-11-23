@@ -9,7 +9,10 @@ import "./Layout.css";
 export function Layout() {
   const { pathname } = useLocation();
   const stickyCtaPages =
-    pathname === "/" || ["/weight-loss", "/sexual-health", "/hair", "/skin"].includes(pathname);
+    pathname === "/" ||
+    ["/weight-loss", "/sexual-health", "/hair", "/skin"].includes(pathname) ||
+    pathname.startsWith("/products/") ||
+    (pathname.startsWith("/guides/") && pathname !== "/guides");
 
   return (
     <div className="page">

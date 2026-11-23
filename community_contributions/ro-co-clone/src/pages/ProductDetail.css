@@ -4,6 +4,14 @@
   scroll-margin-top: 8rem;
 }
 
+.product-detail-title {
+  margin: 0.75rem 0;
+}
+
+.product-detail-actions {
+  margin-top: 1.25rem;
+}
+
 .product-how-list {
   margin: 0.75rem 0 1rem;
   padding-left: 1.2rem;
@@ -11,4 +19,17 @@
 
 .product-how-list li {
   margin: 0.4rem 0;
+}
+
+.product-detail-page .care-bridge {
+  margin-top: 0.85rem;
+}
+
+.product-detail-page .cost-pending {
+  margin-top: 0.35rem;
+}
+
+.product-detail-page .more-care-card .cost-pending {
+  margin: 0.35rem 0 0;
+  font-size: 0.85rem;
 }
