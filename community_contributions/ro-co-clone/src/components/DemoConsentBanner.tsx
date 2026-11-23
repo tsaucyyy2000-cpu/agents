@@ -27,18 +27,39 @@ export function DemoConsentBanner() {
   }, []);
 
   useEffect(() => {
+    const chrome = document.querySelector(".site-chrome");
+    const main = document.getElementById("main-content");
+    const footer = document.querySelector(".site-footer");
+    const stickyTargets = document.querySelectorAll(".sticky-mobile-cta");
+    const lockTargets = [chrome, main, footer, ...stickyTargets].filter(
+      (node): node is Element => node instanceof Element,
+    );
+
     if (!visible) {
       document.body.classList.remove("consent-open");
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
+      for (const node of lockTargets) {
+        node.removeAttribute("inert");
+      }
       return;
     }
+
     document.body.classList.add("consent-open");
+    document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
+    for (const node of lockTargets) {
+      node.setAttribute("inert", "");
+    }
     const timer = window.setTimeout(() => firstActionRef.current?.focus(), 50);
     return () => {
       window.clearTimeout(timer);
       document.body.classList.remove("consent-open");
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
+      for (const node of lockTargets) {
+        node.removeAttribute("inert");
+      }
     };
   }, [visible]);
 

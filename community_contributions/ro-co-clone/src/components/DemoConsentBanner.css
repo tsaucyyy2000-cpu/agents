@@ -1,11 +1,12 @@
 .demo-consent-root {
   position: fixed;
   inset: 0;
-  z-index: 120;
+  z-index: 200;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   pointer-events: auto;
+  overscroll-behavior: contain;
 }
 
 .demo-consent-backdrop {
@@ -16,6 +17,7 @@
   margin: 0;
   background: rgba(15, 23, 42, 0.45);
   cursor: default;
+  touch-action: none;
 }
 
 .demo-consent {
@@ -33,6 +35,8 @@
   box-shadow: 0 24px 60px -20px rgba(26, 26, 26, 0.35);
   overflow: hidden;
   pointer-events: auto;
+  touch-action: manipulation;
+  overscroll-behavior: contain;
 }
 
 .demo-consent-body {
@@ -40,6 +44,9 @@
   overflow-y: auto;
   flex: 1 1 auto;
   min-height: 0;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
 }
 
 .demo-consent h2 {
@@ -175,9 +182,15 @@
 }
 
 body.consent-open .sticky-mobile-cta,
-body.consent-open .visit-actions {
-  visibility: hidden;
-  pointer-events: none;
+body.consent-open .visit-actions,
+body.consent-open .mobile-menu {
+  visibility: hidden !important;
+  pointer-events: none !important;
+  display: none !important;
+}
+
+body.consent-open {
+  overscroll-behavior: none;
 }
 
 @media (max-width: 560px) {
@@ -185,7 +198,8 @@ body.consent-open .visit-actions {
     width: 100%;
     margin: 0;
     border-radius: 16px 16px 0 0;
-    max-height: min(78vh, 560px);
+    /* Leave room under sticky demo chrome; keep actions tappable at 390-wide */
+    max-height: min(72vh, calc(100dvh - var(--demo-banner-h, 40px) - var(--nav-h) - 0.5rem));
   }
 
   .demo-consent-body {
@@ -193,11 +207,20 @@ body.consent-open .visit-actions {
   }
 
   .demo-consent-actions {
-    padding: 0.75rem 0.9rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0.75rem 0.9rem calc(0.85rem + env(safe-area-inset-bottom, 0px));
   }
 
   .demo-consent-actions .btn {
-    flex: 1 1 calc(50% - 0.35rem);
+    flex: none;
+    width: 100%;
+    min-height: var(--tap-min, 48px);
+  }
+
+  .demo-consent-actions .btn:first-child:nth-last-child(3),
+  .demo-consent-actions .btn:first-child:nth-last-child(3) ~ .btn:last-child {
+    grid-column: 1 / -1;
   }
 }
 

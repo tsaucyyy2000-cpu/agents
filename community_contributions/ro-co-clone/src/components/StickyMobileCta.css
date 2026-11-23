@@ -35,13 +35,20 @@
     color: var(--color-ink-muted);
   }
 
-  /* Leave room so sticky CTA does not cover page content */
+  /* Leave room so sticky CTA does not cover page content or footer taps */
   .page-main.has-sticky-cta {
     padding-bottom: 5.5rem;
   }
 
+  .page:has(.page-main.has-sticky-cta) .site-footer {
+    padding-bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+  }
+
   /* When consent banner is open, keep sticky CTA from fighting for the bottom */
-  body:has(.demo-consent) .sticky-mobile-cta {
-    display: none;
+  body.consent-open .sticky-mobile-cta,
+  body:has(.demo-consent-root) .sticky-mobile-cta {
+    display: none !important;
+    visibility: hidden;
+    pointer-events: none;
   }
 }
