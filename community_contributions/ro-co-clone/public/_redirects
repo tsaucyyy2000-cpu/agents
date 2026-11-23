@@ -1,0 +1,2 @@
+# SPA fallback for Netlify / compatible static hosts (existing files win first).
+/*    /index.html   200

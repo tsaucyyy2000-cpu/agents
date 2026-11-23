@@ -1,7 +1,7 @@
-# Local demo — not for production indexing until launch approval.
+# Local / preview copy. Host builds rewrite Sitemap via VITE_SITE_ORIGIN (see vite.config.ts).
 User-agent: *
 Disallow: /admin
 Disallow: /admin/
 
-# Sitemap lists public customer routes for local SEO audits.
+# Sitemap lists public customer routes for SEO audits.
 Sitemap: http://127.0.0.1:5173/sitemap.xml
