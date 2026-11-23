@@ -1,4 +1,9 @@
+/**
+ * Design tokens — extend, don’t restyle the brand.
+ * Warm peach / teal / black CTAs / Manrope / soft shadows stay as-is.
+ */
 :root {
+  /* Color */
   --color-slate: #1a1a1a;
   --color-slate-soft: #2b2b2b;
   --color-ink-muted: #7f7f7f;
@@ -13,22 +18,57 @@
   --color-alert: #d70f0f;
   --color-focus: #276ef1;
 
+  /* Gradients */
   --grad-energy: linear-gradient(120deg, #53aceb 0%, #ff01a9 52%, #ff9890 100%);
   --grad-calm: linear-gradient(135deg, #e5f2f2 0%, #add8d5 48%, #bac3d3 100%);
   --grad-warm: linear-gradient(135deg, #ffdbc7 0%, #ff9890 55%, #ff6c19 100%);
   --grad-hero: linear-gradient(160deg, #f7faf9 0%, #e8f4f3 42%, #d7ebe9 100%);
   --grad-dark: linear-gradient(145deg, #1a1a1a 0%, #2a3333 55%, #1f2a2a 100%);
 
+  /* Type */
   --font-sans: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
+  --text-xs: 0.8rem;
+  --text-sm: 0.9rem;
+  --text-md: 0.98rem;
+  --text-lg: 1.25rem;
+  --text-xl: clamp(1.8rem, 3vw, 2.6rem);
+  --text-display: clamp(3.5rem, 8vw, 6rem);
+  --leading-tight: 1.1;
+  --leading-body: 1.45;
+  --tracking-display: -0.07em;
+  --tracking-tight: -0.03em;
+
+  /* Radii */
   --radius-sm: 6px;
   --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
   --radius-pill: 999px;
+
+  /* Spacing */
+  --space-1: 0.35rem;
+  --space-2: 0.65rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3.25rem;
+  --space-7: 4.5rem;
+  --section-pad: 4.5rem;
+  --section-pad-sm: 3.25rem;
+
+  /* Elevation / layout */
   --shadow-soft: 0 18px 50px rgba(26, 26, 26, 0.08);
+  --shadow-drawer: -12px 0 40px rgba(26, 26, 26, 0.14);
   --max: 1180px;
   --nav-h: 72px;
   --chrome-offset-h: 0px;
+  --drawer-w: min(100vw - 2.5rem, 22rem);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --tap-min: 48px;
+  --z-sticky-cta: 40;
+  --z-header: 60;
+  --z-drawer: 80;
+  --z-skip: 200;
 }
 
 * {
@@ -45,9 +85,10 @@ body {
   font-weight: 400;
   color: var(--color-slate);
   background: var(--color-white);
-  line-height: 1.45;
+  line-height: var(--leading-body);
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 
 a {
@@ -71,8 +112,8 @@ h2,
 h3,
 h4 {
   font-weight: 500;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
   margin: 0;
 }
 
@@ -89,4 +130,19 @@ p {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

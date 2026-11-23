@@ -29,6 +29,17 @@
   font-size: clamp(2rem, 4vw, 3.4rem);
   max-width: 14ch;
   margin-bottom: 1rem;
+  overflow-wrap: balance;
+  hyphens: auto;
+}
+
+.cat-hero .hero-actions {
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.cat-hero .hero-actions .btn {
+  min-width: 0;
 }
 
 .lede {

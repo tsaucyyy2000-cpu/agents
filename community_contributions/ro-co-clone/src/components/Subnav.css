@@ -12,8 +12,12 @@
   display: flex;
   gap: 0.35rem;
   overflow-x: auto;
+  overflow-y: hidden;
   padding: 0.55rem 0;
   scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  max-width: 100%;
 }
 
 .page-subnav a {
