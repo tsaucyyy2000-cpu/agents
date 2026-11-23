@@ -21,7 +21,7 @@ export function IsiPage() {
           <h1>{doc.title}</h1>
           <p className="lede">Applies to: {doc.appliesTo}</p>
           <p className="info-updated">
-            Illustrative demo copy · re-verify before launch · not FDA labeling
+            Illustrative placeholder copy · re-verify before launch · not FDA labeling
           </p>
         </div>
       </header>
@@ -64,7 +64,7 @@ export function IsiPage() {
               Safety hub
             </Link>
             <Link to="/visit" className="btn btn-secondary">
-              Demo visit
+              Visit
             </Link>
           </div>
         </div>

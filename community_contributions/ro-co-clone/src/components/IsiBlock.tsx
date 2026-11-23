@@ -6,7 +6,7 @@ type Props = {
   maxSections?: number;
 };
 
-/** Condensed ISI callout for care/product pages — illustrative demo copy only. */
+/** Condensed ISI callout for care/product pages — illustrative placeholder copy only. */
 export function IsiBlock({ slug, maxSections = 3 }: Props) {
   const doc = getIsi(slug);
   if (!doc) return null;
@@ -15,7 +15,7 @@ export function IsiBlock({ slug, maxSections = 3 }: Props) {
 
   return (
     <div className="isi-block" data-testid={`isi-block-${slug}`}>
-      <p className="section-kicker">Safety · demo</p>
+      <p className="section-kicker">Safety</p>
       <h3>{doc.title}</h3>
       <p className="isi-applies">Applies to: {doc.appliesTo}</p>
       <p className="cost-pending">

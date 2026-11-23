@@ -34,7 +34,7 @@ export function Visit() {
   const [goal, setGoal] = useState<Goal>(initialArea ? goalFromArea(initialArea) : "Weight");
   const [state, setState] = useState("");
   const [productId, setProductId] = useState(initialProduct);
-  const [demoAck, setDemoAck] = useState(false);
+  const [visitAck, setVisitAck] = useState(false);
   const [coverageReminder, setCoverageReminder] = useState(false);
   const [error, setError] = useState("");
   const [done, setDone] = useState(false);
@@ -81,8 +81,8 @@ export function Visit() {
       setError("Choose a starting option to continue.");
       return;
     }
-    if (step === 3 && !demoAck) {
-      setError("Confirm you understand this is a non-clinical demo.");
+    if (step === 3 && !visitAck) {
+      setError("Confirm you understand this intake is non-clinical until a clinician reviews.");
       return;
     }
 
@@ -94,7 +94,7 @@ export function Visit() {
     addLead({
       goal,
       state,
-      notes: `Visit demo · preferred ${selectedProduct?.name ?? productId}${
+      notes: `Visit · preferred ${selectedProduct?.name ?? productId}${
         coverageReminder ? " · coverage reminder" : ""
       }`,
     });
@@ -117,7 +117,7 @@ export function Visit() {
           ]}
         />
         <StepIndicator current={1} />
-        <p className="visit-demo-chip">Demo intake · fictional answers OK</p>
+        <p className="visit-demo-chip">Intake · answers stay in this browser</p>
         {hero ? <img src={hero.src} alt={hero.alt} className="visit-hero-img" /> : null}
 
         {!done ? (
@@ -144,7 +144,7 @@ export function Visit() {
 
         {done ? (
           <div className="visit-done">
-            <h1>Demo visit saved locally</h1>
+            <h1>Visit saved locally</h1>
             <p>Nothing was sent to a clinic. You can change answers and run again.</p>
             <dl className="visit-summary">
               <div>
@@ -178,7 +178,7 @@ export function Visit() {
             <div className="visit-next">
               <h2>What you can try next</h2>
               <p className="lede">
-                The demo intake is saved locally. Continue the sample journey—still no clinic, payments,
+                The intake is saved locally. Continue the sample journey—still no clinic, payments,
                 or verified prices.
               </p>
               <div className="visit-next-grid">
@@ -191,7 +191,7 @@ export function Visit() {
                     }`}
                     className="btn btn-primary"
                   >
-                    Check coverage demo
+                    Check coverage
                   </Link>
                 </article>
                 <article className="visit-next-card">
@@ -255,7 +255,7 @@ export function Visit() {
             {step === 1 && (
               <>
                 <h1>Where do you live?</h1>
-                <p className="lede">Demo state gate only — stored in this browser.</p>
+                <p className="lede">State gate only — stored in this browser.</p>
                 <label className="field">
                   <span>State</span>
                   <select
@@ -281,7 +281,7 @@ export function Visit() {
             {step === 2 && (
               <>
                 <h1>Prefer a starting option?</h1>
-                <p className="lede">Choose a demo option. Pricing is not shown until verified.</p>
+                <p className="lede">Choose a option. Pricing is not shown until verified.</p>
                 <div className="goal-grid">
                   {goalProducts.map((product) => (
                     <button
@@ -306,7 +306,7 @@ export function Visit() {
 
             {step === 3 && (
               <>
-                <h1>Confirm this demo visit</h1>
+                <h1>Confirm this visit</h1>
                 <p className="lede">Short acknowledgment before saving a local sample lead.</p>
                 <div className="callout">
                   <p>
@@ -336,17 +336,17 @@ export function Visit() {
                   </li>
                 </ul>
                 <fieldset className="visit-consent">
-                  <legend>Consent (demo)</legend>
+                  <legend>Consent </legend>
                   <label className="field checkbox">
                     <input
                       type="checkbox"
-                      checked={demoAck}
+                      checked={visitAck}
                       onChange={(event) => {
-                        setDemoAck(event.target.checked);
+                        setVisitAck(event.target.checked);
                         setError("");
                       }}
                     />
-                    <span>I understand this is a non-clinical demo with fictional data.</span>
+                    <span>I understand this is a non-clinical intake with sample data.</span>
                   </label>
                   <label className="field checkbox">
                     <input
@@ -381,7 +381,7 @@ export function Visit() {
                 </Link>
               )}
               <button type="submit" className="btn btn-primary">
-                {step === 3 ? "Finish demo visit" : "Continue"}
+                {step === 3 ? "Finish visit" : "Continue"}
               </button>
             </div>
           </form>

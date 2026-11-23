@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * SEO health check for the ro-co-clone Vite SPA (local demo).
+ * SEO health check for the ro-co-clone Vite SPA (local preview).
  *
  * Rewritten for this repo — not a copy of TreatmentsHub / top-weight-loss host logic.
  * Ideas adapted: sitemap crawl, unique titles, single h1, canonical match, JSON-LD parse,
@@ -10,7 +10,7 @@
  *   AUDIT_BASE=http://127.0.0.1:5173 npm run seo:audit   # reuse a running preview
  *
  * Uses Playwright so client-rendered titles / DocumentMeta / JSON-LD are visible.
- * Demo pages are expected to carry noindex until launch approval (WARN, not FAIL).
+ * Without VITE_SITE_ORIGIN as a public host, pages stay noindex (WARN, not FAIL).
  * Also flags unverified `$` prices and soft medical-claim patterns in visible text.
  */
 import { spawn } from "node:child_process";
@@ -239,7 +239,7 @@ async function main() {
         fail(`${p}: canonical "${pg.canonical}" (want ${want})`);
       }
       if (/noindex/i.test(pg.robots)) {
-        if (DEMO_NOINDEX_OK) warn(`${p}: demo noindex (expected until launch)`);
+        if (DEMO_NOINDEX_OK) warn(`${p}: noindex (expected without public VITE_SITE_ORIGIN)`);
         else fail(`${p}: noindex on a sitemap URL`);
       }
       if (!pg.title) fail(`${p}: no <title>`);

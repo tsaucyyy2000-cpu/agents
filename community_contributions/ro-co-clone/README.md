@@ -1,8 +1,10 @@
-# ro.co marketing clone (local demo)
+# Health marketing SPA (host-ready)
 
-A Vite + React recreation of the **ro.co** top-of-funnel marketing experience, plus a local **admin dashboard** that can update site content, products, media, and visit leads.
+A Vite + React telehealth **marketing** SPA with care-area landings, quizzes, a shared visit funnel, and a local **admin dashboard** for content, products, media, and visit leads.
 
-Not affiliated with Ro. Uses original/placeholder copy and original generated photoreal media (no scraped Ro CDN assets).
+Not affiliated with Ro. Uses original placeholder copy and locally hosted photoreal media (including approved local copies of lifestyle assets). Verified prices and clinician bios stay gated until supplied.
+
+**Not deployed yet** — confirm host + secrets before publishing.
 
 ## Run
 
@@ -14,35 +16,42 @@ npm run dev
 
 Open the printed local URL (default `http://127.0.0.1:5173`).
 
-## SEO audit (local)
+## SEO / indexing
 
 ```sh
 npx playwright install chromium
 npm run seo:audit:built
 ```
 
-Crawls `public/sitemap.xml` against `vite preview` with Playwright (client-rendered titles, canonicals, JSON-LD). Demo pages stay `noindex` until launch approval. Flags unverified `$` and soft medical-claim patterns as `CLAIM` lines.
+Crawls `public/sitemap.xml` against `vite preview` with Playwright (client-rendered titles, canonicals, JSON-LD).
+
+**Robots behavior:** pages stay `noindex,nofollow` unless `VITE_SITE_ORIGIN` is set to a real public origin (not `localhost` / `127.0.0.1`). Local previews remain noindexed. Flags unverified `$` and soft medical-claim patterns as `CLAIM` lines.
+
+```sh
+# .env.local (gitignored) — example for a real host
+VITE_SITE_ORIGIN=https://example.com
+```
 
 ## Public pages
 
 - `/` home marketing composition
-- `/weight-loss` category + demo slider (no outcome projection)
+- `/weight-loss` category landing (no outcome projection)
 - `/sexual-health`, `/hair`, `/skin` category landings
 - `/quiz/:slug` versioned-consent quiz → shared `/visit` funnel
 - `/how-it-works`, `/insurance-check`, `/checkout`, `/guides`
 - `/products/:id` detail with sticky subnav + PriceTag (`amount: null` → —)
 - `/visit` multi-step intake
 - Safety hub `/safety` + ISI stubs `/isi/glp1`, `/isi/minoxidil` (illustrative only)
-- Info: `/about`, `/help` (category help hub), `/how-it-works`, `/privacy`, `/terms`
+- Info: `/about`, `/help`, `/how-it-works`, `/privacy`, `/terms`
 - Legal/consent stubs: `/cookie-policy`, `/privacy-choices`, `/consumer-health-privacy`, `/disclosure`
 
 Customer-facing chrome does **not** link to admin. Open `/admin` by direct URL only.
 
-## Admin (direct URL · demo gate)
+## Admin (direct URL · unlock)
 
-`/admin/*` is behind a **local / demo passphrase gate** — not production auth, not HIPAA, not OAuth. The passphrase is read from `VITE_ADMIN_GATE` at build time and ships in the client bundle; anyone who can inspect the build can recover it. `public/robots.txt` still `Disallow`s `/admin` (crawl hint only).
+`/admin/*` is behind a **client passphrase unlock** — not production auth, not HIPAA, not OAuth. Real admin auth is tracked separately. The passphrase is read from `VITE_ADMIN_GATE` at build time and ships in the client bundle; anyone who can inspect the build can recover it. `public/robots.txt` still `Disallow`s `/admin` (crawl hint only).
 
-For local demos when the env var is unset, the fallback passphrase is **`demo-admin`**. Override for your machine:
+When the env var is unset, the fallback passphrase is **`demo-admin`**. Override for your machine:
 
 ```sh
 # .env.local (gitignored) — optional
@@ -62,10 +71,10 @@ Content persists in `localStorage` key `ro-clone-site-content-v2`.
 
 ### Orphan content gate (P1-03)
 
-`testimonials`, `experts`, `moreCare`, and vanity stats (`memberCountLabel` / `satisfactionLabel`) ship **empty** and **unpublished**. Admin can stage drafts, but customer pages only render them when the matching `orphanPublish` flag is explicitly enabled. Demo banner, consent, and `noindex` stay unchanged. Do not invent bios, testimonials, or stats; do not pull Ro CDN assets.
+`testimonials`, `experts`, `moreCare`, and vanity stats (`memberCountLabel` / `satisfactionLabel`) ship **empty** and **unpublished**. Admin can stage drafts, but customer pages only render them when the matching `orphanPublish` flag is explicitly enabled. Do not invent bios, testimonials, or stats.
 
 ## Media
 
-Original generated photoreal JPEGs (plus SVG placeholders for expert/admin/more-care tiles) live in `public/media/`. Unused JPG/SVG twins were removed—customer surfaces use the registered JPEG (or sole SVG) paths. Register paths in Admin → Media. Do not copy Ro-hosted brand photography or live product pricing.
+Photoreal JPEGs live in `public/media/` (heroes, categories, products, guides, plus lifestyle placeholders for experts / member stories / more-care / FAQ). Register paths in Admin → Media. Prefer local copies under `public/media/`; do not dump verbatim Ro legal/marketing copy.
 
 Unknown customer URLs render a soft 404 (home + care-area links) instead of silently redirecting to `/`.

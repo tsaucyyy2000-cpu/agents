@@ -1,7 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { DocumentMeta } from "../seo/DocumentMeta";
-import { DemoBanner } from "./DemoBanner";
-import { DemoConsentBanner } from "./DemoConsentBanner";
+import { ConsentBanner } from "./ConsentBanner";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import "./Layout.css";
@@ -21,14 +20,13 @@ export function Layout() {
         Skip to content
       </a>
       <div className="site-chrome">
-        <DemoBanner />
         <Header />
       </div>
       <main id="main-content" className={`page-main ${stickyCtaPages ? "has-sticky-cta" : ""}`}>
         <Outlet />
       </main>
       <Footer />
-      <DemoConsentBanner />
+      <ConsentBanner />
     </div>
   );
 }

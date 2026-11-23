@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useContent } from "../data/ContentContext";
-import { openDemoConsent } from "../utils/demoConsent";
+import { openSiteConsent } from "../utils/siteConsent";
 
 export function Footer() {
   const { content } = useContent();
@@ -13,7 +13,7 @@ export function Footer() {
     {
       title: "Company",
       items: [
-        { to: "/about", label: "About this clone" },
+        { to: "/about", label: "About" },
         { to: "/quiz/weight-loss", label: "Weight quiz" },
         { to: "/quiz/hair", label: "Hair quiz" },
         { to: "/quiz/sexual-health", label: "Sexual health quiz" },
@@ -40,7 +40,7 @@ export function Footer() {
         { to: "/privacy-choices", label: "Your privacy choices" },
         { to: "/cookie-policy", label: "Cookie policy" },
         { to: "/consumer-health-privacy", label: "Consumer health data" },
-        { to: "/disclosure", label: "Demo disclosure" },
+        { to: "/disclosure", label: "Disclosure" },
       ],
     },
   ];
@@ -51,8 +51,8 @@ export function Footer() {
         <div>
           <div className="footer-brand">{content.settings.brandName}</div>
           <p>
-            A local UI recreation of a telehealth marketing experience. Not affiliated with
-            Ro. Placeholder copy only. Contact {content.settings.supportEmail}.
+            Online care paths for common health goals. Not affiliated with Ro. Contact{" "}
+            {content.settings.supportEmail}.
           </p>
         </div>
         {columns.map((column) => (
@@ -69,8 +69,8 @@ export function Footer() {
         ))}
       </div>
       <div className="container footer-bottom">
-        <span>Demo recreation for local review · No medical advice · No real prescriptions</span>
-        <button type="button" className="footer-linklike" onClick={() => openDemoConsent()}>
+        <span>Not medical advice · Licensed clinicians required for any real treatment</span>
+        <button type="button" className="footer-linklike" onClick={() => openSiteConsent()}>
           Cookie settings
         </button>
       </div>

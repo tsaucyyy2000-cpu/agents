@@ -52,7 +52,7 @@ export function Header() {
             Help
           </Link>
           <Link to="/#find-care" className="btn btn-primary header-cta">
-            Start demo quiz
+            Start quiz
           </Link>
           <button
             type="button"
@@ -95,7 +95,7 @@ export function Header() {
             Choose care area
           </Link>
           <Link to="/#find-care" className="btn btn-primary" onClick={() => setOpen(false)}>
-            Start demo quiz
+            Start quiz
           </Link>
         </nav>
       </div>

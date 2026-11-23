@@ -7,7 +7,7 @@ type AdminUnlockProps = {
 };
 
 /**
- * Lightweight demo unlock screen for `/admin/*`.
+ * Lightweight unlock screen for `/admin/*`.
  * Not real auth — passphrase is client-side / env-bundled.
  */
 export function AdminUnlock({ onUnlocked }: AdminUnlockProps) {
@@ -17,7 +17,7 @@ export function AdminUnlock({ onUnlocked }: AdminUnlockProps) {
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!unlockAdmin(passphrase)) {
-      setError("Passphrase did not match. Check VITE_ADMIN_GATE or the README DEMO fallback.");
+      setError("Passphrase did not match. Check VITE_ADMIN_GATE or the README fallback.");
       return;
     }
     setError(null);
@@ -27,11 +27,11 @@ export function AdminUnlock({ onUnlocked }: AdminUnlockProps) {
   return (
     <div className="admin-unlock">
       <div className="admin-unlock-card">
-        <p className="admin-unlock-badge">Demo gate · not production auth</p>
+        <p className="admin-unlock-badge">Admin unlock · not production auth</p>
         <h1>Unlock local admin</h1>
         <p className="admin-unlock-lead">
           This SPA has no server-side auth. Anyone who can read the built bundle can recover the
-          passphrase. Use this only for local demos — not HIPAA, not staff login, not a real CMS
+          passphrase. Use only on trusted machines — not HIPAA, not staff login, not a real CMS
           boundary.
         </p>
         <form className="admin-form" onSubmit={onSubmit}>
@@ -46,7 +46,7 @@ export function AdminUnlock({ onUnlocked }: AdminUnlockProps) {
                 setPassphrase(event.target.value);
                 if (error) setError(null);
               }}
-              placeholder="Enter demo passphrase"
+              placeholder="Enter admin passphrase"
             />
           </label>
           {error ? (

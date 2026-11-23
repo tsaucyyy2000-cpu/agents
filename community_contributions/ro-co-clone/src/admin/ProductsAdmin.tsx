@@ -76,11 +76,11 @@ export function ProductsAdmin() {
             />
           </label>
           <label>
-            Price label (demo placeholder)
+            Price label (placeholder)
             <input
               value={draft.priceLabel ?? ""}
               onChange={(event) => setDraft({ ...draft, priceLabel: event.target.value })}
-              placeholder="Pricing pending verification (demo)"
+              placeholder="Pricing pending verification "
             />
           </label>
           <label>

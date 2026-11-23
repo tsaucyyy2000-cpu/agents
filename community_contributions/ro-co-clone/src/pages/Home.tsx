@@ -56,7 +56,7 @@ export function Home() {
                 { label: "Visit", to: "/visit" },
               ]}
             />
-            <p className="eyebrow">Demo · Online care paths</p>
+            <p className="eyebrow">Online care paths</p>
             <h1>
               <span className="hero-brand">{content.settings.brandName}</span>
               <span className="hero-line">{content.settings.tagline}</span>
@@ -80,7 +80,7 @@ export function Home() {
               <Link to="/help" className="text-link">
                 Help center
               </Link>{" "}
-              maps every demo route.
+              maps every route.
             </p>
           </div>
           <div className="hero-visual">
@@ -88,7 +88,7 @@ export function Home() {
               {heroImage ? (
                 <img className="hero-image" src={heroImage.src} alt={heroImage.alt} />
               ) : null}
-              <p className="hero-demo-note">Local demo preview · generated media · not affiliated with Ro</p>
+              <p className="hero-demo-note">Local media · not affiliated with Ro</p>
             </div>
           </div>
         </div>
@@ -100,7 +100,7 @@ export function Home() {
           <div className="section-head">
             <h2>What do you need help with?</h2>
             <p className="section-dek">
-              Pick a care area, start the matching demo quiz, then continue into the shared visit.
+              Pick a care area, start the matching quiz, then continue into the shared visit.
               Costs stay hidden until verified.
             </p>
           </div>
@@ -127,7 +127,7 @@ export function Home() {
                       How it works
                     </Link>
                     <Link to={quizPath(item.slug)} className="btn btn-primary">
-                      Start demo quiz
+                      Start quiz
                     </Link>
                   </div>
                 </article>
@@ -142,7 +142,7 @@ export function Home() {
           <p className="section-kicker">Spotlight</p>
           <div className="section-head inline">
             <h2>Spotlight options</h2>
-            <p>Demo catalog · pricing withheld until verified</p>
+            <p>Catalog · pricing withheld until verified</p>
           </div>
           <div className="product-rail">
             {activeProducts.map((product) => {
@@ -156,13 +156,13 @@ export function Home() {
                   )}
                   <h3>{product.name}</h3>
                   <p>{product.meta}</p>
-                  <p className="cost-pending">Pricing after eligibility (demo)</p>
+                  <p className="cost-pending">Pricing after eligibility</p>
                   <div className="cta-row">
                     <Link to={`/products/${product.id}`} className="btn btn-secondary">
                       Details
                     </Link>
                     <Link to={quizPath(product.category)} className="btn btn-primary">
-                      Start demo quiz
+                      Start quiz
                     </Link>
                   </div>
                 </article>
@@ -174,7 +174,7 @@ export function Home() {
 
       <section className="section-tight" id="how-care-works">
         <div className="container">
-          <p className="section-kicker">Process · Demo</p>
+          <p className="section-kicker">Process</p>
           <div className="section-head inline">
             <h2>How care works</h2>
             <Link to="/how-it-works" className="text-link">
@@ -208,7 +208,7 @@ export function Home() {
         <div className="container convenience-grid">
           <div>
             <p className="section-kicker section-kicker-on-dark">Convenience</p>
-            <h2>100% online demo flow</h2>
+            <h2>100% online care flow</h2>
             <p>Convenience beats for layout review. Not a live care promise.</p>
             {vanityStats ? (
               <p className="vanity-stats" data-testid="vanity-stats">
@@ -346,7 +346,7 @@ export function Home() {
       <section className="section safety-band">
         <div className="container">
           <p className="section-kicker">Safety</p>
-          <h2>Important safety note (demo)</h2>
+          <h2>Important safety note</h2>
           <div className="isi-block">
             <h3>Placeholder disclosure</h3>
             <p>
@@ -367,7 +367,7 @@ export function Home() {
       <section className="cta-band">
         <div className="container cta-band-inner">
           <p className="section-kicker section-kicker-on-dark">Step 2 · Quiz</p>
-          <h2>Ready to try the demo?</h2>
+          <h2>Ready to get started?</h2>
           <p>Pick a care area quiz, then continue into the shared visit funnel.</p>
           <div className="hero-actions">
             <Link to="/#find-care" className="btn btn-on-dark">

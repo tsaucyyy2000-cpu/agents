@@ -1,7 +1,7 @@
 .info-page {
   padding: 0 0 5rem;
   background: linear-gradient(180deg, #f7fbfb, #ffffff 28%);
-  min-height: calc(100vh - var(--nav-h) - var(--demo-banner-h, 40px));
+  min-height: calc(100vh - var(--nav-h) - var(--chrome-offset-h, 40px));
 }
 
 .not-found-care-list {
@@ -63,7 +63,7 @@
 
 .legal-toc {
   position: sticky;
-  top: calc(var(--nav-h) + var(--demo-banner-h, 40px) + 1rem);
+  top: calc(var(--nav-h) + var(--chrome-offset-h, 40px) + 1rem);
   align-self: start;
   font-size: 0.92rem;
   background: var(--color-white);
@@ -111,7 +111,7 @@
 
 .info-section {
   margin-bottom: 1.75rem;
-  scroll-margin-top: calc(var(--nav-h) + var(--demo-banner-h, 40px) + 1rem);
+  scroll-margin-top: calc(var(--nav-h) + var(--chrome-offset-h, 40px) + 1rem);
 }
 
 .info-section h2 {

@@ -6,7 +6,7 @@ import type { CareArea } from "../data/types";
 import { quizPath } from "../utils/careRoutes";
 import "./Flows.css";
 
-/** Map demo guide ids to a care area so quiz / care CTAs stay aisle-aware. */
+/** Map guide ids to a care area so quiz / care CTAs stay aisle-aware. */
 const guideCareArea: Record<string, CareArea> = {
   g1: "weight",
   g2: "sexual-health",
@@ -43,7 +43,7 @@ export function GuidesIndex() {
               { label: "Care", to: "/#find-care" },
             ]}
           />
-          <p className="eyebrow">Demo · Health guides</p>
+          <p className="eyebrow">Health guides</p>
           <h1>Education tiles for discovery</h1>
           <p className="lede">
             Original summaries only — not medical advice, not clinical recommendations, and no
@@ -74,7 +74,7 @@ export function GuidesIndex() {
                       {guide.read} · related: {careLabel[area]}
                     </p>
                   ) : (
-                    <p className="guide-card-meta">{guide.read} read · demo education</p>
+                    <p className="guide-card-meta">{guide.read} read · education</p>
                   )}
                 </Link>
               );
@@ -106,7 +106,7 @@ export function GuideDetail() {
       <div className="flow-page section">
         <div className="container">
           <h1>Guide not found</h1>
-          <p className="lede">That education tile isn’t in this demo catalog.</p>
+          <p className="lede">That education tile isn’t in this catalog.</p>
           <div className="cta-row">
             <Link to="/guides" className="btn btn-primary">
               Back to guides
@@ -141,7 +141,7 @@ export function GuideDetail() {
           />
           {image ? <img src={image.src} alt={image.alt} className="guide-detail-hero" /> : null}
           <p className="eyebrow">
-            {guide.read} read · Demo education · {careLabel[area]}
+            {guide.read} read · Education · {careLabel[area]}
           </p>
           <h1>{guide.title}</h1>
           <p className="lede">{guide.summary}</p>
@@ -154,7 +154,7 @@ export function GuideDetail() {
           </p>
           <div className="cta-row">
             <Link to={quizHref} className="btn btn-primary">
-              Start related demo quiz
+              Start related quiz
             </Link>
             <Link to={carePath[area]} className="btn btn-secondary">
               Open {careLabel[area]} landing
@@ -178,7 +178,7 @@ export function GuideDetail() {
           </p>
           {relatedProducts.length > 0 ? (
             <div className="guide-related">
-              <h2>Related demo options</h2>
+              <h2>Related options</h2>
               <p className="section-dek">Catalog stubs only — pricing withheld until verified.</p>
               <div className="cta-row">
                 {relatedProducts.map((product) => (
@@ -187,7 +187,7 @@ export function GuideDetail() {
                   </Link>
                 ))}
                 <Link to={quizHref} className="btn btn-primary">
-                  Start demo quiz
+                  Start quiz
                 </Link>
               </div>
             </div>
@@ -197,7 +197,7 @@ export function GuideDetail() {
 
       <StickyMobileCta
         to={quizHref}
-        label="Start related demo quiz"
+        label="Start related quiz"
         fine={`${careLabel[area]} · then visit funnel · Help anytime`}
       />
     </div>

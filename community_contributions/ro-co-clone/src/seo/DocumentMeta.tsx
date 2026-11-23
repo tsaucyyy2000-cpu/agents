@@ -57,7 +57,7 @@ export function DocumentMeta() {
     if (guideMatch) {
       const guide = content.guides.find((item) => item.id === guideMatch[1]);
       if (guide) {
-        titleBase = `${guide.title} (demo guide)`;
+        titleBase = guide.title;
         description = guide.summary || description;
       }
     }
@@ -66,7 +66,7 @@ export function DocumentMeta() {
     if (productMatch) {
       const product = content.products.find((item) => item.id === productMatch[1]);
       if (product) {
-        titleBase = `${product.name} (demo)`;
+        titleBase = product.name;
         description = product.description || product.meta || description;
       }
     }
@@ -93,7 +93,7 @@ export function DocumentMeta() {
     upsertMeta('meta[property="og:image"]', { property: "og:image", content: ogImage });
     upsertMeta('meta[property="og:site_name"]', {
       property: "og:site_name",
-      content: `${brand} demo`,
+      content: brand,
     });
 
     upsertMeta('meta[name="twitter:card"]', {
@@ -118,15 +118,15 @@ export function DocumentMeta() {
       url: canonical,
       isPartOf: {
         "@type": "WebSite",
-        name: `${brand} · local demo`,
+        name: brand,
         url: `${siteOrigin()}/`,
       },
       about: {
         "@type": "Thing",
-        name: "Telehealth marketing demo (non-clinical)",
+        name: "Telehealth marketing site",
       },
       disclaimer:
-        "Demo recreation only. Not medical advice. Not affiliated with Ro. No verified prices or clinician credentials.",
+        "Not medical advice. Not affiliated with Ro. No verified prices or clinician credentials until supplied.",
     });
 
     void search;

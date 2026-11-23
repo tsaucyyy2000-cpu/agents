@@ -30,10 +30,10 @@ export function AdminLayout() {
       <aside className="admin-sidebar">
         <div className="admin-brand">
           <strong>ro clone</strong>
-          <span>Admin · demo gate</span>
+          <span>Admin unlock</span>
         </div>
         <p className="admin-gate-note">
-          Demo unlock only — not real auth / not HIPAA. Passphrase lives in the client bundle.
+          Client unlock only — not real auth / not HIPAA. Passphrase lives in the client bundle until server auth ships.
         </p>
         <nav>
           {links.map((link) => (

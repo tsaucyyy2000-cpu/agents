@@ -73,7 +73,7 @@ export function Quiz() {
           ]}
         />
         <StepIndicator current={0} />
-        <p className="visit-demo-chip">Demo quiz · maps into the shared visit funnel</p>
+        <p className="visit-demo-chip">Quiz · continues into the shared visit</p>
         <h1>{active.name} quiz</h1>
         <p className="lede">{active.blurb}</p>
         {isiSlug ? (

@@ -22,14 +22,14 @@ export const quizTreatments: QuizTreatment[] = [
     slug: "weight-loss",
     name: "Weight care",
     careArea: "weight",
-    blurb: "Short demo intake questions before the existing visit flow. Fictional answers only.",
+    blurb: "Short intake questions before the existing visit flow. Fictional answers only.",
     questions: [
       {
         id: "height",
         label: "Height",
         type: "number",
         unit: "in",
-        help: "Demo number only — not used for clinical dosing.",
+        help: "Sample number only — not used for clinical dosing.",
       },
       {
         id: "weight",
@@ -42,7 +42,7 @@ export const quizTreatments: QuizTreatment[] = [
         label: "Goal weight",
         type: "number",
         unit: "lb",
-        help: "Outcomes are not projected in this demo.",
+        help: "Outcomes are not projected in this site.",
       },
       {
         id: "conditions",
@@ -62,7 +62,7 @@ export const quizTreatments: QuizTreatment[] = [
     slug: "hair",
     name: "Hair care",
     careArea: "hair",
-    blurb: "Demo questions for density goals. Continues into the shared visit flow.",
+    blurb: "Questions for density goals. Continues into the shared visit flow.",
     questions: [
       {
         id: "duration",
@@ -88,7 +88,7 @@ export const quizTreatments: QuizTreatment[] = [
     slug: "sexual-health",
     name: "Sexual health",
     careArea: "sexual-health",
-    blurb: "Demo intake only — no medication-specific ISI is attached to this quiz.",
+    blurb: "Intake only — no medication-specific ISI is attached to this quiz.",
     questions: [
       {
         id: "goal",
@@ -104,10 +104,10 @@ export const quizTreatments: QuizTreatment[] = [
       },
       {
         id: "meds",
-        label: "Any medications you want a demo clinician story to know about?",
+        label: "Any medications you want a clinician story to know about?",
         type: "choice",
         options: ["None", "Blood pressure meds", "Other (discuss in visit)", "Prefer not to say"],
-        help: "Demo choices only. Do not enter real health data.",
+        help: "Sample choices only. Do not enter real health data.",
       },
     ],
   },
@@ -115,7 +115,7 @@ export const quizTreatments: QuizTreatment[] = [
     slug: "skin",
     name: "Skin care",
     careArea: "skin",
-    blurb: "Demo skin intake. Links to the general safety hub — not a drug ISI.",
+    blurb: "Skin intake. Links to the general safety hub — not a drug ISI.",
     questions: [
       {
         id: "focus",

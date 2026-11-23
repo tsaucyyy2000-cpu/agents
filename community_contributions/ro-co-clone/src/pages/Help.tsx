@@ -17,7 +17,7 @@ const HELP_CATEGORIES: HelpCategory[] = [
   {
     id: "start",
     title: "Getting started",
-    dek: "See how the demo care path is organized before you pick a quiz.",
+    dek: "See how the care path is organized before you pick a quiz.",
     links: [
       { to: "/how-it-works", label: "How care works", note: "Quiz → visit → coverage → plan review" },
       { to: "/#find-care", label: "Choose a care area", note: "Home care finder" },
@@ -29,7 +29,7 @@ const HELP_CATEGORIES: HelpCategory[] = [
     title: "Visit & plan review",
     dek: "Shared funnel steps after a care-area quiz.",
     links: [
-      { to: "/visit", label: "Demo visit", note: "Shared intake · sample data only" },
+      { to: "/visit", label: "Visit", note: "Shared intake · sample data only" },
       { to: "/insurance-check", label: "Coverage check", note: "Optional · no payer APIs" },
       { to: "/checkout", label: "Plan review", note: "No payments · pricing pending" },
     ],
@@ -37,24 +37,24 @@ const HELP_CATEGORIES: HelpCategory[] = [
   {
     id: "care",
     title: "Care areas & quizzes",
-    dek: "Landings and matching demo quizzes for each aisle.",
+    dek: "Landings and matching quizzes for each aisle.",
     links: [
       { to: "/weight-loss", label: "Weight care", note: "Landing" },
-      { to: quizPath("weight"), label: "Weight quiz", note: "Start demo quiz" },
+      { to: quizPath("weight"), label: "Weight quiz", note: "Start quiz" },
       { to: "/sexual-health", label: "Sexual health", note: "Landing" },
-      { to: quizPath("sexual-health"), label: "Sexual health quiz", note: "Start demo quiz" },
+      { to: quizPath("sexual-health"), label: "Sexual health quiz", note: "Start quiz" },
       { to: "/hair", label: "Hair", note: "Landing" },
-      { to: quizPath("hair"), label: "Hair quiz", note: "Start demo quiz" },
+      { to: quizPath("hair"), label: "Hair quiz", note: "Start quiz" },
       { to: "/skin", label: "Skin", note: "Landing" },
-      { to: quizPath("skin"), label: "Skin quiz", note: "Start demo quiz" },
+      { to: quizPath("skin"), label: "Skin quiz", note: "Start quiz" },
     ],
   },
   {
     id: "safety",
     title: "Safety & education",
-    dek: "Placeholder safety language and demo health guides.",
+    dek: "Placeholder safety language and health guides.",
     links: [
-      { to: "/safety", label: "Safety hub", note: "Demo disclosures" },
+      { to: "/safety", label: "Safety hub", note: "Safety disclosures" },
       { to: "/isi/glp1", label: "GLP-1 ISI stub", note: "Layout review only" },
       { to: "/isi/minoxidil", label: "Minoxidil ISI stub", note: "Layout review only" },
       { to: "/guides", label: "Health guides", note: "Education tiles" },
@@ -70,7 +70,7 @@ const HELP_CATEGORIES: HelpCategory[] = [
       { to: "/cookie-policy", label: "Cookie policy" },
       { to: "/privacy-choices", label: "Your privacy choices" },
       { to: "/consumer-health-privacy", label: "Consumer health data" },
-      { to: "/disclosure", label: "Demo disclosure" },
+      { to: "/disclosure", label: "Disclosure" },
     ],
   },
 ];
@@ -80,19 +80,19 @@ const HELP_FAQS = [
     id: "hf1",
     question: "Is this a real telehealth service?",
     answer:
-      "No. This is a local marketing demo for layout and funnel review. It does not diagnose, treat, prescribe, or bill insurance.",
+      "No. This is a local marketing site for layout and funnel review. It does not diagnose, treat, prescribe, or bill insurance.",
   },
   {
     id: "hf2",
     question: "Where should I start?",
     answer:
-      "Pick a care area on Home, start the matching demo quiz, then continue into the shared visit. Optional coverage check and plan review come after.",
+      "Pick a care area on Home, start the matching quiz, then continue into the shared visit. Optional coverage check and plan review come after.",
   },
   {
     id: "hf3",
     question: "Why aren’t prices shown?",
     answer:
-      "Verified prices are withheld until approved figures are supplied. Cards say cost is reviewed during the demo visit.",
+      "Verified prices are withheld until approved figures are supplied. Cards say cost is reviewed during the visit.",
   },
   {
     id: "hf4",
@@ -102,9 +102,9 @@ const HELP_FAQS = [
   },
   {
     id: "hf5",
-    question: "How do I get help with the demo itself?",
+    question: "How do I get help with this site?",
     answer:
-      "Use the links on this page to reach the real routes. For operator questions about this preview, email the demo ops address below — there is no phone line.",
+      "Use the links on this page to reach the real routes. For operator questions about this preview, email the ops address below — there is no phone line.",
   },
 ];
 
@@ -116,10 +116,10 @@ export function HelpPage() {
     <div className="info-page help-hub">
       <header className="info-page-head">
         <div className="container help-hub-intro">
-          <p className="eyebrow">Demo · Help</p>
+          <p className="eyebrow">Help</p>
           <h1>Help center</h1>
           <p className="lede">
-            Find the demo route you need — care areas, visit steps, safety stubs, and policies —
+            Find the route you need — care areas, visit steps, safety stubs, and policies —
             without inventing live support channels.
           </p>
           <p className="info-updated">Updated November 2026 · sample paths only</p>
@@ -157,9 +157,9 @@ export function HelpPage() {
 
       <section className="container help-hub-faq" aria-labelledby="help-faq-heading">
         <p className="section-kicker">FAQ</p>
-        <h2 id="help-faq-heading">Common demo questions</h2>
+        <h2 id="help-faq-heading">Common questions</h2>
         <p className="section-dek help-faq-dek">
-          Original demo answers only — not clinical guidance.
+          Original answers only — not clinical guidance.
         </p>
         <div className="faq-list help-faq-list">
           {HELP_FAQS.map((faq) => (
@@ -172,7 +172,7 @@ export function HelpPage() {
       </section>
 
       <section className="container help-hub-contact" aria-labelledby="help-contact-heading">
-        <h2 id="help-contact-heading">Contact (demo)</h2>
+        <h2 id="help-contact-heading">Contact </h2>
         <p>
           There is no phone line or chat agent for this preview. For questions about running the
           clone locally, email{" "}
