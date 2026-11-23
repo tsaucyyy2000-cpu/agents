@@ -48,9 +48,92 @@
   color: #fff;
 }
 
-.admin-exit {
+.admin-gate-note {
+  margin: 0;
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  background: rgba(255, 196, 0, 0.12);
+  color: #f0d78c;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.admin-sidebar-footer {
   margin-top: auto;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.admin-lock-btn {
+  min-height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 10px;
+  background: transparent;
+  color: #f5f5f5;
+  cursor: pointer;
+  font: inherit;
+}
+
+.admin-lock-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.admin-exit {
   color: var(--color-teal) !important;
+}
+
+.admin-unlock {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: #f3f5f5;
+  color: var(--color-slate);
+}
+
+.admin-unlock-card {
+  width: min(440px, 100%);
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.admin-unlock-badge {
+  margin: 0;
+  width: fit-content;
+  padding: 0.3rem 0.55rem;
+  border-radius: 6px;
+  background: #fff6d8;
+  color: #7a5a00;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.admin-unlock-card h1 {
+  margin: 0;
+  font-size: 1.65rem;
+  letter-spacing: -0.03em;
+}
+
+.admin-unlock-lead,
+.admin-unlock-hint {
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.admin-unlock-hint code {
+  font-size: 0.85em;
+}
+
+.admin-unlock-exit {
+  align-self: center;
+  color: var(--color-teal);
+  font-size: 0.92rem;
 }
 
 .admin-main {
