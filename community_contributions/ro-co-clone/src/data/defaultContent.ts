@@ -3,7 +3,7 @@ import type { SiteContent } from "./types";
 export const STORAGE_KEY = "ro-clone-site-content-v2";
 
 export const defaultContent: SiteContent = {
-  version: 4,
+  version: 5,
   updatedAt: new Date().toISOString(),
   settings: {
     brandName: "ro",
@@ -27,7 +27,7 @@ export const defaultContent: SiteContent = {
     "Calm and clarify skin",
   ],
   homeSupport:
-    "Browse care areas, compare demo placeholder pricing, and start a guided online visit. Demo data only—not affiliated with Ro or Sesame.",
+    "Pick a care area, start the matching demo quiz, then continue into a shared visit. How care works and Help stay one tap away. Demo data only—not affiliated with Ro.",
   categories: [
     {
       slug: "weight",
@@ -409,23 +409,23 @@ export const defaultContent: SiteContent = {
   howItWorks: [
     {
       id: "h1",
-      title: "Tell us your goal",
-      copy: "Pick a care area and answer a short health questionnaire online.",
+      title: "Take a care-area quiz",
+      copy: "Choose Weight, Sexual health, Hair, or Skin and answer a short demo questionnaire.",
     },
     {
       id: "h2",
-      title: "Get a plan",
-      copy: "A provider reviews eligibility and suggests options when appropriate.",
+      title: "Continue the shared visit",
+      copy: "Hand off into one fictional intake—goal, state, option, confirm—with sample data only.",
     },
     {
       id: "h3",
-      title: "Check coverage pathways",
-      copy: "Explore insurance-check or cash-pay metaphors before confirming.",
+      title: "Optional coverage check",
+      copy: "Try the insurance pathway metaphor when you want that branch. No payer APIs.",
     },
     {
       id: "h4",
-      title: "Stay supported",
-      copy: "Message, track progress, and adjust as your needs change.",
+      title: "Review a sample plan",
+      copy: "Confirm a membership cadence stub locally. No payments or verified prices.",
     },
   ],
   faqs: [

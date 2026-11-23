@@ -118,8 +118,9 @@ export const PUBLIC_ROUTES: RouteMeta[] = [
   },
   {
     path: "/how-it-works",
-    title: "How the demo visit works",
-    description: "Four-step explainer for the local telehealth marketing demo flow.",
+    title: "How care works (demo)",
+    description:
+      "Demo funnel explainer: care-area quiz → shared visit → optional coverage check → plan review.",
     schemaType: "WebPage",
   },
   {
@@ -152,8 +153,9 @@ export const PUBLIC_ROUTES: RouteMeta[] = [
   {
     path: "/help",
     title: "Help center (demo)",
-    description: "Demo help paths for reviewing the clone routes and flows.",
-    schemaType: "WebPage",
+    description:
+      "Demo help hub: care quizzes, visit funnel, safety stubs, guides, and policy links. Soft contact via ops@clone.local.",
+    schemaType: "FAQPage",
   },
   {
     path: "/safety",

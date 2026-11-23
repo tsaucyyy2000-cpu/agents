@@ -103,13 +103,23 @@ function loadContent(): SiteContent {
     if (!parsed || typeof parsed !== "object" || !Array.isArray(parsed.products)) {
       return structuredClone(defaultContent);
     }
+    const storedVersion = typeof parsed.version === "number" ? parsed.version : 0;
+    const refreshFunnelCopy = storedVersion < 5;
+
     return {
       ...structuredClone(defaultContent),
       ...parsed,
       version: defaultContent.version,
       settings: { ...defaultContent.settings, ...parsed.settings },
       media: mergeMedia(parsed.media, defaultContent.media),
-      howItWorks: parsed.howItWorks?.length ? parsed.howItWorks : defaultContent.howItWorks,
+      homeSupport: refreshFunnelCopy
+        ? defaultContent.homeSupport
+        : (parsed.homeSupport ?? defaultContent.homeSupport),
+      howItWorks: refreshFunnelCopy
+        ? defaultContent.howItWorks
+        : parsed.howItWorks?.length
+          ? parsed.howItWorks
+          : defaultContent.howItWorks,
       faqs: parsed.faqs?.length ? parsed.faqs : defaultContent.faqs,
       moreCare: parsed.moreCare?.length ? parsed.moreCare : defaultContent.moreCare,
       guides: parsed.guides?.length ? parsed.guides : defaultContent.guides,

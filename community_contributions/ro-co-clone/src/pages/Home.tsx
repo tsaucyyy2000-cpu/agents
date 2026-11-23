@@ -60,12 +60,16 @@ export function Home() {
               <Link to="/#find-care" className="btn btn-primary">
                 Choose a care area
               </Link>
-              <Link to="/#find-care" className="btn btn-secondary">
-                Start demo quiz
+              <Link to="/how-it-works" className="btn btn-secondary">
+                How care works
               </Link>
             </div>
             <p className="hero-fine">
-              Three taps on mobile: care area → quiz → demo visit. Edit anytime.
+              Quiz → visit → optional coverage → plan review.{" "}
+              <Link to="/help" className="text-link">
+                Help center
+              </Link>{" "}
+              maps every demo route.
             </p>
           </div>
           <div className="hero-visual">
@@ -157,15 +161,18 @@ export function Home() {
         </div>
       </section>
 
-      <section className="section-tight">
+      <section className="section-tight" id="how-care-works">
         <div className="container">
-          <p className="section-kicker">Process</p>
+          <p className="section-kicker">Process · Demo</p>
           <div className="section-head inline">
-            <h2>How it works</h2>
+            <h2>How care works</h2>
             <Link to="/how-it-works" className="text-link">
-              Full process
+              Full funnel explainer
             </Link>
           </div>
+          <p className="section-dek home-process-dek">
+            Same four beats as the Help hub: quiz, visit, optional coverage check, plan review.
+          </p>
           <div className="step-grid">
             {content.howItWorks.map((step, index) => (
               <article key={step.id} className="step-card">
@@ -174,6 +181,14 @@ export function Home() {
                 <p>{step.copy}</p>
               </article>
             ))}
+          </div>
+          <div className="cta-row home-process-actions">
+            <Link to="/how-it-works" className="btn btn-secondary">
+              Read how care works
+            </Link>
+            <Link to="/help" className="btn btn-secondary">
+              Open help center
+            </Link>
           </div>
         </div>
       </section>
