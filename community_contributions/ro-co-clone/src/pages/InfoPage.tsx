@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { SafetyHubLinks } from "./Isi";
 import "./InfoPage.css";
@@ -8,7 +9,7 @@ interface Section {
   title: string;
   paragraphs?: string[];
   bullets?: string[];
-  callout?: { tone?: "default" | "warn"; text: string };
+  callout?: { tone?: "default" | "warn"; text: ReactNode };
 }
 
 interface InfoPageProps {
@@ -273,7 +274,13 @@ export function PrivacyPage() {
             "Answers you type in the visit flow are fictional sample data for UI review. They are not transmitted and should not include real personal health information.",
           ],
           callout: {
-            text: "See Consumer health data for the longer placeholder policy pattern used on comparison sites.",
+            text: (
+              <>
+                See{" "}
+                <Link to="/consumer-health-privacy">Consumer health data</Link> for the longer
+                placeholder policy pattern used on comparison sites.
+              </>
+            ),
           },
         },
         {

@@ -8,7 +8,7 @@ export function MediaAdmin() {
   const [draft, setDraft] = useState<MediaAsset>({
     id: "",
     label: "",
-    src: "/media/hero-home.svg",
+    src: "/media/hero-home.jpg",
     alt: "",
     kind: "other",
   });
@@ -19,8 +19,9 @@ export function MediaAdmin() {
         <div>
           <h1>Media library</h1>
           <p>
-            Original SVG placeholders ship in <code>/public/media</code>. Add remote URLs or
-            local paths here—do not scrape Ro CDN assets.
+            Photoreal JPEGs plus SVG placeholders for expert/admin tiles ship in{" "}
+            <code>/public/media</code>. Add remote URLs or local paths here—do not scrape Ro CDN
+            assets.
           </p>
         </div>
       </div>
@@ -88,7 +89,7 @@ export function MediaAdmin() {
               setDraft({
                 id: "",
                 label: "",
-                src: "/media/hero-home.svg",
+                src: "/media/hero-home.jpg",
                 alt: "",
                 kind: "other",
               });

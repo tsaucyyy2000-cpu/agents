@@ -287,8 +287,9 @@ export function metaForPathname(pathname: string): RouteMeta {
 
   return {
     path: normalized,
-    title: "Page not found · redirected home",
-    description: "Unknown path in the local demo; soft-redirected to home.",
+    title: "Page not found (demo)",
+    description:
+      "Unknown path in the local demo. Soft 404 with links home and to care areas—not indexed.",
     robots: "noindex,nofollow",
     sitemap: false,
     schemaType: "WebPage",
