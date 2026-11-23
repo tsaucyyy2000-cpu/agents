@@ -38,7 +38,7 @@ export const PUBLIC_ROUTES: RouteMeta[] = [
     path: "/weight-loss",
     title: "Weight care pathways (demo)",
     description:
-      "Demo weight-care landing: how the visit works, option cards without verified prices, safety stub. Not medical advice.",
+      "Demo weight-care landing: start the matching quiz, then visit → coverage → plan review. Options without verified prices; safety stub. Not medical advice.",
     careArea: "weight",
     schemaType: "MedicalWebPage",
   },
@@ -46,7 +46,7 @@ export const PUBLIC_ROUTES: RouteMeta[] = [
     path: "/sexual-health",
     title: "Sexual health care (demo)",
     description:
-      "Demo sexual-health landing with format comparisons and a fictional visit CTA. Placeholder copy only.",
+      "Demo sexual-health landing with format comparisons, quiz CTA, and bridges to how-it-works / Help. Placeholder copy only.",
     careArea: "sexual-health",
     schemaType: "MedicalWebPage",
   },
@@ -54,7 +54,7 @@ export const PUBLIC_ROUTES: RouteMeta[] = [
     path: "/hair",
     title: "Hair care plans (demo)",
     description:
-      "Demo hair-care landing for thinning and density goals. Structural recreation—no clinical claims.",
+      "Demo hair-care landing for thinning and density goals. Quiz → shared visit funnel; structural recreation—no clinical claims.",
     careArea: "hair",
     schemaType: "MedicalWebPage",
   },
@@ -62,7 +62,7 @@ export const PUBLIC_ROUTES: RouteMeta[] = [
     path: "/skin",
     title: "Skin care routines (demo)",
     description:
-      "Demo skin-care landing for texture, tone, and breakout goals. Placeholder education only.",
+      "Demo skin-care landing for texture, tone, and breakout goals. Matching quiz CTA and Help bridges. Placeholder education only.",
     careArea: "skin",
     schemaType: "MedicalWebPage",
   },
@@ -140,7 +140,8 @@ export const PUBLIC_ROUTES: RouteMeta[] = [
   {
     path: "/guides",
     title: "Health guides (demo)",
-    description: "Education tiles for discovery layout review. Original placeholder summaries only.",
+    description:
+      "Demo education tiles bridging to care landings, matching quizzes, how-it-works, and Help. Original summaries only—no verified prices.",
     schemaType: "CollectionPage",
   },
   {
