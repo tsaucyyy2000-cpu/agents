@@ -1,5 +1,5 @@
 /** Bump to re-prompt intake consent before quiz / visit ack. */
-export const CONSENT_VERSION = "demo-2026-11";
+export const CONSENT_VERSION = "site-2026-11";
 
 const KEY = "ro-clone-intake-consent-v1";
 

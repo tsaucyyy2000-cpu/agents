@@ -1,13 +1,13 @@
-/** sessionStorage flag while this tab has unlocked the demo admin. */
+/** sessionStorage flag while this tab has unlocked the site admin. */
 export const ADMIN_GATE_STORAGE_KEY = "ro-clone-admin-unlocked-v1";
 
 /**
  * Fallback passphrase when `VITE_ADMIN_GATE` is unset.
- * Bundled into the client — local / demo only, not production auth.
+ * Bundled into the client — local / layout preview only, not production auth.
  */
 export const DEMO_ADMIN_GATE_PASSPHRASE = "demo-admin";
 
-/** Passphrase expected by the demo gate (env override or documented DEMO fallback). */
+/** Passphrase expected by the site gate (env override or documented DEMO fallback). */
 export function expectedAdminPassphrase(): string {
   const fromEnv = import.meta.env.VITE_ADMIN_GATE;
   if (typeof fromEnv === "string" && fromEnv.trim()) return fromEnv.trim();

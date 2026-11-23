@@ -9,11 +9,11 @@ export function NotFound() {
     <div className="info-page not-found-page">
       <header className="info-page-head">
         <div className="container info-shell">
-          <p className="eyebrow">404 · Demo</p>
+          <p className="eyebrow">404</p>
           <h1>Page not found</h1>
           <p className="lede">
             That path is not part of this local preview. Head home or pick a care area to continue
-            the demo funnel.
+            the funnel.
           </p>
         </div>
       </header>

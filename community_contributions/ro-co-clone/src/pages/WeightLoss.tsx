@@ -28,9 +28,7 @@ export function WeightLoss() {
 
   if (!category) return null;
 
-  const eyebrow = category.eyebrow.toLowerCase().startsWith("demo")
-    ? category.eyebrow
-    : `Demo · ${category.eyebrow}`;
+  const eyebrow = category.eyebrow;
 
   return (
     <div className="category-page">
@@ -51,7 +49,7 @@ export function WeightLoss() {
             <p className="lede">{category.lede}</p>
             <div className="hero-actions">
               <Link to={quizHref} className="btn btn-primary">
-                Start demo quiz
+                Start quiz
               </Link>
               <Link to="/how-it-works" className="btn btn-secondary">
                 How care works
@@ -81,7 +79,7 @@ export function WeightLoss() {
             <div className="weight-readout">
               <div>
                 <strong>{weight}</strong>
-                <span>demo starting lbs</span>
+                <span>starting lbs</span>
               </div>
               <div>
                 <strong>—</strong>
@@ -99,23 +97,23 @@ export function WeightLoss() {
         slug="weight"
         quizHref={quizHref}
         visitHref={visitHref}
-        quizTitle="Start the weight demo quiz"
+        quizTitle="Start the weight quiz"
       />
 
       <section className="section" id="meds">
         <div className="container">
-          <p className="section-kicker">Options · Demo</p>
+          <p className="section-kicker">Options</p>
           <div className="section-head">
             <h2>Options</h2>
-            <p>Demo catalog · verified prices are not published on this preview.</p>
+            <p>Catalog · verified prices are not published yet.</p>
           </div>
           <div className="med-grid">
             {products.length === 0 ? (
               <article className="empty-stub">
                 <h3>Options coming soon</h3>
-                <p>No active weight products in the demo catalog yet.</p>
+                <p>No active weight products in the catalog yet.</p>
                 <Link to={quizHref} className="btn btn-primary">
-                  Start demo quiz
+                  Start quiz
                 </Link>
               </article>
             ) : (
@@ -133,7 +131,7 @@ export function WeightLoss() {
                         Details
                       </Link>
                       <Link to={quizHref} className="btn btn-primary">
-                        Start demo quiz
+                        Start quiz
                       </Link>
                     </div>
                   </article>
@@ -147,8 +145,8 @@ export function WeightLoss() {
       <section className="section membership">
         <div className="container membership-grid">
           <div>
-            <p className="section-kicker">Membership · Demo</p>
-            <h2>What’s in the membership (demo)</h2>
+            <p className="section-kicker">Membership</p>
+            <h2>What’s in the membership </h2>
             <ul>
               {category.bullets.map((bullet) => (
                 <li key={bullet}>{bullet}</li>
@@ -161,7 +159,7 @@ export function WeightLoss() {
             <PriceTag price={{ ...PENDING_PRICE, unit: "membership" }} />
             <div className="cta-row">
               <Link to={quizHref} className="btn btn-primary">
-                Start demo quiz
+                Start quiz
               </Link>
               <Link to="/how-it-works" className="btn btn-secondary">
                 How care works
@@ -173,7 +171,7 @@ export function WeightLoss() {
 
       <section className="section-tight">
         <div className="container">
-          <p className="section-kicker">FAQ · Demo</p>
+          <p className="section-kicker">FAQ</p>
           <h2>Weight FAQs</h2>
           <div className="faq-list">
             {faqs.map((faq) => (
@@ -195,8 +193,8 @@ export function WeightLoss() {
 
       <section className="section safety-band">
         <div className="container">
-          <p className="section-kicker">Safety · Demo</p>
-          <h2>Safety note (demo)</h2>
+          <p className="section-kicker">Safety</p>
+          <h2>Safety note </h2>
           <IsiBlock slug="glp1" />
           <p className="care-bridge">
             <Link to="/safety" className="text-link">
@@ -216,12 +214,12 @@ export function WeightLoss() {
 
       <section className="cta-band cat-cta-band">
         <div className="container cta-band-inner">
-          <p className="section-kicker section-kicker-on-dark">Next · Demo quiz</p>
-          <h2>Continue to the weight demo quiz</h2>
+          <p className="section-kicker section-kicker-on-dark">Next · Quiz</p>
+          <h2>Continue to the weight quiz</h2>
           <p>Then the shared visit funnel. Answers stay in this browser.</p>
           <div className="hero-actions">
             <Link to={quizHref} className="btn btn-on-dark">
-              Start demo quiz
+              Start quiz
             </Link>
             <Link to="/how-it-works" className="btn btn-secondary">
               How care works
@@ -235,7 +233,7 @@ export function WeightLoss() {
 
       <StickyMobileCta
         to={quizHref}
-        label="Start demo quiz"
+        label="Start quiz"
         fine="Then visit → coverage → plan review · Help anytime"
       />
     </div>

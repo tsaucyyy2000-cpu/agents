@@ -17,7 +17,7 @@
   border: 1px solid var(--color-border);
   border-radius: 18px;
   padding: 1.35rem 1.4rem 1.2rem;
-  scroll-margin-top: calc(var(--nav-h) + var(--demo-banner-h, 40px) + 1rem);
+  scroll-margin-top: calc(var(--nav-h) + var(--chrome-offset-h, 40px) + 1rem);
 }
 
 .help-category-head h2 {

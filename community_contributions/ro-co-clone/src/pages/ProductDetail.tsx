@@ -44,7 +44,7 @@ export function ProductDetail() {
       <div className="flow-page section">
         <div className="container">
           <h1>Product not found</h1>
-          <p className="lede">That catalog stub isn’t in this demo — pick a care area instead.</p>
+          <p className="lede">That catalog stub isn’t in this site — pick a care area instead.</p>
           <div className="cta-row">
             <Link to="/#find-care" className="btn btn-primary">
               Choose care · start quiz
@@ -85,7 +85,7 @@ export function ProductDetail() {
                 { label: "Visit", to: visitHref },
               ]}
             />
-            <p className="eyebrow">Demo · {aisleLabel} · Catalog stub</p>
+            <p className="eyebrow">{aisleLabel} · Catalog</p>
             {product.tag ? <span className="chip">{product.tag}</span> : null}
             <h1 className="product-detail-title">{product.name}</h1>
             <p className="lede">{product.description ?? product.meta}</p>
@@ -95,7 +95,7 @@ export function ProductDetail() {
             </p>
             <div className="cta-row product-detail-actions">
               <Link to={quizHref} className="btn btn-primary">
-                Start related demo quiz
+                Start related quiz
               </Link>
               <Link to={visitHref} className="btn btn-secondary">
                 Skip to visit
@@ -127,10 +127,10 @@ export function ProductDetail() {
 
       <section className="section-tight" id="how">
         <div className="container">
-          <p className="section-kicker">Process · Demo</p>
-          <h2>How this demo path works</h2>
+          <p className="section-kicker">Process</p>
+          <h2>How this site path works</h2>
           <ol className="product-how-list">
-            <li>Optional short quiz for this care area (versioned demo consent).</li>
+            <li>Optional short quiz for this care area (versioned consent).</li>
             <li>Shared visit intake with Back / Edit on every step.</li>
             <li>Optional coverage check and local plan review — no payments.</li>
           </ol>
@@ -152,10 +152,10 @@ export function ProductDetail() {
 
       <section className="section-tight" id="safety">
         <div className="container">
-          <p className="section-kicker">Safety · Demo</p>
+          <p className="section-kicker">Safety</p>
           <h2>Safety note</h2>
           <p className="lede">
-            Demo only. Not medical advice. A real program requires a licensed clinician for every
+            Not medical advice. A real program requires a licensed clinician for every
             patient.
           </p>
           <p className="care-bridge">
@@ -172,7 +172,7 @@ export function ProductDetail() {
 
       <section className="section-tight" id="faq">
         <div className="container">
-          <p className="section-kicker">FAQ · Demo</p>
+          <p className="section-kicker">FAQ</p>
           <h2>FAQ</h2>
           <div className="faq-list">
             {faqs.length === 0 ? (
@@ -201,14 +201,14 @@ export function ProductDetail() {
 
       <section className="section" id="isi">
         <div className="container">
-          <p className="section-kicker">ISI · Demo</p>
+          <p className="section-kicker">ISI</p>
           {isiSlug ? (
             <IsiBlock slug={isiSlug} />
           ) : (
             <div className="isi-block">
               <h3>No drug-specific ISI for this aisle</h3>
               <p>
-                Sexual-health and skin demo cards do not reuse GLP-1 or minoxidil stubs. Use the
+                Sexual-health and skin cards do not reuse GLP-1 or minoxidil stubs. Use the
                 general safety hub until reviewed content exists.
               </p>
               <Link to="/safety" className="text-link">
@@ -222,7 +222,7 @@ export function ProductDetail() {
       {related.length > 0 ? (
         <section className="section-tight">
           <div className="container">
-            <p className="section-kicker">Related · Demo</p>
+            <p className="section-kicker">Related</p>
             <h2>Related options</h2>
             <p className="section-dek">Catalog stubs only — pricing withheld until verified.</p>
             <div className="more-care-grid" style={{ marginTop: "1rem" }}>
@@ -246,7 +246,7 @@ export function ProductDetail() {
 
       <StickyMobileCta
         to={quizHref}
-        label="Start related demo quiz"
+        label="Start related quiz"
         fine={`${aisleLabel} · then visit funnel · Help anytime`}
       />
     </div>

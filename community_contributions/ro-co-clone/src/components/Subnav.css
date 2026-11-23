@@ -1,6 +1,6 @@
 .page-subnav {
   position: sticky;
-  top: calc(var(--demo-banner-h) + var(--nav-h));
+  top: calc(var(--chrome-offset-h) + var(--nav-h));
   z-index: 30;
   margin: 0 0 1.25rem;
   background: rgba(246, 246, 244, 0.94);

@@ -93,7 +93,7 @@
 .mobile-menu {
   display: none;
   position: fixed;
-  inset: calc(var(--demo-banner-h, 40px) + var(--nav-h)) 0 0;
+  inset: calc(var(--chrome-offset-h, 40px) + var(--nav-h)) 0 0;
   z-index: 40;
   background: var(--color-white);
   padding: 1.5rem;

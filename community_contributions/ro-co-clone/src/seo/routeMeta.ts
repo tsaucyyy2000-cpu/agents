@@ -11,12 +11,33 @@ export interface RouteMeta {
 }
 
 /**
- * Demo stays noindexed until launch approval.
- * Flip DEFAULT_ROBOTS only after legal/clinical review.
+ * Index public pages only when VITE_SITE_ORIGIN is a real public host.
+ * Localhost / 127.0.0.1 / unset stay noindex so previews are not crawled.
  */
-export const DEFAULT_ROBOTS: IndexingMode = "noindex,nofollow";
+export function defaultRobots(): IndexingMode {
+  const fromEnv = import.meta.env.VITE_SITE_ORIGIN;
+  if (typeof fromEnv !== "string" || !fromEnv.trim()) return "noindex,nofollow";
+  try {
+    const host = new URL(fromEnv.trim()).hostname.toLowerCase();
+    if (
+      host === "localhost" ||
+      host === "127.0.0.1" ||
+      host === "0.0.0.0" ||
+      host.endsWith(".local") ||
+      host.endsWith(".localhost")
+    ) {
+      return "noindex,nofollow";
+    }
+    return "index,follow";
+  } catch {
+    return "noindex,nofollow";
+  }
+}
 
-export const SITE_NAME = "ro clone";
+/** Resolved once per module load from build-time env. */
+export const DEFAULT_ROBOTS: IndexingMode = defaultRobots();
+
+export const SITE_NAME = "ro";
 
 /** Canonical origin (override with VITE_SITE_ORIGIN). */
 export function siteOrigin(): string {
@@ -29,53 +50,53 @@ export function siteOrigin(): string {
 export const PUBLIC_ROUTES: RouteMeta[] = [
   {
     path: "/",
-    title: "Home · online care paths (demo)",
+    title: "Home · online care paths",
     description:
-      "Demo telehealth marketing home: pick a care area, review how the visit works, start a fictional intake. Not affiliated with Ro.",
+      "Telehealth marketing home: pick a care area, review how the visit works, start an online intake. Not affiliated with Ro.",
     schemaType: "WebPage",
   },
   {
     path: "/weight-loss",
-    title: "Weight care pathways (demo)",
+    title: "Weight care pathways",
     description:
-      "Demo weight-care landing: start the matching quiz, then visit → coverage → plan review. Options without verified prices; safety stub. Not medical advice.",
+      "Weight-care landing: start the matching quiz, then visit → coverage → plan review. Options without verified prices; safety stub. Not medical advice.",
     careArea: "weight",
     schemaType: "MedicalWebPage",
   },
   {
     path: "/sexual-health",
-    title: "Sexual health care (demo)",
+    title: "Sexual health care",
     description:
-      "Demo sexual-health landing with format comparisons, quiz CTA, and bridges to how-it-works / Help. Placeholder copy only.",
+      "Sexual-health landing with format comparisons, quiz CTA, and bridges to how-it-works / Help. Placeholder education only.",
     careArea: "sexual-health",
     schemaType: "MedicalWebPage",
   },
   {
     path: "/hair",
-    title: "Hair care plans (demo)",
+    title: "Hair care plans",
     description:
-      "Demo hair-care landing for thinning and density goals. Quiz → shared visit funnel; structural recreation—no clinical claims.",
+      "Hair-care landing for thinning and density goals. Quiz → shared visit funnel; structural recreation—no clinical claims.",
     careArea: "hair",
     schemaType: "MedicalWebPage",
   },
   {
     path: "/skin",
-    title: "Skin care routines (demo)",
+    title: "Skin care routines",
     description:
-      "Demo skin-care landing for texture, tone, and breakout goals. Matching quiz CTA and Help bridges. Placeholder education only.",
+      "Skin-care landing for texture, tone, and breakout goals. Matching quiz CTA and Help bridges. Placeholder education only.",
     careArea: "skin",
     schemaType: "MedicalWebPage",
   },
   {
     path: "/visit",
-    title: "Start a demo visit",
+    title: "Start a visit",
     description:
-      "Multi-step fictional intake: care area, state, option, confirm. Saves a local lead only—no clinic.",
+      "Multi-step intake: care area, state, option, confirm. Saves a local lead only until a clinic backend is connected.",
     schemaType: "WebPage",
   },
   {
     path: "/quiz/weight-loss",
-    title: "Weight care quiz (demo)",
+    title: "Weight care quiz",
     description:
       "Short versioned-consent quiz for weight care that continues into the shared visit funnel.",
     careArea: "weight",
@@ -83,123 +104,125 @@ export const PUBLIC_ROUTES: RouteMeta[] = [
   },
   {
     path: "/quiz/hair",
-    title: "Hair care quiz (demo)",
-    description: "Short demo quiz for hair density goals before the shared visit intake.",
+    title: "Hair care quiz",
+    description: "Short quiz for hair density goals before the shared visit intake.",
     careArea: "hair",
     schemaType: "WebPage",
   },
   {
     path: "/quiz/sexual-health",
-    title: "Sexual health quiz (demo)",
-    description: "Short demo quiz for sexual-health goals. No invented drug ISI attached.",
+    title: "Sexual health quiz",
+    description: "Short quiz for sexual-health goals. No invented drug ISI attached.",
     careArea: "sexual-health",
     schemaType: "WebPage",
   },
   {
     path: "/quiz/skin",
-    title: "Skin care quiz (demo)",
-    description: "Short demo quiz for skin goals before the shared visit intake.",
+    title: "Skin care quiz",
+    description: "Short quiz for skin goals before the shared visit intake.",
     careArea: "skin",
     schemaType: "WebPage",
   },
   {
     path: "/isi/glp1",
-    title: "GLP-1 ISI stub (demo)",
+    title: "GLP-1 ISI stub",
     description:
       "Illustrative GLP-1 important safety information stub for layout review. Not FDA labeling.",
     schemaType: "MedicalWebPage",
   },
   {
     path: "/isi/minoxidil",
-    title: "Minoxidil ISI stub (demo)",
+    title: "Minoxidil ISI stub",
     description:
       "Illustrative minoxidil important safety information stub for layout review. Not FDA labeling.",
     schemaType: "MedicalWebPage",
   },
   {
     path: "/how-it-works",
-    title: "How care works (demo)",
+    title: "How care works",
     description:
-      "Demo funnel explainer: care-area quiz → shared visit → optional coverage check → plan review.",
+      "Funnel explainer: care-area quiz → shared visit → optional coverage check → plan review.",
     schemaType: "WebPage",
   },
   {
     path: "/insurance-check",
-    title: "Coverage check prototype",
+    title: "Coverage check",
     description:
-      "Local insurance pathway metaphor. No payer APIs—enter placeholders to unlock a fake result.",
+      "Local insurance pathway. No payer APIs—enter placeholders to unlock a sample result.",
     schemaType: "WebPage",
   },
   {
     path: "/checkout",
-    title: "Plan review (demo)",
+    title: "Plan review",
     description:
       "Confirm a sample membership cadence and save a local lead. No payments or verified prices.",
     schemaType: "WebPage",
   },
   {
     path: "/guides",
-    title: "Health guides (demo)",
+    title: "Health guides",
     description:
-      "Demo education tiles bridging to care landings, matching quizzes, how-it-works, and Help. Original summaries only—no verified prices.",
+      "Education tiles bridging to care landings, matching quizzes, how-it-works, and Help. Original summaries only—no verified prices.",
     schemaType: "CollectionPage",
   },
   {
     path: "/about",
-    title: "About this clone",
+    title: "About",
     description:
-      "Demo framing for this telehealth marketing clone — not a real clinic. Bridges to Help, how-it-works, and care finder. Soft contact via ops@clone.local.",
+      "About this telehealth marketing site — not affiliated with Ro. Bridges to Help, how-it-works, and care finder.",
     schemaType: "AboutPage",
   },
   {
     path: "/help",
-    title: "Help center (demo)",
+    title: "Help center",
     description:
-      "Demo help hub: care quizzes, visit funnel, safety stubs, guides, and policy links. Soft contact via ops@clone.local.",
+      "Help hub: care quizzes, visit funnel, safety stubs, guides, and policy links.",
     schemaType: "FAQPage",
   },
   {
     path: "/safety",
-    title: "Safety info (demo stub)",
+    title: "Safety info",
     description:
-      "Placeholder safety page. This demo is not medical advice and does not prescribe medication.",
+      "Placeholder safety page. This site is not medical advice and does not prescribe medication.",
     schemaType: "WebPage",
   },
   {
     path: "/privacy",
-    title: "Privacy (demo)",
-    description: "Demo privacy note: visit leads and content edits stay in browser localStorage.",
+    title: "Privacy",
+    description:
+      "Privacy note: visit leads and content edits stay in browser localStorage until a backend is connected.",
     schemaType: "WebPage",
   },
   {
     path: "/terms",
-    title: "Terms (demo)",
+    title: "Terms",
     description:
-      "Demo terms: unofficial recreation for local review. Do not use for real care decisions.",
+      "Terms: unofficial recreation for review. Do not use for real care decisions until counsel-reviewed.",
     schemaType: "WebPage",
   },
   {
     path: "/cookie-policy",
-    title: "Cookie policy (demo)",
-    description: "Demo cookie policy stub for the local telehealth marketing preview.",
+    title: "Cookie policy",
+    description: "Cookie policy for this telehealth marketing site.",
     schemaType: "WebPage",
   },
   {
     path: "/privacy-choices",
-    title: "Privacy choices (demo)",
-    description: "Demo privacy-choices stub. Preferences stay in this browser only.",
+    title: "Privacy choices",
+    description:
+      "Privacy-choices page. Preferences stay in this browser until a backend is connected.",
     schemaType: "WebPage",
   },
   {
     path: "/consumer-health-privacy",
-    title: "Consumer health privacy (demo)",
-    description: "Demo consumer-health privacy stub. Not a live notice.",
+    title: "Consumer health privacy",
+    description: "Consumer-health privacy stub. Replace with a live notice before launch.",
     schemaType: "WebPage",
   },
   {
     path: "/disclosure",
-    title: "Disclosure (demo)",
-    description: "Demo disclosure stub for the local marketing preview banner.",
+    title: "Disclosure",
+    description: "Disclosure stub for the marketing site.",
     schemaType: "WebPage",
   },
 ];
@@ -234,8 +257,8 @@ export function metaForPathname(pathname: string): RouteMeta {
   if (normalized.startsWith("/guides/")) {
     return {
       path: normalized,
-      title: "Guide · health education (demo)",
-      description: "Demo health guide article with original placeholder copy and a visit CTA.",
+      title: "Guide · health education",
+      description: "Health guide article with original placeholder copy and a visit CTA.",
       schemaType: "MedicalWebPage",
       robots: DEFAULT_ROBOTS,
       sitemap: true,
@@ -245,9 +268,9 @@ export function metaForPathname(pathname: string): RouteMeta {
   if (normalized.startsWith("/products/")) {
     return {
       path: normalized,
-      title: "Product detail (demo)",
+      title: "Product detail",
       description:
-        "Demo catalog stub with related care quiz primary, care landing / how-it-works / Help bridges. Pricing withheld until verified.",
+        "Catalog card with related care quiz primary, care landing / how-it-works / Help bridges. Pricing withheld until verified.",
       schemaType: "WebPage",
       robots: DEFAULT_ROBOTS,
       sitemap: true,
@@ -257,8 +280,8 @@ export function metaForPathname(pathname: string): RouteMeta {
   if (normalized.startsWith("/quiz/")) {
     return {
       path: normalized,
-      title: "Care quiz (demo)",
-      description: "Versioned demo consent quiz that continues into the shared visit funnel.",
+      title: "Care quiz",
+      description: "Versioned consent quiz that continues into the shared visit funnel.",
       schemaType: "WebPage",
       robots: DEFAULT_ROBOTS,
       sitemap: true,
@@ -268,7 +291,7 @@ export function metaForPathname(pathname: string): RouteMeta {
   if (normalized.startsWith("/isi/")) {
     return {
       path: normalized,
-      title: "ISI stub (demo)",
+      title: "ISI stub",
       description:
         "Illustrative important safety information stub. Re-verify before launch — not FDA labeling.",
       schemaType: "MedicalWebPage",
@@ -280,8 +303,8 @@ export function metaForPathname(pathname: string): RouteMeta {
   if (normalized.startsWith("/admin")) {
     return {
       path: normalized,
-      title: "Admin · local content tools",
-      description: "Operator tools for the local demo. Not linked from customer chrome.",
+      title: "Admin · content tools",
+      description: "Operator tools. Not linked from customer chrome.",
       robots: "noindex,nofollow",
       sitemap: false,
       schemaType: "WebPage",
@@ -290,9 +313,8 @@ export function metaForPathname(pathname: string): RouteMeta {
 
   return {
     path: normalized,
-    title: "Page not found (demo)",
-    description:
-      "Unknown path in the local demo. Soft 404 with links home and to care areas—not indexed.",
+    title: "Page not found",
+    description: "Unknown path. Soft 404 with links home and to care areas—not indexed.",
     robots: "noindex,nofollow",
     sitemap: false,
     schemaType: "WebPage",

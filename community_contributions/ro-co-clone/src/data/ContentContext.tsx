@@ -125,6 +125,8 @@ function loadContent(): SiteContent {
     const refreshOrphanGate = storedVersion < 6;
     // v7: care landings + guides IA aligned with Help / how-it-works.
     const refreshCareGuides = storedVersion < 7;
+    // v8: strip Demo chrome copy + SVG→JPG media defaults for go-live prep.
+    const refreshGoLive = storedVersion < 8;
 
     const mergedSettings = { ...defaultContent.settings, ...parsed.settings };
     if (refreshOrphanGate) {
@@ -141,15 +143,19 @@ function loadContent(): SiteContent {
         ? { ...DEFAULT_ORPHAN_PUBLISH }
         : normalizeOrphanPublish(parsed.orphanPublish),
       media: mergeMedia(parsed.media, defaultContent.media),
-      homeSupport: refreshFunnelCopy
+      homeSupport: refreshFunnelCopy || refreshGoLive
         ? defaultContent.homeSupport
         : (parsed.homeSupport ?? defaultContent.homeSupport),
-      howItWorks: refreshFunnelCopy
+      howItWorks: refreshFunnelCopy || refreshGoLive
         ? defaultContent.howItWorks
         : parsed.howItWorks?.length
           ? parsed.howItWorks
           : defaultContent.howItWorks,
-      faqs: parsed.faqs?.length ? parsed.faqs : defaultContent.faqs,
+      faqs: refreshGoLive
+        ? structuredClone(defaultContent.faqs)
+        : parsed.faqs?.length
+          ? parsed.faqs
+          : defaultContent.faqs,
       moreCare: refreshOrphanGate
         ? structuredClone(defaultContent.moreCare)
         : Array.isArray(parsed.moreCare)
@@ -165,17 +171,19 @@ function loadContent(): SiteContent {
         : Array.isArray(parsed.experts)
           ? parsed.experts
           : defaultContent.experts,
-      categories: refreshCareGuides
+      categories: refreshCareGuides || refreshGoLive
         ? structuredClone(defaultContent.categories)
         : parsed.categories?.length
           ? parsed.categories
           : defaultContent.categories,
-      guides: refreshCareGuides
+      guides: refreshCareGuides || refreshGoLive
         ? structuredClone(defaultContent.guides)
         : parsed.guides?.length
           ? parsed.guides
           : defaultContent.guides,
-      products: mergeProducts(parsed.products, defaultContent.products),
+      products: refreshGoLive
+        ? structuredClone(defaultContent.products)
+        : mergeProducts(parsed.products, defaultContent.products),
     };
   } catch {
     return structuredClone(defaultContent);

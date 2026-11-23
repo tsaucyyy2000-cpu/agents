@@ -10,7 +10,7 @@ type Step = {
 
 export function JourneyRail({ steps }: { steps: Step[] }) {
   return (
-    <nav className="journey-rail" aria-label="Demo journey">
+    <nav className="journey-rail" aria-label="Care journey">
       <ol>
         {steps.map((step) => (
           <li

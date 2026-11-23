@@ -17,5 +17,5 @@ export function formatPrice(price: Price): string {
 export const PENDING_PRICE: Price = {
   amount: null,
   unit: "mo",
-  note: "Discussed during a demo visit once verified figures exist",
+  note: "Discussed during a visit once verified figures exist",
 };

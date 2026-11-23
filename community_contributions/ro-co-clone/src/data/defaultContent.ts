@@ -3,7 +3,7 @@ import type { SiteContent } from "./types";
 export const STORAGE_KEY = "ro-clone-site-content-v2";
 
 export const defaultContent: SiteContent = {
-  version: 7,
+  version: 8,
   updatedAt: new Date().toISOString(),
   settings: {
     brandName: "ro",
@@ -34,15 +34,15 @@ export const defaultContent: SiteContent = {
     "Calm and clarify skin",
   ],
   homeSupport:
-    "Pick a care area, start the matching demo quiz, then continue into a shared visit. How care works and Help stay one tap away. Demo data only—not affiliated with Ro.",
+    "Pick a care area, start the matching quiz, then continue into a shared visit. How care works and Help stay one tap away. Browser-only data—not affiliated with Ro.",
   categories: [
     {
       slug: "weight",
       path: "/weight-loss",
       eyebrow: "Weight care",
-      title: "Online weight-care pathways (demo)",
-      lede: "Start the matching demo quiz, then continue into the shared visit. How care works and Help stay one tap away—eligibility, coverage check, and plan review are layout metaphors only.",
-      ctaLabel: "Start demo quiz",
+      title: "Online weight-care pathways",
+      lede: "Start the matching quiz, then continue into the shared visit. How care works and Help stay one tap away—eligibility, coverage check, and plan review are layout metaphors only.",
+      ctaLabel: "Start quiz",
       heroImageId: "cat-weight",
       bullets: [
         "Online questionnaire and clinician review",
@@ -50,7 +50,7 @@ export const defaultContent: SiteContent = {
         "Ongoing messaging metaphors for support",
       ],
       steps: [
-        "Start the weight demo quiz",
+        "Start the weight quiz",
         "Continue into the shared visit",
         "Optional coverage check",
         "Review a sample plan",
@@ -60,9 +60,9 @@ export const defaultContent: SiteContent = {
       slug: "sexual-health",
       path: "/sexual-health",
       eyebrow: "Sexual health",
-      title: "Discrete care that fits real life (demo)",
-      lede: "Compare onset, duration, and format choices in this demo aisle, then start the matching quiz. Original copy only—no branded claims.",
-      ctaLabel: "Start demo quiz",
+      title: "Discrete care that fits real life",
+      lede: "Compare onset, duration, and format choices in this site aisle, then start the matching quiz. Original copy only—no branded claims.",
+      ctaLabel: "Start quiz",
       heroImageId: "cat-sex",
       bullets: [
         "Compare onset vs duration tradeoffs",
@@ -70,7 +70,7 @@ export const defaultContent: SiteContent = {
         "Keep packaging and messaging discreet",
       ],
       steps: [
-        "Start the sexual-health demo quiz",
+        "Start the sexual-health quiz",
         "Continue into the shared visit",
         "Optional coverage check",
         "Review a sample plan",
@@ -80,13 +80,13 @@ export const defaultContent: SiteContent = {
       slug: "hair",
       path: "/hair",
       eyebrow: "Hair",
-      title: "Plans for thinning, shedding, and density goals (demo)",
-      lede: "Topical/oral combo storytelling with a soft clinical tone. Start the hair demo quiz when you are ready—Help and how-it-works stay linked.",
-      ctaLabel: "Start demo quiz",
+      title: "Plans for thinning, shedding, and density goals",
+      lede: "Topical/oral combo storytelling with a soft clinical tone. Start the hair quiz when you are ready—Help and how-it-works stay linked.",
+      ctaLabel: "Start quiz",
       heroImageId: "cat-hair",
       bullets: ["Topical foam or liquid", "Oral support when appropriate", "Progress photos and check-ins"],
       steps: [
-        "Start the hair demo quiz",
+        "Start the hair quiz",
         "Continue into the shared visit",
         "Optional coverage check",
         "Review a sample plan",
@@ -96,13 +96,13 @@ export const defaultContent: SiteContent = {
       slug: "skin",
       path: "/skin",
       eyebrow: "Skin",
-      title: "Clearer, calmer skin with guided routines (demo)",
-      lede: "Soft peach gradients and simple goal cards for everyday skin goals. Demo quiz first, then the shared visit funnel.",
-      ctaLabel: "Start demo quiz",
+      title: "Clearer, calmer skin with guided routines",
+      lede: "Soft peach gradients and simple goal cards for everyday skin goals. Quiz first, then the shared visit funnel.",
+      ctaLabel: "Start quiz",
       heroImageId: "cat-skin",
       bullets: ["Texture and tone", "Breakout cycles", "Aging and firmness"],
       steps: [
-        "Start the skin demo quiz",
+        "Start the skin quiz",
         "Continue into the shared visit",
         "Optional coverage check",
         "Review a sample plan",
@@ -119,8 +119,8 @@ export const defaultContent: SiteContent = {
       imageId: "product-glp1",
       active: true,
       description:
-        "Demo product card for a weekly injectable-style pathway with membership support metaphors.",
-      priceLabel: "Pricing pending verification (demo)",
+        "Product card for a weekly injectable-style pathway with membership support metaphors.",
+      priceLabel: "Pricing pending verification",
     },
     {
       id: "oral-option",
@@ -131,7 +131,7 @@ export const defaultContent: SiteContent = {
       imageId: "product-glp1",
       active: true,
       description: "Oral pathway card for people exploring non-injectable formats.",
-      priceLabel: "Cash-pay pathway · pricing pending (demo)",
+      priceLabel: "Cash-pay pathway · pricing pending",
     },
     {
       id: "dual-action",
@@ -142,7 +142,7 @@ export const defaultContent: SiteContent = {
       imageId: "product-sparks",
       active: true,
       description: "Placeholder for an on-demand format emphasizing timing flexibility.",
-      priceLabel: "On-demand or monthly · pricing pending (demo)",
+      priceLabel: "On-demand or monthly · pricing pending",
     },
     {
       id: "daily-support",
@@ -153,7 +153,7 @@ export const defaultContent: SiteContent = {
       imageId: "product-sparks",
       active: true,
       description: "Placeholder daily-format card for compare-onset storytelling.",
-      priceLabel: "Daily format · pricing pending (demo)",
+      priceLabel: "Daily format · pricing pending",
     },
     {
       id: "density-kit",
@@ -164,7 +164,7 @@ export const defaultContent: SiteContent = {
       imageId: "product-hair",
       active: true,
       description: "Combo kit storytelling for density goals—original placeholder copy only.",
-      priceLabel: "Starter kit · pricing pending (demo)",
+      priceLabel: "Starter kit · pricing pending",
     },
     {
       id: "topical-foam",
@@ -175,7 +175,7 @@ export const defaultContent: SiteContent = {
       imageId: "product-hair",
       active: true,
       description: "Topical-only placeholder for people starting with a simpler routine.",
-      priceLabel: "Topical plan · pricing pending (demo)",
+      priceLabel: "Topical plan · pricing pending",
     },
     {
       id: "skin-routine",
@@ -186,7 +186,7 @@ export const defaultContent: SiteContent = {
       imageId: "product-skin",
       active: true,
       description: "Routine-builder card for texture, tone, and breakout goals.",
-      priceLabel: "Guided routine · pricing pending (demo)",
+      priceLabel: "Guided routine · pricing pending",
     },
     {
       id: "calm-serum",
@@ -197,7 +197,7 @@ export const defaultContent: SiteContent = {
       imageId: "product-skin",
       active: true,
       description: "Placeholder kit for redness and texture goals with check-in storytelling.",
-      priceLabel: "Calm kit · pricing pending (demo)",
+      priceLabel: "Calm kit · pricing pending",
     },
   ],
   guides: [
@@ -206,10 +206,10 @@ export const defaultContent: SiteContent = {
       title: "How oral GLP-1 pathways differ",
       read: "8 min",
       imageId: "guide-1",
-      summary: "A structural explainer for daily vs weekly formats. Demo education only.",
+      summary: "A structural explainer for daily vs weekly formats. Education only.",
       body: [
         "This clone article is original placeholder text for layout review.",
-        "It mirrors a content-hub pattern: short intro, a few takeaways, and a CTA into the related demo quiz.",
+        "It mirrors a content-hub pattern: short intro, a few takeaways, and a CTA into the related quiz.",
         "No live marketing paragraphs were copied. No verified prices appear here.",
       ],
     },
@@ -218,10 +218,10 @@ export const defaultContent: SiteContent = {
       title: "Timing tips when on-demand treatment falls short",
       read: "5 min",
       imageId: "guide-2",
-      summary: "Format and timing tradeoffs for sexual-health pathways. Demo education only.",
+      summary: "Format and timing tradeoffs for sexual-health pathways. Education only.",
       body: [
         "Use this stub to review guide typography and related-product rails.",
-        "When you are ready, start the related demo quiz or open Help for the full care map.",
+        "When you are ready, start the related quiz or open Help for the full care map.",
         "Replace with your own editorial later via local content export/import.",
       ],
     },
@@ -230,10 +230,10 @@ export const defaultContent: SiteContent = {
       title: "What counts as normal shedding",
       read: "6 min",
       imageId: "guide-3",
-      summary: "Hair-goal education tile with progress-check language. Demo education only.",
+      summary: "Hair-goal education tile with progress-check language. Education only.",
       body: [
         "Placeholder education copy for shedding vs thinning narratives.",
-        "Links back to the hair care landing and the matching demo quiz—not a clinical recommendation.",
+        "Links back to the hair care landing and the matching quiz—not a clinical recommendation.",
       ],
     },
     {
@@ -244,7 +244,7 @@ export const defaultContent: SiteContent = {
       summary: "Side-by-side comparison pattern without branded claims or dollar prices.",
       body: [
         "Weekly and daily are presented as structural choices only.",
-        "Providers on a live site decide clinically; this demo does not. Continue via the weight quiz when exploring the funnel.",
+        "Providers on a live site decide clinically; this site does not. Continue via the weight quiz when exploring the funnel.",
       ],
     },
   ],
@@ -345,10 +345,10 @@ export const defaultContent: SiteContent = {
       alt: "Two unlabeled organizers on a slate table (original generated)",
       kind: "guide",
     },
-    { id: "expert-1", label: "Expert 1", src: "/media/expert-1.svg", alt: "Abstract portrait placeholder (no credentials)", kind: "expert" },
-    { id: "expert-2", label: "Expert 2", src: "/media/expert-2.svg", alt: "Abstract portrait placeholder (no credentials)", kind: "expert" },
-    { id: "expert-3", label: "Expert 3", src: "/media/expert-3.svg", alt: "Abstract portrait placeholder (no credentials)", kind: "expert" },
-    { id: "admin-hero", label: "Admin hero", src: "/media/admin-hero.svg", alt: "Admin panel artwork", kind: "other" },
+    { id: "expert-1", label: "Expert 1", src: "/media/expert-1.jpg", alt: "Anonymous lifestyle portrait (credentials pending)", kind: "expert" },
+    { id: "expert-2", label: "Expert 2", src: "/media/expert-2.jpg", alt: "Anonymous lifestyle portrait (credentials pending)", kind: "expert" },
+    { id: "expert-3", label: "Expert 3", src: "/media/expert-3.jpg", alt: "Anonymous lifestyle portrait (credentials pending)", kind: "expert" },
+    { id: "admin-hero", label: "Admin hero", src: "/media/admin-hero.jpg", alt: "Care education still life", kind: "other" },
     {
       id: "how-it-works",
       label: "How it works",
@@ -377,11 +377,11 @@ export const defaultContent: SiteContent = {
       alt: "Person on a laptop for a telehealth visit (original generated)",
       kind: "other",
     },
-    { id: "member-story-1", label: "Member story 1", src: "/media/member-story-1.svg", alt: "Member story placeholder", kind: "other" },
-    { id: "member-story-2", label: "Member story 2", src: "/media/member-story-2.svg", alt: "Member story placeholder", kind: "other" },
-    { id: "more-fertility", label: "More care fertility", src: "/media/more-fertility.svg", alt: "Additional care area", kind: "other" },
-    { id: "more-sleep", label: "More care sleep", src: "/media/more-sleep.svg", alt: "Additional care area", kind: "other" },
-    { id: "faq-band", label: "FAQ band", src: "/media/faq-band.svg", alt: "FAQ illustration", kind: "other" },
+    { id: "member-story-1", label: "Member story 1", src: "/media/member-story-1.jpg", alt: "Anonymous lifestyle portrait for member story staging", kind: "other" },
+    { id: "member-story-2", label: "Member story 2", src: "/media/member-story-2.jpg", alt: "Anonymous lifestyle portrait for member story staging", kind: "other" },
+    { id: "more-fertility", label: "More care fertility", src: "/media/more-fertility.jpg", alt: "Fertility care lifestyle imagery", kind: "other" },
+    { id: "more-sleep", label: "More care sleep", src: "/media/more-sleep.jpg", alt: "Sleep care lifestyle imagery", kind: "other" },
+    { id: "faq-band", label: "FAQ band", src: "/media/faq-band.jpg", alt: "Lifestyle still life for FAQ band", kind: "other" },
   ],
   convenience: [
     {
@@ -390,7 +390,7 @@ export const defaultContent: SiteContent = {
     },
     {
       title: "Guided option browsing",
-      copy: "Browse demo pathways that map to common goals—with placeholder safety context.",
+      copy: "Browse pathways that map to common goals—with placeholder safety context.",
     },
     {
       title: "Discreet delivery",
@@ -401,7 +401,7 @@ export const defaultContent: SiteContent = {
     {
       id: "h1",
       title: "Take a care-area quiz",
-      copy: "Choose Weight, Sexual health, Hair, or Skin and answer a short demo questionnaire.",
+      copy: "Choose Weight, Sexual health, Hair, or Skin and answer a short questionnaire.",
     },
     {
       id: "h2",
@@ -424,20 +424,20 @@ export const defaultContent: SiteContent = {
       id: "f1",
       area: "general",
       question: "Is this the real ro.co site?",
-      answer: "No. This is a local structural recreation with original placeholder copy and SVG media.",
+      answer: "No. This is an independent marketing site with original copy and locally hosted media.",
     },
     {
       id: "f2",
       area: "weight",
-      question: "How does membership pricing work in the demo?",
+      question: "How does membership pricing work in the site?",
       answer:
-        "Verified prices are not published on this preview. Cost is discussed during a demo visit once Trey supplies approved figures.",
+        "Verified prices are not published on this preview. Cost is discussed during a visit once Trey supplies approved figures.",
     },
     {
       id: "f3",
       area: "general",
       question: "Where do visit leads go?",
-      answer: "They stay in browser localStorage on this device for the demo only.",
+      answer: "They stay in browser localStorage on this device for the site only.",
     },
     {
       id: "f4",
@@ -455,7 +455,7 @@ export const defaultContent: SiteContent = {
       id: "f6",
       area: "skin",
       question: "Is this medical advice?",
-      answer: "No. Demo only—no real prescribing or clinical review happens here.",
+      answer: "No. No real prescribing or clinical review happens here.",
     },
   ],
   // Trimmed: no faux adjacent verticals until approved tiles exist.

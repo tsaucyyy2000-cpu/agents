@@ -15,7 +15,7 @@ export function QuizConsentGate({ treatmentName, treatmentSlug, onAccepted }: Pr
   return (
     <div className="quiz-consent-card" data-testid="quiz-consent-gate">
       <p className="eyebrow">Before you start</p>
-      <h2>Demo consent</h2>
+      <h2>Visit consent</h2>
       <ul>
         <li>Answers stay in this browser (localStorage) only.</li>
         <li>No prescription, clinic, or payment is created.</li>
@@ -31,7 +31,7 @@ export function QuizConsentGate({ treatmentName, treatmentSlug, onAccepted }: Pr
           }}
         />
         <span>
-          I understand this is a demo of {treatmentName} intake. Consent version{" "}
+          I understand this {treatmentName} intake stores answers in this browser. Consent version{" "}
           {CONSENT_VERSION}.
         </span>
       </label>
@@ -46,7 +46,7 @@ export function QuizConsentGate({ treatmentName, treatmentSlug, onAccepted }: Pr
         data-testid="quiz-consent-accept"
         onClick={() => {
           if (!checked) {
-            setError("Confirm the demo acknowledgment to continue.");
+            setError("Confirm the acknowledgment to continue.");
             return;
           }
           writeIntakeConsent(treatmentSlug);

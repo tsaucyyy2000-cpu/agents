@@ -108,10 +108,10 @@ async function main() {
     await page.goto(`${BASE}/insurance-check?goal=weight&product=weekly-glp1`, {
       waitUntil: "networkidle",
     });
-    await page.getByPlaceholder("Demo Health Plan").fill("Acme Health");
+    await page.getByPlaceholder("Sample Health Plan").fill("Acme Health");
     await page.getByPlaceholder("ABC123").fill("MEM-1");
-    await page.getByRole("button", { name: /Run demo check/i }).click();
-    check("insurance result", await page.getByRole("heading", { name: /Demo result/i }).isVisible());
+    await page.getByRole("button", { name: /Run coverage check/i }).click();
+    check("insurance result", await page.getByRole("heading", { name: /Coverage result/i }).isVisible());
     await shot(page, "health-seo-mobile-insurance.png");
     await page.getByRole("link", { name: /Continue to visit/i }).click();
     await page.waitForURL(/\/visit/);
@@ -123,18 +123,18 @@ async function main() {
     await page.getByRole("button", { name: /^Continue$/ }).click();
     await page.getByRole("button", { name: /Weekly GLP-1/i }).click();
     await page.getByRole("button", { name: /^Continue$/ }).click();
-    await page.getByText(/non-clinical demo/i).click();
-    await page.getByRole("button", { name: /Finish demo visit/i }).click();
-    check("visit done", await page.getByRole("heading", { name: /Demo visit saved/i }).isVisible());
+    await page.getByText(/non-clinical intake/i).click();
+    await page.getByRole("button", { name: /Finish visit/i }).click();
+    check("visit done", await page.getByRole("heading", { name: /Visit saved/i }).isVisible());
     await shot(page, "health-seo-mobile-visit-done.png");
 
     await page.getByRole("link", { name: /Review sample plan/i }).click();
     await page.waitForURL(/\/checkout/);
-    await page.getByText(/local demo only/i).click();
-    await page.getByRole("button", { name: /Confirm demo plan/i }).click();
+    await page.getByText(/local layout preview only/i).click();
+    await page.getByRole("button", { name: /Confirm plan/i }).click();
     check(
       "checkout confirmed",
-      await page.getByRole("heading", { name: /Demo plan confirmed/i }).isVisible(),
+      await page.getByRole("heading", { name: /Plan confirmed/i }).isVisible(),
     );
     check("checkout back to care", await page.getByRole("link", { name: /Back to care/i }).isVisible());
     await shot(page, "health-seo-mobile-checkout.png");

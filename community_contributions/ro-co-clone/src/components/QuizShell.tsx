@@ -94,7 +94,7 @@ export function QuizShell({ treatment, answers, onAnswer, onComplete }: Props) {
           <textarea
             rows={4}
             value={value}
-            placeholder="Optional demo notes"
+            placeholder="Optional notes"
             onChange={(event) => {
               onAnswer(question.id, event.target.value);
               setTouched(false);

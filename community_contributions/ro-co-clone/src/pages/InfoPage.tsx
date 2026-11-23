@@ -41,7 +41,7 @@ export function InfoPage({
           <p className="eyebrow">{kicker}</p>
           <h1>{title}</h1>
           <p className="lede">{lede}</p>
-          {updated ? <p className="info-updated">Updated {updated} · demo placeholder</p> : null}
+          {updated ? <p className="info-updated">Updated {updated} · placeholder</p> : null}
         </div>
       </header>
 
@@ -94,7 +94,7 @@ export function InfoPage({
               Back home
             </Link>
             <Link to="/visit" className="btn btn-secondary">
-              Start demo visit
+              Start visit
             </Link>
             <Link to="/privacy-choices" className="btn btn-secondary">
               Privacy choices
@@ -114,7 +114,7 @@ export function AboutPage() {
     <div className="info-page about-page">
       <header className="info-page-head">
         <div className="container info-shell">
-          <p className="eyebrow">Demo · About</p>
+          <p className="eyebrow">About</p>
           <h1>About this clone</h1>
           <p className="lede">
             A local Vite + React marketing preview of a telehealth top-of-funnel. This is{" "}
@@ -153,7 +153,7 @@ export function AboutPage() {
               <a href="#limits">Hard limits</a>
             </li>
             <li>
-              <a href="#contact">Contact (demo)</a>
+              <a href="#contact">Contact </a>
             </li>
           </ol>
         </nav>
@@ -171,7 +171,7 @@ export function AboutPage() {
                 downloaded.
               </li>
               <li>
-                Editable demo content lives in browser localStorage (operator tools are not
+                Editable content lives in browser localStorage (operator tools are not
                 linked from the customer UI).
               </li>
               <li>
@@ -190,7 +190,7 @@ export function AboutPage() {
             </p>
             <div className="callout warn">
               <p>
-                Demo framing only. If you need real telehealth, use a licensed provider — not
+                Site framing only. If you need real telehealth, use a licensed provider — not
                 this clone.
               </p>
             </div>
@@ -199,7 +199,7 @@ export function AboutPage() {
           <section id="journey" className="info-section">
             <h2>Suggested review path</h2>
             <p>
-              Start on Home, pick a care area, run the matching demo quiz, then continue into
+              Start on Home, pick a care area, run the matching quiz, then continue into
               the shared visit. Optional coverage check and plan review come after. Use Back /
               Edit on the intake to confirm the full path.
             </p>
@@ -236,7 +236,7 @@ export function AboutPage() {
           </section>
 
           <section id="contact" className="info-section">
-            <h2>Contact (demo)</h2>
+            <h2>Contact </h2>
             <p>
               There is no phone line or chat agent for this preview. For questions about running
               the clone locally, email{" "}
@@ -270,10 +270,10 @@ export function SafetyPage() {
           <p className="eyebrow">Safety</p>
           <h1>Safety info</h1>
           <p className="lede">
-            Placeholder safety hub for navigation review. This demo is not medical advice and does
+            Placeholder safety hub for navigation review. This site is not medical advice and does
             not prescribe medication.
           </p>
-          <p className="info-updated">Updated November 2026 · demo placeholder</p>
+          <p className="info-updated">Updated November 2026 · placeholder</p>
         </div>
       </header>
 
@@ -282,7 +282,7 @@ export function SafetyPage() {
           <p>On this page</p>
           <ol>
             <li>
-              <a href="#demo-only">Demo-only notice</a>
+              <a href="#site-notice">Site notice</a>
             </li>
             <li>
               <a href="#isi-hub">ISI documents</a>
@@ -294,8 +294,8 @@ export function SafetyPage() {
         </nav>
 
         <div className="info-prose">
-          <section id="demo-only" className="info-section">
-            <h2>Demo-only notice</h2>
+          <section id="site-notice" className="info-section">
+            <h2>Site notice</h2>
             <p>
               Live telehealth sites include detailed medication safety disclosures reviewed by
               counsel and clinicians. This clone keeps abbreviated placeholders instead of copying
@@ -336,7 +336,7 @@ export function SafetyPage() {
               Back home
             </Link>
             <Link to="/visit" className="btn btn-secondary">
-              Start demo visit
+              Start visit
             </Link>
           </div>
         </div>
@@ -350,23 +350,23 @@ export function PrivacyPage() {
     <InfoPage
       kicker="Privacy"
       title="Privacy"
-      lede="Demo privacy note: visit leads and content edits stay in your browser localStorage. Nothing is sent to a backend."
+      lede="Privacy note: visit leads and content edits stay in your browser localStorage. Nothing is sent to a backend."
       updated="November 2026"
       showToc
       sections={[
         {
           id: "what-we-store",
-          title: "What this demo stores",
+          title: "What this site stores",
           bullets: [
             "Site content edits and visit leads in localStorage (key ro-clone-site-content-v2).",
-            "Optional demo consent preference (key ro-clone-demo-consent-v1) with CONSENT_VERSION.",
+            "Optional consent preference (key ro-clone-demo-consent-v1) with CONSENT_VERSION.",
             "Quiz intake consent (key ro-clone-intake-consent-v1) with the same CONSENT_VERSION.",
             "No account system, no server-side patient record, no payment data.",
           ],
         },
         {
           id: "health-data",
-          title: "Consumer health data (demo)",
+          title: "Consumer health data ",
           paragraphs: [
             "Answers you type in the visit flow are fictional sample data for UI review. They are not transmitted and should not include real personal health information.",
           ],
@@ -384,7 +384,7 @@ export function PrivacyPage() {
           id: "choices",
           title: "Your choices",
           bullets: [
-            "Open Cookie settings from the footer to change the demo preference banner.",
+            "Open Cookie settings from the footer to change the site preference banner.",
             "Clear site data in your browser to reset content and leads.",
             "Use Your privacy choices for the request-form layout prototype.",
           ],
@@ -399,7 +399,7 @@ export function TermsPage() {
     <InfoPage
       kicker="Terms"
       title="Terms"
-      lede="Demo terms: this is an unofficial recreation for local review. Do not use it for real care decisions."
+      lede="Terms: this is an unofficial recreation for local review. Do not use it for real care decisions."
       updated="November 2026"
       showToc
       sections={[
@@ -415,14 +415,14 @@ export function TermsPage() {
           title: "No clinical relationship",
           callout: {
             tone: "warn",
-            text: "Submitting the demo visit does not create a patient relationship, prescription, or insurance claim.",
+            text: "Submitting the visit does not create a patient relationship, prescription, or insurance claim.",
           },
         },
         {
           id: "placeholders",
           title: "Placeholder content",
           paragraphs: [
-            "Prices, clinician bios, and testimonials are withheld or clearly marked as demo until verified source material is supplied.",
+            "Prices, clinician bios, and testimonials are withheld or clearly marked as pending until verified source material is supplied.",
           ],
         },
       ]}
@@ -435,20 +435,20 @@ export function CookiePolicyPage() {
     <InfoPage
       kicker="Cookies"
       title="Cookie policy"
-      lede="This local preview does not set marketing cookies. Preferences below describe the demo storage model only."
+      lede="This local preview does not set marketing cookies. Preferences below describe the site storage model only."
       updated="November 2026"
       showToc
       sections={[
         {
           id: "essential",
-          title: "Essential demo storage",
+          title: "Essential storage",
           paragraphs: [
-            "localStorage holds editable marketing content and fictional visit leads so the demo survives a refresh.",
+            "localStorage holds editable marketing content and fictional visit leads so the site survives a refresh.",
           ],
         },
         {
           id: "optional",
-          title: "Optional demo analytics",
+          title: "Optional analytics",
           paragraphs: [
             "The consent banner includes an optional analytics toggle for layout review. No analytics SDK or pixel is loaded in this repository.",
           ],
@@ -458,7 +458,7 @@ export function CookiePolicyPage() {
           title: "How to manage",
           bullets: [
             "Footer → Cookie settings reopens the banner.",
-            "Browser site-data controls clear all demo storage.",
+            "Browser site-data controls clear all local site storage.",
           ],
         },
       ]}
@@ -479,10 +479,10 @@ export function PrivacyChoicesPage() {
           id: "sale",
           title: "Sale or sharing",
           paragraphs: [
-            "This demo does not sell or share personal information. The control below mirrors comparison-site patterns for review.",
+            "This site does not sell or share personal information. The control below mirrors comparison-site patterns for review.",
           ],
           callout: {
-            text: "Use Cookie settings in the footer to set the optional demo analytics preference.",
+            text: "Use Cookie settings in the footer to set the optional analytics preference.",
           },
         },
         {
@@ -512,7 +512,7 @@ export function ConsumerHealthPrivacyPage() {
       sections={[
         {
           id: "scope",
-          title: "Scope for this demo",
+          title: "Scope for this site",
           paragraphs: [
             "Visit answers and care-area selections are stored locally as sample data for UI review. Do not enter real patient information.",
           ],
@@ -543,7 +543,7 @@ export function DisclosurePage() {
   return (
     <InfoPage
       kicker="Disclosure"
-      title="Demo disclosure"
+      title="Disclosure"
       lede="This site is a local marketing recreation for design and flow review. It is not Ro and does not offer medical services."
       updated="November 2026"
       showToc
@@ -561,14 +561,14 @@ export function DisclosurePage() {
           bullets: [
             "Copy is original or clearly marked placeholder.",
             "Media is generated locally under public/media.",
-            "Unverified prices, clinician bios, and testimonials stay out of the customer UI unless marked demo.",
+            "Unverified prices, clinician bios, and testimonials stay out of the customer UI unless explicitly published.",
           ],
         },
         {
           id: "ads",
           title: "Advertising note",
           paragraphs: [
-            "Comparison-site templates often include an advertising disclosure bar. This clone uses a sticky Demo preview banner instead of affiliate commission language.",
+            "Comparison-site templates often include an advertising disclosure bar. This clone uses a sticky disclosure banner instead of affiliate commission language.",
           ],
         },
       ]}

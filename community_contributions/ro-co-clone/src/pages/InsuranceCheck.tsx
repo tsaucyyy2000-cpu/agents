@@ -36,15 +36,15 @@ export function InsuranceCheck() {
   const result = useMemo(() => {
     if (!done) return null;
     const hash = (carrier + memberId).length;
-    if (hash % 3 === 0) return "Likely cash-pay pathway (demo)";
-    if (hash % 3 === 1) return "Partial coverage metaphor (demo)";
-    return "Prior-auth style follow-up (demo)";
+    if (hash % 3 === 0) return "Likely cash-pay pathway ";
+    if (hash % 3 === 1) return "Partial coverage metaphor ";
+    return "Prior-auth style follow-up ";
   }, [carrier, memberId, done]);
 
   function onSubmit(event: FormEvent) {
     event.preventDefault();
     if (!carrier.trim() || !memberId.trim()) {
-      setError("Enter both carrier and member ID placeholders to run the demo check.");
+      setError("Enter both carrier and member ID placeholders to run the site check.");
       return;
     }
     setError("");
@@ -64,8 +64,8 @@ export function InsuranceCheck() {
                 { label: "Visit", to: continueVisit },
               ]}
             />
-            <p className="eyebrow">Coverage check · demo</p>
-            <h1>See a demo insurance pathway</h1>
+            <p className="eyebrow">Coverage check</p>
+            <h1>See a insurance pathway</h1>
             <p className="lede">
               Local prototype only—no payer APIs. Enter any placeholder values to unlock a fake
               result, then continue to visit and plan review.
@@ -79,7 +79,7 @@ export function InsuranceCheck() {
         <div className="container flow-form-card">
           {done ? (
             <>
-              <h2>Demo result</h2>
+              <h2>Coverage result</h2>
               <p className="lede">{result}</p>
               <p className="cost-pending">Not a real eligibility determination.</p>
               <div className="cta-row">
@@ -115,7 +115,7 @@ export function InsuranceCheck() {
                     setCarrier(event.target.value);
                     setError("");
                   }}
-                  placeholder="Demo Health Plan"
+                  placeholder="Sample Health Plan"
                 />
               </label>
               <label>
@@ -137,7 +137,7 @@ export function InsuranceCheck() {
               ) : null}
               <div className="cta-row">
                 <button className="btn btn-primary" type="submit">
-                  Run demo check
+                  Run coverage check
                 </button>
                 <Link to={continueVisit} className="btn btn-secondary">
                   Skip to visit

@@ -31,7 +31,7 @@ export function Checkout() {
       <div className="flow-page section">
         <div className="container">
           <h1>No products available</h1>
-          <p className="lede">Add demo products in the content store before reviewing a plan.</p>
+          <p className="lede">Add products in the content store before reviewing a plan.</p>
           <Link to="/" className="btn btn-secondary">
             Home
           </Link>
@@ -59,8 +59,8 @@ export function Checkout() {
               ]}
             />
             <StepIndicator current={2} />
-            <p className="eyebrow">Demo plan review</p>
-            <h1>{confirmed ? "Demo plan confirmed locally" : "Confirm a sample membership cadence"}</h1>
+            <p className="eyebrow">Plan review</p>
+            <h1>{confirmed ? "Plan confirmed locally" : "Confirm a sample membership cadence"}</h1>
             <p className="lede">
               Prototype only: choose a cadence and save a local lead. No payments and no verified
               prices are shown.
@@ -79,7 +79,7 @@ export function Checkout() {
             {confirmed ? (
               <>
                 <p className="toast-ok" role="status">
-                  Demo confirmation saved in this browser. Nothing was charged, shipped, or sent to a
+                  Confirmation saved in this browser. Nothing was charged, shipped, or sent to a
                   clinic.
                 </p>
                 <dl className="visit-summary" style={{ marginTop: "1rem" }}>
@@ -135,7 +135,7 @@ export function Checkout() {
                   </button>
                 </div>
                 <p className="price-line">
-                  Selected cadence: <strong>{plan}</strong> (demo)
+                  Selected cadence: <strong>{plan}</strong> 
                 </p>
                 <label className="field checkbox">
                   <input
@@ -146,7 +146,7 @@ export function Checkout() {
                       setError("");
                     }}
                   />
-                  <span>I understand this confirms a local demo only—no payment or Rx.</span>
+                  <span>I understand this confirms a local layout preview only—no payment or Rx.</span>
                 </label>
                 {error ? (
                   <p className="field-error" role="alert">
@@ -159,18 +159,18 @@ export function Checkout() {
                     className="btn btn-primary"
                     onClick={() => {
                       if (!ack) {
-                        setError("Confirm the demo acknowledgment to continue.");
+                        setError("Confirm the site acknowledgment to continue.");
                         return;
                       }
                       addLead({
                         goal: product.category,
                         state: "N/A",
-                        notes: `Checkout demo · ${product.name} · ${plan}`,
+                        notes: `Checkout · ${product.name} · ${plan}`,
                       });
                       setConfirmed(true);
                     }}
                   >
-                    Confirm demo plan
+                    Confirm plan
                   </button>
                   <Link to={visitHref} className="btn btn-secondary">
                     Back to visit
@@ -183,7 +183,7 @@ export function Checkout() {
             )}
           </article>
           <aside className="flow-form-card">
-            <h3>Includes (demo)</h3>
+            <h3>Includes </h3>
             <ul>
               <li>Provider messaging metaphor</li>
               <li>Progress tracking placeholders</li>
@@ -192,7 +192,7 @@ export function Checkout() {
             </ul>
             <div className="cta-row" style={{ marginTop: "1rem" }}>
               <Link to={visitHref} className="text-link">
-                Edit demo visit
+                Edit visit
               </Link>
               <Link to={insuranceHref} className="text-link">
                 Coverage check

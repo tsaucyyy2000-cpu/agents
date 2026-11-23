@@ -7,7 +7,7 @@ const FUNNEL_STEPS = [
   {
     id: "quiz",
     title: "Start a care-area quiz",
-    copy: "Pick Weight, Sexual health, Hair, or Skin on Home, then answer the short demo quiz for that aisle.",
+    copy: "Pick Weight, Sexual health, Hair, or Skin on Home, then answer the short quiz for that aisle.",
     to: "/#find-care",
     cta: "Choose care · start quiz",
   },
@@ -16,7 +16,7 @@ const FUNNEL_STEPS = [
     title: "Continue into the shared visit",
     copy: "The quiz hands off into one fictional intake: care goal, state, option, confirm. Sample data only.",
     to: "/visit",
-    cta: "Open demo visit",
+    cta: "Open visit",
   },
   {
     id: "coverage",
@@ -51,10 +51,10 @@ export function HowItWorks() {
                 { label: "Visit", to: "/visit" },
               ]}
             />
-            <p className="eyebrow">Demo · How care works</p>
+            <p className="eyebrow">How care works</p>
             <h1>Quiz → visit → coverage → plan review</h1>
             <p className="lede">
-              A four-beat demo funnel that mirrors the marketing path. Original copy only — not a
+              A four-beat care funnel that mirrors the marketing path. Original copy only — not a
               live care promise.
             </p>
             <div className="cta-row">
@@ -75,7 +75,7 @@ export function HowItWorks() {
 
       <section className="section">
         <div className="container">
-          <p className="section-kicker">Demo funnel</p>
+          <p className="section-kicker">Care funnel</p>
           <div className="section-head">
             <h2>The path this preview walks</h2>
             <p className="section-dek">

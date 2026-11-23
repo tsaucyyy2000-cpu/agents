@@ -1,23 +1,28 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { CONSENT_VERSION, hasCurrentDemoConsent, readDemoConsent, writeDemoConsent } from "../utils/demoConsent";
-import "./DemoConsentBanner.css";
+import {
+  CONSENT_VERSION,
+  hasCurrentSiteConsent,
+  readSiteConsent,
+  writeSiteConsent,
+} from "../utils/siteConsent";
+import "./ConsentBanner.css";
 
 function initialVisible() {
   if (typeof window === "undefined") return false;
-  return !hasCurrentDemoConsent();
+  return !hasCurrentSiteConsent();
 }
 
-export function DemoConsentBanner() {
+export function ConsentBanner() {
   const titleId = useId();
   const firstActionRef = useRef<HTMLButtonElement>(null);
   const [visible, setVisible] = useState(initialVisible);
   const [showPrefs, setShowPrefs] = useState(false);
-  const [analytics, setAnalytics] = useState(() => Boolean(readDemoConsent()?.analytics));
+  const [analytics, setAnalytics] = useState(() => Boolean(readSiteConsent()?.analytics));
 
   useEffect(() => {
     const onOpen = () => {
-      const current = readDemoConsent();
+      const current = readSiteConsent();
       setAnalytics(Boolean(current?.analytics));
       setShowPrefs(true);
       setVisible(true);
@@ -64,7 +69,7 @@ export function DemoConsentBanner() {
   }, [visible]);
 
   function save(choice: { analytics: boolean }) {
-    writeDemoConsent({ analytics: choice.analytics, decided: true });
+    writeSiteConsent({ analytics: choice.analytics, decided: true });
     setVisible(false);
     setShowPrefs(false);
   }
@@ -72,63 +77,58 @@ export function DemoConsentBanner() {
   if (!visible) return null;
 
   return (
-    <div className="demo-consent-root">
+    <div className="consent-root">
       <button
         type="button"
-        className="demo-consent-backdrop"
+        className="consent-backdrop"
         aria-label="Dismiss is not available — choose a privacy option below"
         tabIndex={-1}
       />
-      <div
-        className="demo-consent"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-      >
-        <div className="demo-consent-body">
-          <h2 id={titleId}>Demo privacy choices</h2>
+      <div className="consent" role="dialog" aria-modal="true" aria-labelledby={titleId}>
+        <div className="consent-body">
+          <h2 id={titleId}>Privacy & cookie choices</h2>
           <p>
-            This local preview stores sample preferences in your browser only. Nothing is sold or
-            shared. Consent version {CONSENT_VERSION}. See the{" "}
-            <Link to="/privacy">privacy note</Link> and{" "}
+            We store preferences and visit answers in your browser. Nothing is sold. Consent version{" "}
+            {CONSENT_VERSION}. See the <Link to="/privacy">privacy note</Link> and{" "}
             <Link to="/cookie-policy">cookie policy</Link>.
           </p>
 
           {showPrefs ? (
-            <div className="demo-consent-prefs">
-              <div className="demo-switch-row">
+            <div className="consent-prefs">
+              <div className="consent-switch-row">
                 <div>
-                  <b>Essential demo storage</b>
+                  <b>Essential storage</b>
                   <p>Visit answers and site content edits stay in localStorage.</p>
                 </div>
-                <label className="demo-switch">
+                <label className="consent-switch">
                   <input type="checkbox" checked disabled aria-label="Essential storage always on" />
                   <span />
                 </label>
               </div>
-              <div className="demo-switch-row">
+              <div className="consent-switch-row">
                 <div>
-                  <b>Optional demo analytics (placeholder)</b>
-                  <p>No real tracker runs in this preview. Toggle is for layout review only.</p>
+                  <b>Optional analytics</b>
+                  <p>No third-party tracker is wired yet. Toggle saves your preference for launch.</p>
                 </div>
-                <label className="demo-switch">
+                <label className="consent-switch">
                   <input
                     type="checkbox"
                     checked={analytics}
                     onChange={(event) => setAnalytics(event.target.checked)}
-                    aria-label="Optional demo analytics preference"
+                    aria-label="Optional analytics preference"
                   />
                   <span />
                 </label>
               </div>
-              <p className="demo-consent-note">
-                Placeholder · no Google tags, pixels, or affiliate scripts load here.
+              <p className="consent-note">
+                No Google tags, pixels, or affiliate scripts load until you enable them in a later
+                release.
               </p>
             </div>
           ) : null}
         </div>
 
-        <div className="demo-consent-actions">
+        <div className="consent-actions">
           {showPrefs ? (
             <button
               ref={firstActionRef}
@@ -157,7 +157,7 @@ export function DemoConsentBanner() {
                 className="btn btn-secondary"
                 onClick={() => save({ analytics: true })}
               >
-                Accept demo prefs
+                Accept all
               </button>
             </>
           )}

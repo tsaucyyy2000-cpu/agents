@@ -1,5 +1,5 @@
 .visit-page {
-  min-height: calc(100vh - var(--nav-h) - var(--demo-banner-h, 40px));
+  min-height: calc(100vh - var(--nav-h) - var(--chrome-offset-h, 40px));
   background: linear-gradient(180deg, #f7fbfb, #ffffff 40%);
   padding: 1.5rem 0 7rem;
 }
