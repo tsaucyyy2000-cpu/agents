@@ -149,6 +149,33 @@ async function main() {
       adminBody.replace(/\s+/g, " ").slice(0, 120),
     );
 
+    // Customer auth routes locked without publishable key (no live sign-in/out without secrets).
+    for (const authPath of ["/sign-in", "/sign-up", "/account"]) {
+      await page.goto(`${BASE}${authPath}`, { waitUntil: "networkidle" });
+      const authUnavailable = page.getByTestId("auth-unavailable");
+      const authBody = await page.locator("body").innerText();
+      check(
+        `customer auth locked ${authPath}`,
+        (await authUnavailable.count()) > 0 &&
+          /Auth not configured/i.test(authBody) &&
+          /VITE_CLERK_PUBLISHABLE_KEY/i.test(authBody),
+        authBody.replace(/\s+/g, " ").slice(0, 100),
+      );
+      await shot(page, `clerk-auth-locked-${authPath.replace(/\//g, "") || "root"}.png`);
+    }
+    check(
+      "header account link (locked)",
+      (await page.getByTestId("header-account-locked").count()) > 0 ||
+        (await page.getByRole("link", { name: /^Account$/i }).count()) > 0,
+    );
+
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE}/sign-in`, { waitUntil: "networkidle" });
+    await shot(page, "clerk-auth-signin-locked-desktop.png");
+    await page.goto(`${BASE}/account`, { waitUntil: "networkidle" });
+    await shot(page, "clerk-auth-account-locked-desktop.png");
+    await page.setViewportSize({ width: 390, height: 844 });
+
     await page.goto(`${BASE}/insurance-check?goal=weight&product=weekly-glp1`, {
       waitUntil: "networkidle",
     });

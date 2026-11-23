@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useContent } from "../data/ContentContext";
 import { quizPath } from "../utils/careRoutes";
+import { HeaderAuth } from "./HeaderAuth";
 import "./Header.css";
 
 const FEATURED_LINKS = [
@@ -123,6 +124,7 @@ export function Header() {
         </nav>
 
         <div className="header-actions">
+          <HeaderAuth />
           <Link to="/help" className="nav-link header-help">
             Help
           </Link>
@@ -274,6 +276,8 @@ export function Header() {
               {link.label}
             </Link>
           ))}
+
+          <HeaderAuth mobile onNavigate={() => setOpen(false)} />
 
           <Link
             to="/#find-care"

@@ -311,6 +311,30 @@ export function metaForPathname(pathname: string): RouteMeta {
     };
   }
 
+  if (
+    normalized === "/sign-in" ||
+    normalized.startsWith("/sign-in/") ||
+    normalized === "/sign-up" ||
+    normalized.startsWith("/sign-up/") ||
+    normalized === "/account" ||
+    normalized.startsWith("/account/")
+  ) {
+    const kind = normalized.startsWith("/sign-up")
+      ? "Sign up"
+      : normalized.startsWith("/sign-in")
+        ? "Sign in"
+        : "Account";
+    return {
+      path: normalized,
+      title: `${kind} · customer`,
+      description:
+        "Clerk customer authentication for this marketing SPA. Private account UI; not a production PHI backend.",
+      robots: "noindex,nofollow",
+      sitemap: false,
+      schemaType: "WebPage",
+    };
+  }
+
   return {
     path: normalized,
     title: "Page not found",

@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import { ClerkRoot } from "./auth/ClerkRoot";
 import { ContentProvider } from "./data/ContentContext";
 import "./styles/global.css";
 
@@ -14,9 +15,11 @@ if (!rootElement) {
 createRoot(rootElement).render(
   <StrictMode>
     <BrowserRouter>
-      <ContentProvider>
-        <App />
-      </ContentProvider>
+      <ClerkRoot>
+        <ContentProvider>
+          <App />
+        </ContentProvider>
+      </ClerkRoot>
     </BrowserRouter>
   </StrictMode>,
 );
