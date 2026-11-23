@@ -52,13 +52,17 @@ VITE_ADMIN_GATE=your-local-passphrase
 Unlock persists in `sessionStorage` for the current tab. Use **Lock admin** in the sidebar to clear it.
 
 - `/admin` overview
-- `/admin/content` home + category + testimonials
+- `/admin/content` home + category + gated orphan staging (testimonials / experts / moreCare)
 - `/admin/products` product catalog CRUD (includes placeholder price labels)
 - `/admin/media` media library (paths/URLs)
 - `/admin/leads` visit lead inbox
-- `/admin/settings` brand knobs + JSON import/export + reset
+- `/admin/settings` brand knobs + vanity stats (gated) + JSON import/export + reset
 
 Content persists in `localStorage` key `ro-clone-site-content-v2`.
+
+### Orphan content gate (P1-03)
+
+`testimonials`, `experts`, `moreCare`, and vanity stats (`memberCountLabel` / `satisfactionLabel`) ship **empty** and **unpublished**. Admin can stage drafts, but customer pages only render them when the matching `orphanPublish` flag is explicitly enabled. Demo banner, consent, and `noindex` stay unchanged. Do not invent bios, testimonials, or stats; do not pull Ro CDN assets.
 
 ## Media
 

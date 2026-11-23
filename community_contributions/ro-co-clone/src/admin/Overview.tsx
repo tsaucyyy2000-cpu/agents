@@ -40,6 +40,12 @@ export function Overview() {
           <span>Guides</span>
           <strong>{content.guides.length}</strong>
         </div>
+        <div className="admin-card">
+          <span>Orphan publish</span>
+          <strong>
+            {Object.values(content.orphanPublish).some(Boolean) ? "Partial" : "All gated"}
+          </strong>
+        </div>
       </div>
 
       <div className="admin-panel">

@@ -3,7 +3,7 @@ import type { SiteContent } from "./types";
 export const STORAGE_KEY = "ro-clone-site-content-v2";
 
 export const defaultContent: SiteContent = {
-  version: 5,
+  version: 6,
   updatedAt: new Date().toISOString(),
   settings: {
     brandName: "ro",
@@ -11,8 +11,15 @@ export const defaultContent: SiteContent = {
     supportEmail: "ops@clone.local",
     membershipFirstMonth: "Pending verification",
     membershipOngoing: "Pending verification",
-    memberCountLabel: "3M+",
-    satisfactionLabel: "95%",
+    // Empty until verified figures are supplied (P1-03 / preferences).
+    memberCountLabel: "",
+    satisfactionLabel: "",
+  },
+  orphanPublish: {
+    testimonials: false,
+    experts: false,
+    moreCare: false,
+    vanityStats: false,
   },
   nav: [
     { to: "/weight-loss", label: "Weight loss" },
@@ -240,28 +247,11 @@ export const defaultContent: SiteContent = {
       ],
     },
   ],
-  testimonials: [
-    {
-      id: "t1",
-      quote: "The online flow made starting care feel approachable instead of intimidating.",
-      name: "Alex M.",
-    },
-    {
-      id: "t2",
-      quote: "I finally had a plan I could stick with—and support when questions came up.",
-      name: "Jordan P.",
-    },
-    {
-      id: "t3",
-      quote: "Everything stayed private, clear, and easy to manage from my phone.",
-      name: "Sam R.",
-    },
-  ],
-  experts: [
-    { id: "e1", name: "Portrait placeholder", role: "Role TBD — supply approved bio", imageId: "expert-1" },
-    { id: "e2", name: "Portrait placeholder", role: "Role TBD — supply approved bio", imageId: "expert-2" },
-    { id: "e3", name: "Portrait placeholder", role: "Role TBD — supply approved bio", imageId: "expert-3" },
-  ],
+  // Trimmed: no invented testimonials. Stage approved quotes in admin only.
+  testimonials: [],
+  // Trimmed: no invented clinician bios. Stage approved experts in admin only.
+  experts: [],
+
   media: [
     {
       id: "hero-home",
@@ -467,21 +457,7 @@ export const defaultContent: SiteContent = {
       answer: "No. Demo only—no real prescribing or clinical review happens here.",
     },
   ],
-  moreCare: [
-    {
-      id: "m1",
-      title: "Fertility-adjacent education",
-      copy: "Placeholder tile for adjacent care discovery patterns.",
-      imageId: "more-fertility",
-      to: "/help",
-    },
-    {
-      id: "m2",
-      title: "Sleep & energy",
-      copy: "Another “more from Ro” style discovery card with original copy.",
-      imageId: "more-sleep",
-      to: "/how-it-works",
-    },
-  ],
+  // Trimmed: no faux adjacent verticals until approved tiles exist.
+  moreCare: [],
   leads: [],
 };

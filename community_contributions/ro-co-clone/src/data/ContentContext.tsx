@@ -7,15 +7,30 @@ import {
   type ReactNode,
 } from "react";
 import { defaultContent, STORAGE_KEY } from "./defaultContent";
-import type { Lead, MediaAsset, Product, SiteContent, SiteSettings } from "./types";
+import {
+  DEFAULT_ORPHAN_PUBLISH,
+  normalizeOrphanPublish,
+  stripUnpublishedOrphans,
+} from "./orphanContentGate";
+import type {
+  Lead,
+  MediaAsset,
+  OrphanPublishFlags,
+  Product,
+  SiteContent,
+  SiteSettings,
+} from "./types";
 
 interface ContentContextValue {
   content: SiteContent;
+  /** Customer-safe snapshot: unpublished orphans stripped. */
+  customerContent: SiteContent;
   mediaById: Record<string, MediaAsset>;
   resetToDefaults: () => void;
   exportJson: () => string;
   importJson: (raw: string) => { ok: true } | { ok: false; error: string };
   updateSettings: (patch: Partial<SiteSettings>) => void;
+  updateOrphanPublish: (patch: Partial<OrphanPublishFlags>) => void;
   updateHome: (patch: { homeSupport?: string; heroGoals?: string[] }) => void;
   upsertProduct: (product: Product) => void;
   removeProduct: (id: string) => void;
@@ -31,6 +46,7 @@ interface ContentContextValue {
   setTestimonials: (testimonials: SiteContent["testimonials"]) => void;
   setGuides: (guides: SiteContent["guides"]) => void;
   setExperts: (experts: SiteContent["experts"]) => void;
+  setMoreCare: (moreCare: SiteContent["moreCare"]) => void;
 }
 
 const ContentContext = createContext<ContentContextValue | null>(null);
@@ -105,12 +121,23 @@ function loadContent(): SiteContent {
     }
     const storedVersion = typeof parsed.version === "number" ? parsed.version : 0;
     const refreshFunnelCopy = storedVersion < 5;
+    // v6: strip invented orphan defaults / force publish flags off (P1-03).
+    const refreshOrphanGate = storedVersion < 6;
+
+    const mergedSettings = { ...defaultContent.settings, ...parsed.settings };
+    if (refreshOrphanGate) {
+      mergedSettings.memberCountLabel = defaultContent.settings.memberCountLabel;
+      mergedSettings.satisfactionLabel = defaultContent.settings.satisfactionLabel;
+    }
 
     return {
       ...structuredClone(defaultContent),
       ...parsed,
       version: defaultContent.version,
-      settings: { ...defaultContent.settings, ...parsed.settings },
+      settings: mergedSettings,
+      orphanPublish: refreshOrphanGate
+        ? { ...DEFAULT_ORPHAN_PUBLISH }
+        : normalizeOrphanPublish(parsed.orphanPublish),
       media: mergeMedia(parsed.media, defaultContent.media),
       homeSupport: refreshFunnelCopy
         ? defaultContent.homeSupport
@@ -121,7 +148,21 @@ function loadContent(): SiteContent {
           ? parsed.howItWorks
           : defaultContent.howItWorks,
       faqs: parsed.faqs?.length ? parsed.faqs : defaultContent.faqs,
-      moreCare: parsed.moreCare?.length ? parsed.moreCare : defaultContent.moreCare,
+      moreCare: refreshOrphanGate
+        ? structuredClone(defaultContent.moreCare)
+        : Array.isArray(parsed.moreCare)
+          ? parsed.moreCare
+          : defaultContent.moreCare,
+      testimonials: refreshOrphanGate
+        ? structuredClone(defaultContent.testimonials)
+        : Array.isArray(parsed.testimonials)
+          ? parsed.testimonials
+          : defaultContent.testimonials,
+      experts: refreshOrphanGate
+        ? structuredClone(defaultContent.experts)
+        : Array.isArray(parsed.experts)
+          ? parsed.experts
+          : defaultContent.experts,
       guides: parsed.guides?.length ? parsed.guides : defaultContent.guides,
       products: mergeProducts(parsed.products, defaultContent.products),
     };
@@ -147,9 +188,12 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     return map;
   }, [content.media]);
 
+  const customerContent = useMemo(() => stripUnpublishedOrphans(content), [content]);
+
   const value = useMemo<ContentContextValue>(
     () => ({
       content,
+      customerContent,
       mediaById,
       resetToDefaults: () => setContent(structuredClone(defaultContent)),
       exportJson: () => JSON.stringify(content, null, 2),
@@ -162,6 +206,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
           setContent({
             ...structuredClone(defaultContent),
             ...parsed,
+            orphanPublish: normalizeOrphanPublish(parsed.orphanPublish),
             updatedAt: new Date().toISOString(),
           });
           return { ok: true };
@@ -174,6 +219,15 @@ export function ContentProvider({ children }: { children: ReactNode }) {
           ...current,
           updatedAt: new Date().toISOString(),
           settings: { ...current.settings, ...patch },
+        })),
+      updateOrphanPublish: (patch) =>
+        setContent((current) => ({
+          ...current,
+          updatedAt: new Date().toISOString(),
+          orphanPublish: normalizeOrphanPublish({
+            ...current.orphanPublish,
+            ...patch,
+          }),
         })),
       updateHome: (patch) =>
         setContent((current) => ({
@@ -270,8 +324,14 @@ export function ContentProvider({ children }: { children: ReactNode }) {
           updatedAt: new Date().toISOString(),
           experts,
         })),
+      setMoreCare: (moreCare) =>
+        setContent((current) => ({
+          ...current,
+          updatedAt: new Date().toISOString(),
+          moreCare,
+        })),
     }),
-    [content, mediaById],
+    [content, customerContent, mediaById],
   );
 
   return <ContentContext.Provider value={value}>{children}</ContentContext.Provider>;

@@ -86,8 +86,21 @@ export interface SiteSettings {
   supportEmail: string;
   membershipFirstMonth: string;
   membershipOngoing: string;
+  /** Vanity marketing stat — customer UI only when orphanPublish.vanityStats is true. */
   memberCountLabel: string;
+  /** Vanity marketing stat — customer UI only when orphanPublish.vanityStats is true. */
   satisfactionLabel: string;
+}
+
+/**
+ * Explicit publish switches for orphan marketing blocks.
+ * All default false so staged admin drafts cannot leak without approved assets.
+ */
+export interface OrphanPublishFlags {
+  testimonials: boolean;
+  experts: boolean;
+  moreCare: boolean;
+  vanityStats: boolean;
 }
 
 export interface Lead {
@@ -103,18 +116,23 @@ export interface SiteContent {
   version: number;
   updatedAt: string;
   settings: SiteSettings;
+  /** Publish gates for testimonials / experts / moreCare / vanity stats. */
+  orphanPublish: OrphanPublishFlags;
   nav: NavLink[];
   heroGoals: string[];
   homeSupport: string;
   categories: CategoryPage[];
   products: Product[];
   guides: Guide[];
+  /** Staged only until orphanPublish.testimonials — do not invent quotes. */
   testimonials: Testimonial[];
+  /** Staged only until orphanPublish.experts — do not invent bios. */
   experts: Expert[];
   media: MediaAsset[];
   convenience: { title: string; copy: string }[];
   howItWorks: HowStep[];
   faqs: FaqItem[];
+  /** Staged only until orphanPublish.moreCare — no faux vertical tiles. */
   moreCare: MoreCareItem[];
   leads: Lead[];
 }

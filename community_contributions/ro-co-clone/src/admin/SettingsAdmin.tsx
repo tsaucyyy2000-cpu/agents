@@ -36,8 +36,6 @@ export function SettingsAdmin() {
               ["supportEmail", "Support email"],
               ["membershipFirstMonth", "First-month price label"],
               ["membershipOngoing", "Ongoing price label"],
-              ["memberCountLabel", "Member count label"],
-              ["satisfactionLabel", "Satisfaction label"],
             ] as const
           ).map(([key, label]) => (
             <label key={key}>
@@ -50,6 +48,37 @@ export function SettingsAdmin() {
               />
             </label>
           ))}
+          <fieldset className="admin-orphan-fieldset">
+            <legend>
+              Vanity stats{" "}
+              <span className="admin-stage-badge">
+                {content.orphanPublish.vanityStats
+                  ? "Published"
+                  : "Staged · not on customer UI"}
+              </span>
+            </legend>
+            <p className="admin-orphan-lede">
+              Leave blank until verified. Customer home ignores these unless the vanity publish gate
+              is on (Content admin). Do not invent member counts or satisfaction %.
+            </p>
+            {(
+              [
+                ["memberCountLabel", "Member count label"],
+                ["satisfactionLabel", "Satisfaction label"],
+              ] as const
+            ).map(([key, label]) => (
+              <label key={key}>
+                {label}
+                <input
+                  value={settings[key]}
+                  placeholder="Leave empty until verified"
+                  onChange={(event) =>
+                    setSettings({ ...settings, [key]: event.target.value })
+                  }
+                />
+              </label>
+            ))}
+          </fieldset>
           <button className="btn btn-primary" type="submit">
             Save settings
           </button>
