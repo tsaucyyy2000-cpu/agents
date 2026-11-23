@@ -82,6 +82,23 @@ async function main() {
     await consent.click();
     await page.waitForTimeout(300);
     check("consent dismissed", (await page.getByTestId("consent-essential").count()) === 0);
+
+    // P1-03: unpublished orphans must not appear on customer home.
+    const homeText = await page.locator("main, .home").first().innerText();
+    check(
+      "home has no invented testimonials",
+      !/Alex M\.|Jordan P\.|Sam R\./i.test(homeText),
+    );
+    check(
+      "home has no vanity stats",
+      !/\b3M\+|95%\b/.test(homeText) && (await page.getByTestId("vanity-stats").count()) === 0,
+    );
+    check(
+      "home has no orphan sections",
+      (await page.getByTestId("home-testimonials").count()) === 0 &&
+        (await page.getByTestId("home-experts").count()) === 0 &&
+        (await page.getByTestId("home-more-care").count()) === 0,
+    );
     await shot(page, "health-seo-mobile-home.png");
 
     await page.goto(`${BASE}/weight-loss`, { waitUntil: "networkidle" });

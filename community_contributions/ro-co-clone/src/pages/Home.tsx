@@ -3,14 +3,25 @@ import { Link } from "react-router-dom";
 import { JourneyRail } from "../components/JourneyRail";
 import { StickyMobileCta } from "../components/StickyMobileCta";
 import { useContent } from "../data/ContentContext";
+import {
+  customerExperts,
+  customerMoreCare,
+  customerTestimonials,
+  customerVanityStats,
+} from "../data/orphanContentGate";
 import { quizPath } from "../utils/careRoutes";
 import "./Flows.css";
 import "./Home.css";
 
 export function Home() {
-  const { content, mediaById } = useContent();
+  // customerContent strips unpublished orphans; selectors double-check the gate.
+  const { customerContent: content, mediaById } = useContent();
   const [goalIndex, setGoalIndex] = useState(0);
   const heroImage = mediaById["hero-home"];
+  const publishedTestimonials = customerTestimonials(content);
+  const publishedExperts = customerExperts(content);
+  const publishedMoreCare = customerMoreCare(content);
+  const vanityStats = customerVanityStats(content);
 
   useEffect(() => {
     if (content.heroGoals.length === 0) return;
@@ -199,6 +210,17 @@ export function Home() {
             <p className="section-kicker section-kicker-on-dark">Convenience</p>
             <h2>100% online demo flow</h2>
             <p>Convenience beats for layout review. Not a live care promise.</p>
+            {vanityStats ? (
+              <p className="vanity-stats" data-testid="vanity-stats">
+                {vanityStats.memberCountLabel ? (
+                  <span>{vanityStats.memberCountLabel} members (approved)</span>
+                ) : null}
+                {vanityStats.memberCountLabel && vanityStats.satisfactionLabel ? " · " : null}
+                {vanityStats.satisfactionLabel ? (
+                  <span>{vanityStats.satisfactionLabel} satisfaction (approved)</span>
+                ) : null}
+              </p>
+            ) : null}
           </div>
           <ul>
             {content.convenience.map((item) => (
@@ -210,6 +232,71 @@ export function Home() {
           </ul>
         </div>
       </section>
+
+      {publishedTestimonials.length > 0 ? (
+        <section className="section-tight" data-testid="home-testimonials">
+          <div className="container">
+            <p className="section-kicker">Stories</p>
+            <h2>Member stories</h2>
+            <div className="quote-rail">
+              {publishedTestimonials.map((item) => (
+                <blockquote key={item.id}>
+                  <p>{item.quote}</p>
+                  <footer>{item.name}</footer>
+                </blockquote>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {publishedExperts.length > 0 ? (
+        <section className="section experts" data-testid="home-experts">
+          <div className="container experts-grid">
+            <div>
+              <p className="section-kicker">Clinicians</p>
+              <h2>Care team</h2>
+              <p>Approved clinician bios only — no invented credentials.</p>
+            </div>
+            <div className="expert-cards">
+              {publishedExperts.map((expert) => {
+                const image = mediaById[expert.imageId];
+                return (
+                  <article key={expert.id} className="expert-card">
+                    {image ? <img src={image.src} alt={image.alt} /> : null}
+                    <h3>{expert.name}</h3>
+                    <p>{expert.role}</p>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {publishedMoreCare.length > 0 ? (
+        <section className="section-tight" data-testid="home-more-care">
+          <div className="container">
+            <p className="section-kicker">More care</p>
+            <h2>Explore more</h2>
+            <div className="care-finder-grid">
+              {publishedMoreCare.map((item) => {
+                const image = mediaById[item.imageId];
+                return (
+                  <article key={item.id} className="care-finder-card">
+                    {image ? <img src={image.src} alt="" className="category-thumb" /> : null}
+                    <h3>{item.title}</h3>
+                    <p>{item.copy}</p>
+                    <Link to={item.to} className="btn btn-secondary">
+                      Learn more
+                    </Link>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section className="section-tight guides">
         <div className="container">

@@ -271,6 +271,86 @@
   font-size: 0.9rem;
 }
 
+.admin-orphan-gate {
+  border-color: #d8c48a;
+  background: #fffdf6;
+}
+
+.admin-orphan-lede {
+  margin: 0 0 0.85rem;
+  color: var(--color-ink-muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.admin-orphan-flags {
+  display: grid;
+  gap: 0.65rem;
+  margin-bottom: 0.85rem;
+}
+
+.admin-orphan-flag {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.65rem;
+  align-items: start;
+  margin: 0;
+}
+
+.admin-orphan-flag input {
+  margin-top: 0.2rem;
+}
+
+.admin-orphan-flag strong {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.admin-orphan-flag small {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--color-ink-muted);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.admin-orphan-status {
+  margin: 0;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.admin-orphan-status.is-closed {
+  background: #e8f5ef;
+  color: #0f7a4c;
+}
+
+.admin-orphan-status.is-open {
+  background: #fff3d6;
+  color: #7a5a00;
+}
+
+.admin-stage-badge {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  background: #eef2f2;
+  color: var(--color-ink-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+.admin-orphan-fieldset {
+  margin: 0.35rem 0 0;
+  padding: 0.85rem 1rem 1rem;
+  border: 1px dashed var(--color-border);
+  border-radius: 10px;
+}
+
 @media (max-width: 980px) {
   .admin-shell {
     grid-template-columns: 1fr;
