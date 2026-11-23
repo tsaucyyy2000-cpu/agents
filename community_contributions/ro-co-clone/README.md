@@ -51,4 +51,6 @@ Content persists in `localStorage` key `ro-clone-site-content-v2`.
 
 ## Media
 
-Original generated photoreal JPEGs (plus SVG placeholders for expert/admin tiles) live in `public/media/`. Register paths in Admin → Media. Do not copy Ro-hosted brand photography or live product pricing.
+Original generated photoreal JPEGs (plus SVG placeholders for expert/admin/more-care tiles) live in `public/media/`. Unused JPG/SVG twins were removed—customer surfaces use the registered JPEG (or sole SVG) paths. Register paths in Admin → Media. Do not copy Ro-hosted brand photography or live product pricing.
+
+Unknown customer URLs render a soft 404 (home + care-area links) instead of silently redirecting to `/`.

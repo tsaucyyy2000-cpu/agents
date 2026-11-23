@@ -25,6 +25,7 @@ import {
 } from "./pages/InfoPage";
 import { InsuranceCheck } from "./pages/InsuranceCheck";
 import { IsiPage } from "./pages/Isi";
+import { NotFound } from "./pages/NotFound";
 import { ProductDetail } from "./pages/ProductDetail";
 import { Quiz } from "./pages/Quiz";
 import { SexualHealth } from "./pages/SexualHealth";
@@ -59,6 +60,7 @@ export default function App() {
         <Route path="privacy-choices" element={<PrivacyChoicesPage />} />
         <Route path="consumer-health-privacy" element={<ConsumerHealthPrivacyPage />} />
         <Route path="disclosure" element={<DisclosurePage />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
 
       <Route path="admin" element={<AdminLayout />}>
@@ -68,9 +70,8 @@ export default function App() {
         <Route path="media" element={<MediaAdmin />} />
         <Route path="leads" element={<LeadsAdmin />} />
         <Route path="settings" element={<SettingsAdmin />} />
+        <Route path="*" element={<Navigate to="/admin" replace />} />
       </Route>
-
-      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

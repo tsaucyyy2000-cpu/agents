@@ -4,6 +4,25 @@
   min-height: calc(100vh - var(--nav-h) - var(--demo-banner-h, 40px));
 }
 
+.not-found-care-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.not-found-care-list a {
+  color: var(--color-teal-deep);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.not-found-care-list a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .info-page-head {
   padding: 2.75rem 0 1.5rem;
   border-bottom: 1px solid var(--color-border);
