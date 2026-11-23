@@ -121,8 +121,16 @@
   border-bottom: 1px solid var(--color-border);
 }
 
+.header-help {
+  white-space: nowrap;
+}
+
 @media (max-width: 860px) {
   .desktop-nav {
+    display: none;
+  }
+
+  .header-help {
     display: none;
   }
 

@@ -48,6 +48,9 @@ export function Header() {
         </nav>
 
         <div className="header-actions">
+          <Link to="/help" className="nav-link header-help">
+            Help
+          </Link>
           <Link to="/#find-care" className="btn btn-primary header-cta">
             Start demo quiz
           </Link>
@@ -82,6 +85,12 @@ export function Header() {
               {link.label}
             </NavLink>
           ))}
+          <Link to="/how-it-works" className="mobile-link" onClick={() => setOpen(false)}>
+            How care works
+          </Link>
+          <Link to="/help" className="mobile-link" onClick={() => setOpen(false)}>
+            Help center
+          </Link>
           <Link to="/#find-care" className="mobile-link" onClick={() => setOpen(false)}>
             Choose care area
           </Link>

@@ -12,12 +12,12 @@ import { GuideDetail, GuidesIndex } from "./pages/Guides";
 import { Hair } from "./pages/Hair";
 import { Home } from "./pages/Home";
 import { HowItWorks } from "./pages/HowItWorks";
+import { HelpPage } from "./pages/Help";
 import {
   AboutPage,
   ConsumerHealthPrivacyPage,
   CookiePolicyPage,
   DisclosurePage,
-  HelpPage,
   PrivacyChoicesPage,
   PrivacyPage,
   SafetyPage,

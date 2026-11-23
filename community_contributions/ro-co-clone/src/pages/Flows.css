@@ -64,6 +64,16 @@
   margin-bottom: 0.45rem;
 }
 
+.step-card .text-link {
+  display: inline-block;
+  margin-top: 0.65rem;
+  font-weight: 600;
+}
+
+.how-funnel-grid .step-card {
+  min-height: 220px;
+}
+
 .step-card p {
   color: var(--color-ink-muted);
 }

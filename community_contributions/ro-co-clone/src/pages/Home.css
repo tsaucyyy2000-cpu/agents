@@ -148,6 +148,17 @@
   max-width: none;
 }
 
+.home-process-dek {
+  margin: -1rem 0 1.5rem;
+  max-width: 42rem;
+  color: var(--color-ink-muted);
+}
+
+.home-process-actions {
+  margin-top: 1.35rem;
+  flex-wrap: wrap;
+}
+
 .category-grid,
 .care-finder-grid {
   display: grid;

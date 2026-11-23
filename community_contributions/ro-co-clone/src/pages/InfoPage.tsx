@@ -148,23 +148,6 @@ export function AboutPage() {
   );
 }
 
-export function HelpPage() {
-  return (
-    <InfoPage
-      title="Help center"
-      lede="Demo help only. Use these paths to review the clone."
-      bullets={[
-        "Home and care areas: /, /weight-loss, /sexual-health, /hair, /skin",
-        "Flows: /quiz/:slug, /visit, /how-it-works, /insurance-check, /checkout",
-        "Content: /guides, /products/:id",
-        "Safety: /safety, /isi/glp1, /isi/minoxidil",
-        "Legal stubs: /privacy, /terms, /cookie-policy, /privacy-choices",
-        "Operators can open /admin by direct URL only (not linked from customer pages).",
-      ]}
-    />
-  );
-}
-
 export function SafetyPage() {
   return (
     <div className="info-page">

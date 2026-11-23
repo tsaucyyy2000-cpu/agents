@@ -33,7 +33,7 @@ Crawls `public/sitemap.xml` against `vite preview` with Playwright (client-rende
 - `/products/:id` detail with sticky subnav + PriceTag (`amount: null` → —)
 - `/visit` multi-step intake
 - Safety hub `/safety` + ISI stubs `/isi/glp1`, `/isi/minoxidil` (illustrative only)
-- Info stubs: `/about`, `/help`, `/privacy`, `/terms`
+- Info: `/about`, `/help` (category help hub), `/how-it-works`, `/privacy`, `/terms`
 - Legal/consent stubs: `/cookie-policy`, `/privacy-choices`, `/consumer-health-privacy`, `/disclosure`
 
 Customer-facing chrome does **not** link to admin. Open `/admin` by direct URL only.
