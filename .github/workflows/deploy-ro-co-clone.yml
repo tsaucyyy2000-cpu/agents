@@ -1,0 +1,62 @@
+# Deploy community_contributions/ro-co-clone to Vercel.
+# Requires GitHub secret VERCEL_TOKEN (and optional Vercel project link).
+# Without the token the job exits successfully and skips — use Dashboard import instead.
+name: Deploy ro-co-clone (Vercel)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "community_contributions/ro-co-clone/**"
+      - ".github/workflows/deploy-ro-co-clone.yml"
+
+defaults:
+  run:
+    working-directory: community_contributions/ro-co-clone
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check VERCEL_TOKEN
+        id: auth
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -n "$VERCEL_TOKEN" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::VERCEL_TOKEN not set — skipping CLI deploy. Import via Vercel Dashboard (Root Directory = community_contributions/ro-co-clone)."
+          fi
+        working-directory: .
+
+      - uses: actions/checkout@v4
+        if: steps.auth.outputs.ready == 'true'
+
+      - uses: actions/setup-node@v4
+        if: steps.auth.outputs.ready == 'true'
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: community_contributions/ro-co-clone/package-lock.json
+
+      - name: Install Vercel CLI
+        if: steps.auth.outputs.ready == 'true'
+        run: npm install -g vercel@latest
+        working-directory: .
+
+      - name: Deploy production
+        if: steps.auth.outputs.ready == 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          # Build-time Vite inlines (set in GitHub Actions vars/secrets or Vercel project env).
+          VITE_SITE_ORIGIN: ${{ vars.VITE_SITE_ORIGIN }}
+          VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.VITE_CLERK_PUBLISHABLE_KEY }}
+          VITE_ADMIN_EMAILS: ${{ secrets.VITE_ADMIN_EMAILS }}
+        run: |
+          vercel deploy --prod --yes \
+            --token="$VERCEL_TOKEN" \
+            --project=ro-co-clone \
+            --create-if-missing

@@ -4,7 +4,7 @@ A Vite + React telehealth **marketing** SPA with care-area landings, quizzes, a 
 
 Not affiliated with Ro. Uses original placeholder copy and locally hosted photoreal media (including approved local copies of lifestyle assets). Verified prices and clinician bios stay gated until supplied.
 
-**Not deployed yet** — confirm host + secrets before publishing.
+**Host:** Vercel (chosen). Durable `*.vercel.app` needs a Vercel account link (Dashboard import or claim temporary deploy). Clerk env still required to unlock `/admin`. See project store `docs/vercel-deploy.md`.
 
 ## Run
 
@@ -22,15 +22,15 @@ Do these on the host / in build env before any public publish. This repo does **
 
 | Step | Status / owner |
 | --- | --- |
-| Pick host + custom domain; set `VITE_SITE_ORIGIN=https://your.domain` at **build** time | **Blocked** — Trey host/domain |
-| SPA fallback: `vercel.json` (Vercel) or `public/_redirects` (Netlify) ships in-repo | Ready in repo |
-| Clerk: `VITE_CLERK_PUBLISHABLE_KEY` + `VITE_ADMIN_EMAILS` in host build env; invite-only sign-up | **Blocked** — Trey Clerk keys |
+| Pick host + custom domain; set `VITE_SITE_ORIGIN=https://your.domain` at **build** time | **Host = Vercel** — set `VITE_SITE_ORIGIN` to the live `*.vercel.app` (or custom domain) and **rebuild** |
+| SPA fallback: `vercel.json` (Vercel) or `public/_redirects` (Netlify) ships in-repo | Ready in repo (`framework: vite`, `outputDirectory: dist`) |
+| Clerk: `VITE_CLERK_PUBLISHABLE_KEY` + `VITE_ADMIN_EMAILS` in host build env; invite-only sign-up | **Blocked** — Trey Clerk keys (admin stays locked / fail-closed without them) |
 | Rebuild after env change so Vite inlines keys/origin | Required |
 | Verified `$` price schedule → wire into `PriceTag` / `PENDING_PRICE` | **Blocked** — prices stay `amount: null` (—) until supplied |
 | Counsel-reviewed legal + ISI (replace stubs) | **Blocked** — keep stubs; do not fabricate |
 | Approved bios / testimonials / vanity stats → stage in admin, then flip orphan publish flags | Gated empty until approved assets |
 | Backend for CMS/leads/PHI (replace `localStorage`) | Still missing — admin gate is UI-only |
-| Deploy only after host + Clerk confirmed | Do not auto-deploy from this PR |
+| Link Vercel project (Dashboard import or claim) | Customer site may go live; `/admin` locked until Clerk env is set |
 
 ### Host env example (never commit)
 

@@ -25,3 +25,4 @@ seo-audit-report.json
 *.njsproj
 *.sln
 *.sw?
+.vercel
