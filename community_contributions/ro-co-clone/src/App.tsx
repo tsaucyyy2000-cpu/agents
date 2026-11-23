@@ -26,6 +26,9 @@ import { SexualHealth } from "./pages/SexualHealth";
 import { Skin } from "./pages/Skin";
 import { Visit } from "./pages/Visit";
 import { WeightLoss } from "./pages/WeightLoss";
+import { AccountPage } from "./pages/AccountPage";
+import { SignInPage } from "./pages/SignInPage";
+import { SignUpPage } from "./pages/SignUpPage";
 
 const AdminLayout = lazy(async () => {
   const mod = await import("./admin/AdminLayout");
@@ -83,6 +86,9 @@ export default function App() {
         <Route path="privacy-choices" element={<PrivacyChoicesPage />} />
         <Route path="consumer-health-privacy" element={<ConsumerHealthPrivacyPage />} />
         <Route path="disclosure" element={<DisclosurePage />} />
+        <Route path="sign-in/*" element={<SignInPage />} />
+        <Route path="sign-up/*" element={<SignUpPage />} />
+        <Route path="account/*" element={<AccountPage />} />
         <Route path="*" element={<NotFound />} />
       </Route>
 

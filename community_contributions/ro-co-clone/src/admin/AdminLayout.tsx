@@ -1,10 +1,10 @@
-import { ClerkProvider, useClerk, useUser } from "@clerk/react";
+import { useClerk, useUser } from "@clerk/react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import "./admin.css";
 import { AdminAuthGate } from "./AdminAuthGate";
 import { AdminClerkErrorBoundary } from "./AdminClerkErrorBoundary";
 import { AdminMisconfigured } from "./AdminMisconfigured";
-import { clerkPublishableKey, isClerkConfigured } from "./adminAllowlist";
+import { isClerkConfigured } from "./adminAllowlist";
 
 const links = [
   { to: "/admin", label: "Overview", end: true },
@@ -48,6 +48,9 @@ function AdminShell() {
           >
             Sign out
           </button>
+          <Link className="admin-exit" to="/account">
+            Customer account
+          </Link>
           <Link className="admin-exit" to="/">
             ← View site
           </Link>
@@ -67,16 +70,9 @@ export function AdminLayout() {
 
   return (
     <AdminClerkErrorBoundary>
-      <ClerkProvider
-        publishableKey={clerkPublishableKey()}
-        afterSignOutUrl="/admin"
-        signInFallbackRedirectUrl="/admin"
-        signUpFallbackRedirectUrl="/admin"
-      >
-        <AdminAuthGate>
-          <AdminShell />
-        </AdminAuthGate>
-      </ClerkProvider>
+      <AdminAuthGate>
+        <AdminShell />
+      </AdminAuthGate>
     </AdminClerkErrorBoundary>
   );
 }

@@ -1,5 +1,6 @@
 import { SignIn } from "@clerk/react";
 import { Link } from "react-router-dom";
+import { clerkAppearance } from "../auth/clerkConfig";
 
 /**
  * Embedded Clerk sign-in for `/admin/*`.
@@ -24,7 +25,9 @@ export function AdminSignIn() {
             fallbackRedirectUrl="/admin"
             withSignUp={false}
             appearance={{
+              ...clerkAppearance,
               elements: {
+                ...clerkAppearance.elements,
                 rootBox: "admin-clerk-root",
                 card: "admin-clerk-card",
               },
@@ -32,7 +35,8 @@ export function AdminSignIn() {
           />
         </div>
         <p className="admin-unlock-hint">
-          No passphrase fallback. Missing keys or an empty allowlist keep admin locked.
+          No passphrase fallback. Missing keys or an empty allowlist keep admin locked. Staff role
+          remains the email allowlist — not a second passphrase.
         </p>
         <Link className="admin-unlock-exit" to="/">
           ← Back to site

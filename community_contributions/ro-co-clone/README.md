@@ -73,21 +73,25 @@ VITE_SITE_ORIGIN=https://example.com
 - Legal/consent stubs: `/cookie-policy`, `/privacy-choices`, `/consumer-health-privacy`, `/disclosure`
 - Soft 404 for unknown customer paths (home + care-area links)
 
-Customer-facing chrome does **not** link to admin. Open `/admin` by direct URL only.
+Customer chrome links to **Account** / **Sign in** (`/account`, `/sign-in`, `/sign-up`). It does **not** link to admin. Open `/admin` by direct URL only.
+
+## Customer accounts (Clerk)
+
+Same Vite + `@clerk/react` app as admin. Routes: `/sign-in`, `/sign-up`, `/account` (profile / password / connected accounts via Clerk `UserProfile`). Missing `VITE_CLERK_PUBLISHABLE_KEY` keeps these routes fail-closed. Google / Apple appear when enabled in the Clerk Dashboard for app `app_3MVcZ8Rr2hLFhPnnmb9aa1eWhgz`. Account UI is client-route protection only — visit leads / CMS remain `localStorage`.
 
 ## Admin (direct URL · Clerk + email allowlist)
 
-`/admin/*` requires **Clerk sign-in** plus an email on `VITE_ADMIN_EMAILS`. There is **no** `demo-admin` / `VITE_ADMIN_GATE` passphrase. Missing keys or an empty allowlist keep admin locked. `public/robots.txt` still `Disallow`s `/admin` (crawl hint only).
+`/admin/*` requires **Clerk sign-in** plus an email on `VITE_ADMIN_EMAILS`. There is **no** `demo-admin` / `VITE_ADMIN_GATE` passphrase. Missing keys or an empty allowlist keep admin locked. `public/robots.txt` `Disallow`s `/admin`, `/account`, `/sign-in`, `/sign-up` (crawl hints only).
 
 ```sh
-# .env.local (gitignored) — required for admin
+# .env.local (gitignored) — required for customer + admin Clerk
 VITE_CLERK_PUBLISHABLE_KEY=pk_test_...
 VITE_ADMIN_EMAILS=you@example.com,other@example.com
 ```
 
-Signed-in users whose email is not allowlisted see **Access denied**. Use **Sign out** in the sidebar to clear the Clerk session.
+Signed-in users whose email is not allowlisted see **Access denied** on admin. Staff role is the email allowlist (and optional Clerk org roles later) — not a second passphrase. Use **Sign out** in the sidebar or account page to clear the Clerk session.
 
-This gates the admin UI only. CMS content and visit leads still persist in browser `localStorage` (`ro-clone-site-content-v2`) — shared hosting of that data still needs a backend.
+CMS content and visit leads still persist in browser `localStorage` (`ro-clone-site-content-v2`) — shared hosting of that data still needs a backend.
 
 - `/admin` overview
 - `/admin/content` home + category + gated orphan staging (testimonials / experts / moreCare)

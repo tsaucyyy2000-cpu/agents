@@ -2,6 +2,12 @@
 User-agent: *
 Disallow: /admin
 Disallow: /admin/
+Disallow: /account
+Disallow: /account/
+Disallow: /sign-in
+Disallow: /sign-in/
+Disallow: /sign-up
+Disallow: /sign-up/
 
 # Sitemap lists public customer routes for SEO audits.
 Sitemap: http://127.0.0.1:5173/sitemap.xml
