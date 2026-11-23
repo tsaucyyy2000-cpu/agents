@@ -38,7 +38,18 @@ Crawls `public/sitemap.xml` against `vite preview` with Playwright (client-rende
 
 Customer-facing chrome does **not** link to admin. Open `/admin` by direct URL only.
 
-## Admin (direct URL)
+## Admin (direct URL · demo gate)
+
+`/admin/*` is behind a **local / demo passphrase gate** — not production auth, not HIPAA, not OAuth. The passphrase is read from `VITE_ADMIN_GATE` at build time and ships in the client bundle; anyone who can inspect the build can recover it. `public/robots.txt` still `Disallow`s `/admin` (crawl hint only).
+
+For local demos when the env var is unset, the fallback passphrase is **`demo-admin`**. Override for your machine:
+
+```sh
+# .env.local (gitignored) — optional
+VITE_ADMIN_GATE=your-local-passphrase
+```
+
+Unlock persists in `sessionStorage` for the current tab. Use **Lock admin** in the sidebar to clear it.
 
 - `/admin` overview
 - `/admin/content` home + category + testimonials
