@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { JourneyRail } from "../components/JourneyRail";
 import { StickyMobileCta } from "../components/StickyMobileCta";
 import { useContent } from "../data/ContentContext";
-import { visitPath } from "../utils/careRoutes";
+import { quizPath } from "../utils/careRoutes";
 import "./Flows.css";
 import "./Home.css";
 
@@ -41,6 +41,7 @@ export function Home() {
               steps={[
                 { label: "Home", current: true },
                 { label: "Care", to: "/#find-care" },
+                { label: "Quiz", to: "/#find-care" },
                 { label: "Visit", to: "/visit" },
               ]}
             />
@@ -59,12 +60,12 @@ export function Home() {
               <Link to="/#find-care" className="btn btn-primary">
                 Choose a care area
               </Link>
-              <Link to="/visit" className="btn btn-secondary">
-                Start demo visit
+              <Link to="/#find-care" className="btn btn-secondary">
+                Start demo quiz
               </Link>
             </div>
             <p className="hero-fine">
-              Three taps on mobile: care area → how it works → demo intake. Edit anytime.
+              Three taps on mobile: care area → quiz → demo visit. Edit anytime.
             </p>
           </div>
           <div className="hero-visual">
@@ -84,8 +85,8 @@ export function Home() {
           <div className="section-head">
             <h2>What do you need help with?</h2>
             <p className="section-dek">
-              Pick a care area, skim how the demo works, then start a fictional visit. Costs stay
-              hidden until verified.
+              Pick a care area, start the matching demo quiz, then continue into the shared visit.
+              Costs stay hidden until verified.
             </p>
           </div>
           <div className="care-finder-grid">
@@ -110,8 +111,8 @@ export function Home() {
                     <Link to={item.path} className="btn btn-secondary">
                       How it works
                     </Link>
-                    <Link to={visitPath(item.slug)} className="btn btn-primary">
-                      Start demo visit
+                    <Link to={quizPath(item.slug)} className="btn btn-primary">
+                      Start demo quiz
                     </Link>
                   </div>
                 </article>
@@ -145,8 +146,8 @@ export function Home() {
                     <Link to={`/products/${product.id}`} className="btn btn-secondary">
                       Details
                     </Link>
-                    <Link to={visitPath(product.category, product.id)} className="btn btn-primary">
-                      Check eligibility
+                    <Link to={quizPath(product.category)} className="btn btn-primary">
+                      Start demo quiz
                     </Link>
                   </div>
                 </article>
@@ -263,15 +264,15 @@ export function Home() {
 
       <section className="cta-band">
         <div className="container cta-band-inner">
-          <p className="section-kicker section-kicker-on-dark">Step 2 · Visit</p>
+          <p className="section-kicker section-kicker-on-dark">Step 2 · Quiz</p>
           <h2>Ready to try the demo?</h2>
-          <p>Fictional intake only — change answers anytime before you finish.</p>
+          <p>Pick a care area quiz, then continue into the shared visit funnel.</p>
           <div className="hero-actions">
             <Link to="/#find-care" className="btn btn-on-dark">
-              Choose care
+              Choose care · start quiz
             </Link>
             <Link to="/visit" className="btn btn-secondary">
-              Start demo visit
+              Skip to visit
             </Link>
           </div>
         </div>
@@ -279,8 +280,8 @@ export function Home() {
 
       <StickyMobileCta
         to="/#find-care"
-        label="Choose a care area"
-        fine="Then continue into the demo visit · sample data only"
+        label="Choose care · start quiz"
+        fine="Quiz paths: weight-loss, hair, sexual-health, skin · sample data only"
       />
     </div>
   );

@@ -15,6 +15,9 @@ export function Footer() {
       items: [
         { to: "/about", label: "About this clone" },
         { to: "/quiz/weight-loss", label: "Weight quiz" },
+        { to: "/quiz/hair", label: "Hair quiz" },
+        { to: "/quiz/sexual-health", label: "Sexual health quiz" },
+        { to: "/quiz/skin", label: "Skin quiz" },
         { to: "/visit", label: "Start a visit" },
         { to: "/how-it-works", label: "How it works" },
         { to: "/guides", label: "Health guides" },

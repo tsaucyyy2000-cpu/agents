@@ -16,9 +16,19 @@ export function Header() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    const closeMenu = () => setOpen(false);
+    window.addEventListener("ro-clone:open-consent", closeMenu);
+    return () => window.removeEventListener("ro-clone:open-consent", closeMenu);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = "";
+      // Consent overlay owns the scroll lock while open — do not clear it.
+      if (!document.body.classList.contains("consent-open")) {
+        document.body.style.overflow = "";
+      }
     };
   }, [open]);
 
@@ -38,8 +48,8 @@ export function Header() {
         </nav>
 
         <div className="header-actions">
-          <Link to="/visit" className="btn btn-primary header-cta">
-            Start demo visit
+          <Link to="/#find-care" className="btn btn-primary header-cta">
+            Start demo quiz
           </Link>
           <button
             type="button"
@@ -75,8 +85,8 @@ export function Header() {
           <Link to="/#find-care" className="mobile-link" onClick={() => setOpen(false)}>
             Choose care area
           </Link>
-          <Link to="/visit" className="btn btn-primary" onClick={() => setOpen(false)}>
-            Start demo visit
+          <Link to="/#find-care" className="btn btn-primary" onClick={() => setOpen(false)}>
+            Start demo quiz
           </Link>
         </nav>
       </div>
