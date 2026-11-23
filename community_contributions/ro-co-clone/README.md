@@ -26,11 +26,14 @@ Crawls `public/sitemap.xml` against `vite preview` with Playwright (client-rende
 ## Public pages
 
 - `/` home marketing composition
-- `/weight-loss` category + projection widget
+- `/weight-loss` category + demo slider (no outcome projection)
 - `/sexual-health`, `/hair`, `/skin` category landings
+- `/quiz/:slug` versioned-consent quiz → shared `/visit` funnel
 - `/how-it-works`, `/insurance-check`, `/checkout`, `/guides`
-- `/products/:id`, `/visit`
-- Info stubs: `/about`, `/help`, `/safety`, `/privacy`, `/terms`
+- `/products/:id` detail with sticky subnav + PriceTag (`amount: null` → —)
+- `/visit` multi-step intake
+- Safety hub `/safety` + ISI stubs `/isi/glp1`, `/isi/minoxidil` (illustrative only)
+- Info stubs: `/about`, `/help`, `/privacy`, `/terms`
 - Legal/consent stubs: `/cookie-policy`, `/privacy-choices`, `/consumer-health-privacy`, `/disclosure`
 
 Customer-facing chrome does **not** link to admin. Open `/admin` by direct URL only.

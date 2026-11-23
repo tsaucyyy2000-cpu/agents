@@ -2,9 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { JourneyRail } from "../components/JourneyRail";
+import { StepIndicator } from "../components/StepIndicator";
 import { useContent } from "../data/ContentContext";
 import type { CareArea } from "../data/types";
-import { careAreaFromParam, goalLabelForArea } from "../utils/careRoutes";
+import { careAreaFromParam, goalLabelForArea, quizPath } from "../utils/careRoutes";
 import "./Visit.css";
 import "./Flows.css";
 
@@ -107,9 +108,15 @@ export function Visit() {
           steps={[
             { label: "Home", to: "/", done: true },
             { label: "Care", to: "/#find-care", done: true },
+            { label: "Quiz", to: quizPath(goalCategory), done: true },
             { label: "Visit", current: true },
+            {
+              label: "Checkout",
+              to: productId ? `/checkout?product=${encodeURIComponent(productId)}` : "/checkout",
+            },
           ]}
         />
+        <StepIndicator current={1} />
         <p className="visit-demo-chip">Demo intake · fictional answers OK</p>
         {hero ? <img src={hero.src} alt={hero.alt} className="visit-hero-img" /> : null}
 

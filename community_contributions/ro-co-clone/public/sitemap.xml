@@ -6,6 +6,10 @@
   <url><loc>http://127.0.0.1:5173/hair</loc></url>
   <url><loc>http://127.0.0.1:5173/skin</loc></url>
   <url><loc>http://127.0.0.1:5173/visit</loc></url>
+  <url><loc>http://127.0.0.1:5173/quiz/weight-loss</loc></url>
+  <url><loc>http://127.0.0.1:5173/quiz/hair</loc></url>
+  <url><loc>http://127.0.0.1:5173/quiz/sexual-health</loc></url>
+  <url><loc>http://127.0.0.1:5173/quiz/skin</loc></url>
   <url><loc>http://127.0.0.1:5173/how-it-works</loc></url>
   <url><loc>http://127.0.0.1:5173/insurance-check</loc></url>
   <url><loc>http://127.0.0.1:5173/checkout</loc></url>
@@ -25,6 +29,8 @@
   <url><loc>http://127.0.0.1:5173/about</loc></url>
   <url><loc>http://127.0.0.1:5173/help</loc></url>
   <url><loc>http://127.0.0.1:5173/safety</loc></url>
+  <url><loc>http://127.0.0.1:5173/isi/glp1</loc></url>
+  <url><loc>http://127.0.0.1:5173/isi/minoxidil</loc></url>
   <url><loc>http://127.0.0.1:5173/privacy</loc></url>
   <url><loc>http://127.0.0.1:5173/terms</loc></url>
   <url><loc>http://127.0.0.1:5173/cookie-policy</loc></url>

@@ -14,6 +14,7 @@ export function Footer() {
       title: "Company",
       items: [
         { to: "/about", label: "About this clone" },
+        { to: "/quiz/weight-loss", label: "Weight quiz" },
         { to: "/visit", label: "Start a visit" },
         { to: "/how-it-works", label: "How it works" },
         { to: "/guides", label: "Health guides" },
@@ -24,6 +25,8 @@ export function Footer() {
       items: [
         { to: "/help", label: "Help center" },
         { to: "/safety", label: "Safety info" },
+        { to: "/isi/glp1", label: "GLP-1 ISI stub" },
+        { to: "/isi/minoxidil", label: "Minoxidil ISI stub" },
         { to: "/privacy", label: "Privacy" },
         { to: "/terms", label: "Terms" },
       ],

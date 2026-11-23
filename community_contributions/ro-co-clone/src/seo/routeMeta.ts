@@ -74,6 +74,49 @@ export const PUBLIC_ROUTES: RouteMeta[] = [
     schemaType: "WebPage",
   },
   {
+    path: "/quiz/weight-loss",
+    title: "Weight care quiz (demo)",
+    description:
+      "Short versioned-consent quiz for weight care that continues into the shared visit funnel.",
+    careArea: "weight",
+    schemaType: "WebPage",
+  },
+  {
+    path: "/quiz/hair",
+    title: "Hair care quiz (demo)",
+    description: "Short demo quiz for hair density goals before the shared visit intake.",
+    careArea: "hair",
+    schemaType: "WebPage",
+  },
+  {
+    path: "/quiz/sexual-health",
+    title: "Sexual health quiz (demo)",
+    description: "Short demo quiz for sexual-health goals. No invented drug ISI attached.",
+    careArea: "sexual-health",
+    schemaType: "WebPage",
+  },
+  {
+    path: "/quiz/skin",
+    title: "Skin care quiz (demo)",
+    description: "Short demo quiz for skin goals before the shared visit intake.",
+    careArea: "skin",
+    schemaType: "WebPage",
+  },
+  {
+    path: "/isi/glp1",
+    title: "GLP-1 ISI stub (demo)",
+    description:
+      "Illustrative GLP-1 important safety information stub for layout review. Not FDA labeling.",
+    schemaType: "MedicalWebPage",
+  },
+  {
+    path: "/isi/minoxidil",
+    title: "Minoxidil ISI stub (demo)",
+    description:
+      "Illustrative minoxidil important safety information stub for layout review. Not FDA labeling.",
+    schemaType: "MedicalWebPage",
+  },
+  {
     path: "/how-it-works",
     title: "How the demo visit works",
     description: "Four-step explainer for the local telehealth marketing demo flow.",
@@ -203,6 +246,29 @@ export function metaForPathname(pathname: string): RouteMeta {
       description:
         "Demo product card with visit and plan-review CTAs. Pricing withheld until verified.",
       schemaType: "WebPage",
+      robots: DEFAULT_ROBOTS,
+      sitemap: true,
+    };
+  }
+
+  if (normalized.startsWith("/quiz/")) {
+    return {
+      path: normalized,
+      title: "Care quiz (demo)",
+      description: "Versioned demo consent quiz that continues into the shared visit funnel.",
+      schemaType: "WebPage",
+      robots: DEFAULT_ROBOTS,
+      sitemap: true,
+    };
+  }
+
+  if (normalized.startsWith("/isi/")) {
+    return {
+      path: normalized,
+      title: "ISI stub (demo)",
+      description:
+        "Illustrative important safety information stub. Re-verify before launch — not FDA labeling.",
+      schemaType: "MedicalWebPage",
       robots: DEFAULT_ROBOTS,
       sitemap: true,
     };

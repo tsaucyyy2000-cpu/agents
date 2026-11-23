@@ -22,6 +22,11 @@ export function visitPath(area: CareArea, productId?: string): string {
   return `/visit?${params.toString()}`;
 }
 
+export function quizPath(area: CareArea): string {
+  const slug = area === "weight" ? "weight-loss" : area;
+  return `/quiz/${slug}`;
+}
+
 export function goalLabelForArea(area: CareArea): string {
   return goalByArea[area];
 }
