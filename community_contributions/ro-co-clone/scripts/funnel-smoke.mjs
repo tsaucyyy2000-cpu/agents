@@ -4,6 +4,7 @@
  *   AUDIT_BASE=http://127.0.0.1:4173 node scripts/funnel-smoke.mjs
  */
 import { spawn } from "node:child_process";
+import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -71,6 +72,27 @@ async function shot(page, name) {
 
 async function main() {
   await ensureServer();
+
+  // Host readiness: SPA deep links + media must resolve on preview (same contract as vercel/_redirects).
+  const deepPaths = [
+    "/weight-loss",
+    "/products/weekly-glp1",
+    "/quiz/hair",
+    "/guides/g1",
+    "/isi/glp1",
+    "/this-route-does-not-exist",
+  ];
+  for (const p of deepPaths) {
+    const code = await getStatic(p);
+    check(`SPA shell ${p}`, code === 200, `status ${code}`);
+  }
+  const heroCode = await getStatic("/media/hero-home.jpg");
+  check("media hero-home.jpg", heroCode === 200, `status ${heroCode}`);
+  const vercelCfg = path.join(ROOT, "vercel.json");
+  const redirectsCfg = path.join(ROOT, "public", "_redirects");
+  check("vercel.json present", fs.existsSync(vercelCfg));
+  check("public/_redirects present", fs.existsSync(redirectsCfg));
+
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
@@ -103,7 +125,29 @@ async function main() {
 
     await page.goto(`${BASE}/weight-loss`, { waitUntil: "networkidle" });
     check("weight page h1", (await page.locator("h1").count()) === 1);
+    const priceTag = page.getByTestId("price-tag").first();
+    check("PriceTag pending amount", (await priceTag.count()) > 0);
+    if ((await priceTag.count()) > 0) {
+      const priceText = await priceTag.innerText();
+      check(
+        "PriceTag null (no invented $)",
+        priceText.includes("—") && /pending verification/i.test(priceText) && !/\$\d/.test(priceText),
+        priceText.replace(/\s+/g, " ").slice(0, 80),
+      );
+    }
     await shot(page, "health-seo-mobile-weight.png");
+
+    // Clerk fail-closed without publishable key / allowlist in this preview build.
+    await page.goto(`${BASE}/admin`, { waitUntil: "networkidle" });
+    const adminBody = await page.locator("body").innerText();
+    check(
+      "admin fail-closed without Clerk",
+      /Admin locked/i.test(adminBody) &&
+        /Auth not configured/i.test(adminBody) &&
+        /VITE_CLERK_PUBLISHABLE_KEY/i.test(adminBody) &&
+        (await page.locator('input[type="password"]').count()) === 0,
+      adminBody.replace(/\s+/g, " ").slice(0, 120),
+    );
 
     await page.goto(`${BASE}/insurance-check?goal=weight&product=weekly-glp1`, {
       waitUntil: "networkidle",

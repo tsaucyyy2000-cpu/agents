@@ -46,7 +46,7 @@
 
   /* When consent banner is open, keep sticky CTA from fighting for the bottom */
   body.consent-open .sticky-mobile-cta,
-  body:has(.demo-consent-root) .sticky-mobile-cta {
+  body:has(.consent-root) .sticky-mobile-cta {
     display: none !important;
     visibility: hidden;
     pointer-events: none;

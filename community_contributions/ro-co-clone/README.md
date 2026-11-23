@@ -16,6 +16,33 @@ npm run dev
 
 Open the printed local URL (default `http://127.0.0.1:5173`).
 
+## Go-live checklist (host)
+
+Do these on the host / in build env before any public publish. This repo does **not** invent prices or counsel legal text.
+
+| Step | Status / owner |
+| --- | --- |
+| Pick host + custom domain; set `VITE_SITE_ORIGIN=https://your.domain` at **build** time | **Blocked** — Trey host/domain |
+| SPA fallback: `vercel.json` (Vercel) or `public/_redirects` (Netlify) ships in-repo | Ready in repo |
+| Clerk: `VITE_CLERK_PUBLISHABLE_KEY` + `VITE_ADMIN_EMAILS` in host build env; invite-only sign-up | **Blocked** — Trey Clerk keys |
+| Rebuild after env change so Vite inlines keys/origin | Required |
+| Verified `$` price schedule → wire into `PriceTag` / `PENDING_PRICE` | **Blocked** — prices stay `amount: null` (—) until supplied |
+| Counsel-reviewed legal + ISI (replace stubs) | **Blocked** — keep stubs; do not fabricate |
+| Approved bios / testimonials / vanity stats → stage in admin, then flip orphan publish flags | Gated empty until approved assets |
+| Backend for CMS/leads/PHI (replace `localStorage`) | Still missing — admin gate is UI-only |
+| Deploy only after host + Clerk confirmed | Do not auto-deploy from this PR |
+
+### Host env example (never commit)
+
+```sh
+# .env.production / host dashboard — build-time
+VITE_SITE_ORIGIN=https://your.domain
+VITE_CLERK_PUBLISHABLE_KEY=pk_live_...
+VITE_ADMIN_EMAILS=you@example.com
+```
+
+With a public `VITE_SITE_ORIGIN`, the Vite build rewrites `dist/robots.txt` + `dist/sitemap.xml` to that origin and customer pages flip to `index,follow` via `defaultRobots()`. Local / unset origin stays `noindex`.
+
 ## SEO / indexing
 
 ```sh
@@ -44,6 +71,7 @@ VITE_SITE_ORIGIN=https://example.com
 - Safety hub `/safety` + ISI stubs `/isi/glp1`, `/isi/minoxidil` (illustrative only)
 - Info: `/about`, `/help`, `/how-it-works`, `/privacy`, `/terms`
 - Legal/consent stubs: `/cookie-policy`, `/privacy-choices`, `/consumer-health-privacy`, `/disclosure`
+- Soft 404 for unknown customer paths (home + care-area links)
 
 Customer-facing chrome does **not** link to admin. Open `/admin` by direct URL only.
 
@@ -77,3 +105,20 @@ This gates the admin UI only. CMS content and visit leads still persist in brows
 Photoreal JPEGs live in `public/media/` (heroes, categories, products, guides, plus lifestyle placeholders for experts / member stories / more-care / FAQ). Register paths in Admin → Media. Prefer local copies under `public/media/`; do not dump verbatim Ro legal/marketing copy.
 
 Unknown customer URLs render a soft 404 (home + care-area links) instead of silently redirecting to `/`.
+
+## Host SPA fallback
+
+| Host | Config in repo |
+| --- | --- |
+| Vercel | `vercel.json` → rewrite all routes to `/index.html` (static files still win) |
+| Netlify / similar | `public/_redirects` → `/* /index.html 200` |
+
+Deep links like `/weight-loss` and `/products/weekly-glp1` must return the SPA shell on refresh.
+
+## Verify before PR / ship
+
+```sh
+npm run build
+npm run funnel:smoke
+npm run seo:audit
+```

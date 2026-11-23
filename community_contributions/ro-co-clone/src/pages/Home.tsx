@@ -88,7 +88,7 @@ export function Home() {
               {heroImage ? (
                 <img className="hero-image" src={heroImage.src} alt={heroImage.alt} />
               ) : null}
-              <p className="hero-demo-note">Local media · not affiliated with Ro</p>
+              <p className="hero-media-note">Local media · not affiliated with Ro</p>
             </div>
           </div>
         </div>

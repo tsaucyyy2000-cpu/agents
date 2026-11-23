@@ -117,7 +117,7 @@ export function Visit() {
           ]}
         />
         <StepIndicator current={1} />
-        <p className="visit-demo-chip">Intake · answers stay in this browser</p>
+        <p className="visit-flow-chip">Intake · answers stay in this browser</p>
         {hero ? <img src={hero.src} alt={hero.alt} className="visit-hero-img" /> : null}
 
         {!done ? (

@@ -198,7 +198,7 @@ body.consent-open {
     width: 100%;
     margin: 0;
     border-radius: 16px 16px 0 0;
-    /* Leave room under sticky demo chrome; keep actions tappable at 390-wide */
+    /* Keep actions tappable at 390-wide */
     max-height: min(72vh, calc(100dvh - var(--chrome-offset-h, 40px) - var(--nav-h) - 0.5rem));
   }
 
