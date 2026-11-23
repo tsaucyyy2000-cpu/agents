@@ -5,6 +5,12 @@
   padding: 4.5rem 0 5rem;
 }
 
+.hero-copy {
+  min-width: 0;
+  /* Keep large display type from clipping against overflow:hidden */
+  padding-right: 0.15rem;
+}
+
 .hero-glow {
   position: absolute;
   inset: auto -10% -30% 40%;
@@ -24,11 +30,13 @@
 
 .hero-brand {
   display: block;
-  font-size: clamp(3.5rem, 8vw, 6rem);
+  font-size: var(--text-display);
   font-weight: 600;
-  letter-spacing: -0.07em;
-  line-height: 0.9;
+  letter-spacing: var(--tracking-display);
+  line-height: 0.95;
   margin-bottom: 0.85rem;
+  padding-bottom: 0.08em;
+  overflow: visible;
 }
 
 .hero-line {
@@ -173,6 +181,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .care-finder-card h3 {
@@ -193,6 +203,7 @@
 .care-finder-card .btn,
 .product-card .btn {
   flex: 1 1 140px;
+  min-width: 0;
 }
 
 .hero-media-note {
@@ -259,8 +270,22 @@
 
 .product-card {
   background: var(--color-white);
-  border-radius: 18px;
+  border-radius: var(--radius-lg);
   padding: 1.25rem;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card .cta-row {
+  margin-top: auto;
+}
+
+.product-card .cta-row .btn {
+  flex: 1 1 8rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .product-swatch {
@@ -527,6 +552,19 @@
     padding-top: 3rem;
   }
 
+  .hero-actions {
+    width: 100%;
+  }
+
+  .hero-actions .btn {
+    flex: 1 1 100%;
+  }
+
+  .care-finder-card .cta-row .btn,
+  .product-card .cta-row .btn {
+    flex: 1 1 100%;
+  }
+
   .category-grid,
   .care-finder-grid,
   .product-rail,
@@ -534,5 +572,15 @@
   .expert-cards,
   .guide-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow,
+  .hero-panel,
+  .hero-orbits span,
+  .category-card {
+    animation: none !important;
+    transition: none !important;
   }
 }

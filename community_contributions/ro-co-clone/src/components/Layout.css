@@ -1,11 +1,18 @@
 .site-chrome {
   position: sticky;
   top: 0;
-  z-index: 60;
-  background: var(--color-white);
+  z-index: var(--z-header);
+  background: transparent;
 }
 
 .site-chrome .site-header {
   position: relative;
   top: auto;
+  z-index: auto;
+}
+
+/* iOS Safari: avoid 100vh jump under sticky chrome */
+.page {
+  min-height: 100vh;
+  min-height: 100dvh;
 }
