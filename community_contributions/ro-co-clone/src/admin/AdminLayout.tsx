@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { ClerkProvider, useClerk, useUser } from "@clerk/react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import "./admin.css";
-import { isAdminUnlocked, lockAdmin } from "./adminGate";
-import { AdminUnlock } from "./AdminUnlock";
+import { AdminAuthGate } from "./AdminAuthGate";
+import { AdminClerkErrorBoundary } from "./AdminClerkErrorBoundary";
+import { AdminMisconfigured } from "./AdminMisconfigured";
+import { clerkPublishableKey, isClerkConfigured } from "./adminAllowlist";
 
 const links = [
   { to: "/admin", label: "Overview", end: true },
@@ -13,28 +15,22 @@ const links = [
   { to: "/admin/settings", label: "Settings" },
 ];
 
-export function AdminLayout() {
-  const [unlocked, setUnlocked] = useState(() => isAdminUnlocked());
-
-  if (!unlocked) {
-    return <AdminUnlock onUnlocked={() => setUnlocked(true)} />;
-  }
-
-  function onLock() {
-    lockAdmin();
-    setUnlocked(false);
-  }
+function AdminShell() {
+  const { user } = useUser();
+  const { signOut } = useClerk();
+  const email = user?.primaryEmailAddress?.emailAddress;
 
   return (
     <div className="admin-shell">
       <aside className="admin-sidebar">
         <div className="admin-brand">
           <strong>ro clone</strong>
-          <span>Admin unlock</span>
+          <span>Admin · Clerk</span>
         </div>
         <p className="admin-gate-note">
-          Client unlock only — not real auth / not HIPAA. Passphrase lives in the client bundle until server auth ships.
+          Clerk + email allowlist. CMS/leads remain browser-local until a backend exists.
         </p>
+        {email ? <p className="admin-signed-in-as">{email}</p> : null}
         <nav>
           {links.map((link) => (
             <NavLink key={link.to} to={link.to} end={link.end}>
@@ -43,8 +39,14 @@ export function AdminLayout() {
           ))}
         </nav>
         <div className="admin-sidebar-footer">
-          <button type="button" className="admin-lock-btn" onClick={onLock}>
-            Lock admin
+          <button
+            type="button"
+            className="admin-lock-btn"
+            onClick={() => {
+              void signOut({ redirectUrl: "/admin" });
+            }}
+          >
+            Sign out
           </button>
           <Link className="admin-exit" to="/">
             ← View site
@@ -55,5 +57,26 @@ export function AdminLayout() {
         <Outlet />
       </div>
     </div>
+  );
+}
+
+export function AdminLayout() {
+  if (!isClerkConfigured()) {
+    return <AdminMisconfigured />;
+  }
+
+  return (
+    <AdminClerkErrorBoundary>
+      <ClerkProvider
+        publishableKey={clerkPublishableKey()}
+        afterSignOutUrl="/admin"
+        signInFallbackRedirectUrl="/admin"
+        signUpFallbackRedirectUrl="/admin"
+      >
+        <AdminAuthGate>
+          <AdminShell />
+        </AdminAuthGate>
+      </ClerkProvider>
+    </AdminClerkErrorBoundary>
   );
 }

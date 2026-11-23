@@ -47,18 +47,19 @@ VITE_SITE_ORIGIN=https://example.com
 
 Customer-facing chrome does **not** link to admin. Open `/admin` by direct URL only.
 
-## Admin (direct URL · unlock)
+## Admin (direct URL · Clerk + email allowlist)
 
-`/admin/*` is behind a **client passphrase unlock** — not production auth, not HIPAA, not OAuth. Real admin auth is tracked separately. The passphrase is read from `VITE_ADMIN_GATE` at build time and ships in the client bundle; anyone who can inspect the build can recover it. `public/robots.txt` still `Disallow`s `/admin` (crawl hint only).
-
-When the env var is unset, the fallback passphrase is **`demo-admin`**. Override for your machine:
+`/admin/*` requires **Clerk sign-in** plus an email on `VITE_ADMIN_EMAILS`. There is **no** `demo-admin` / `VITE_ADMIN_GATE` passphrase. Missing keys or an empty allowlist keep admin locked. `public/robots.txt` still `Disallow`s `/admin` (crawl hint only).
 
 ```sh
-# .env.local (gitignored) — optional
-VITE_ADMIN_GATE=your-local-passphrase
+# .env.local (gitignored) — required for admin
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_...
+VITE_ADMIN_EMAILS=you@example.com,other@example.com
 ```
 
-Unlock persists in `sessionStorage` for the current tab. Use **Lock admin** in the sidebar to clear it.
+Signed-in users whose email is not allowlisted see **Access denied**. Use **Sign out** in the sidebar to clear the Clerk session.
+
+This gates the admin UI only. CMS content and visit leads still persist in browser `localStorage` (`ro-clone-site-content-v2`) — shared hosting of that data still needs a backend.
 
 - `/admin` overview
 - `/admin/content` home + category + gated orphan staging (testimonials / experts / moreCare)
@@ -66,8 +67,6 @@ Unlock persists in `sessionStorage` for the current tab. Use **Lock admin** in t
 - `/admin/media` media library (paths/URLs)
 - `/admin/leads` visit lead inbox
 - `/admin/settings` brand knobs + vanity stats (gated) + JSON import/export + reset
-
-Content persists in `localStorage` key `ro-clone-site-content-v2`.
 
 ### Orphan content gate (P1-03)
 
