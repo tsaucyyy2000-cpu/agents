@@ -1,11 +1,5 @@
+import { lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { AdminLayout } from "./admin/AdminLayout";
-import { ContentAdmin } from "./admin/ContentAdmin";
-import { LeadsAdmin } from "./admin/LeadsAdmin";
-import { MediaAdmin } from "./admin/MediaAdmin";
-import { Overview } from "./admin/Overview";
-import { ProductsAdmin } from "./admin/ProductsAdmin";
-import { SettingsAdmin } from "./admin/SettingsAdmin";
 import { Layout } from "./components/Layout";
 import { Checkout } from "./pages/Checkout";
 import { GuideDetail, GuidesIndex } from "./pages/Guides";
@@ -32,6 +26,35 @@ import { SexualHealth } from "./pages/SexualHealth";
 import { Skin } from "./pages/Skin";
 import { Visit } from "./pages/Visit";
 import { WeightLoss } from "./pages/WeightLoss";
+
+const AdminLayout = lazy(async () => {
+  const mod = await import("./admin/AdminLayout");
+  return { default: mod.AdminLayout };
+});
+const Overview = lazy(async () => {
+  const mod = await import("./admin/Overview");
+  return { default: mod.Overview };
+});
+const ContentAdmin = lazy(async () => {
+  const mod = await import("./admin/ContentAdmin");
+  return { default: mod.ContentAdmin };
+});
+const ProductsAdmin = lazy(async () => {
+  const mod = await import("./admin/ProductsAdmin");
+  return { default: mod.ProductsAdmin };
+});
+const MediaAdmin = lazy(async () => {
+  const mod = await import("./admin/MediaAdmin");
+  return { default: mod.MediaAdmin };
+});
+const LeadsAdmin = lazy(async () => {
+  const mod = await import("./admin/LeadsAdmin");
+  return { default: mod.LeadsAdmin };
+});
+const SettingsAdmin = lazy(async () => {
+  const mod = await import("./admin/SettingsAdmin");
+  return { default: mod.SettingsAdmin };
+});
 
 export default function App() {
   return (
@@ -63,7 +86,14 @@ export default function App() {
         <Route path="*" element={<NotFound />} />
       </Route>
 
-      <Route path="admin" element={<AdminLayout />}>
+      <Route
+        path="admin"
+        element={
+          <Suspense fallback={<p style={{ padding: "2rem" }}>Loading admin…</p>}>
+            <AdminLayout />
+          </Suspense>
+        }
+      >
         <Route index element={<Overview />} />
         <Route path="content" element={<ContentAdmin />} />
         <Route path="products" element={<ProductsAdmin />} />
