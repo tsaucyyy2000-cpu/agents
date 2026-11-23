@@ -166,6 +166,32 @@
   font-size: 0.9rem;
 }
 
+.care-funnel .section-head {
+  margin-bottom: 1rem;
+}
+
+.care-funnel-list .text-link {
+  display: inline-block;
+  margin-top: 0.35rem;
+  font-weight: 600;
+}
+
+.care-bridge {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: var(--color-ink-muted);
+}
+
+.cat-fine a {
+  color: var(--color-teal-deep);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cat-fine a:hover {
+  text-decoration: underline;
+}
+
 .membership-grid {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;

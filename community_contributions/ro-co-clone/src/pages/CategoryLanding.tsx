@@ -20,6 +20,89 @@ const toneBySlug: Record<CareArea, string> = {
   skin: "tone-skin",
 };
 
+/** Shared demo funnel beats — same IA as Help hub / how-it-works. */
+export function CareFunnelSteps({
+  slug,
+  quizHref,
+  visitHref,
+  quizTitle,
+}: {
+  slug: CareArea;
+  quizHref: string;
+  visitHref: string;
+  quizTitle?: string;
+}) {
+  const steps = [
+    {
+      id: "quiz",
+      title: quizTitle ?? "Start this aisle’s demo quiz",
+      copy: "Short questionnaire for this care area. Sample answers only.",
+      to: quizHref,
+      cta: "Start demo quiz",
+    },
+    {
+      id: "visit",
+      title: "Continue into the shared visit",
+      copy: "One fictional intake: care goal, state, option, confirm.",
+      to: visitHref,
+      cta: "Open demo visit",
+    },
+    {
+      id: "coverage",
+      title: "Optional coverage check",
+      copy: "Insurance pathway metaphor — no payer APIs.",
+      to: "/insurance-check",
+      cta: "Try coverage check",
+    },
+    {
+      id: "plan",
+      title: "Review a sample plan",
+      copy: "Membership cadence stub. No payments · prices pending.",
+      to: "/checkout",
+      cta: "Plan review",
+    },
+  ];
+
+  return (
+    <section className="section-tight timeline care-funnel" data-care-area={slug}>
+      <div className="container">
+        <p className="section-kicker">Process · Demo</p>
+        <div className="section-head">
+          <h2>How care works in this aisle</h2>
+          <p className="section-dek">
+            Same four-beat path as the rest of the demo: quiz → visit → optional coverage → plan
+            review.
+          </p>
+        </div>
+        <ol className="care-funnel-list">
+          {steps.map((step, index) => (
+            <li key={step.id}>
+              <span>{index + 1}</span>
+              <div>
+                <p>
+                  <strong>{step.title}</strong> — {step.copy}
+                </p>
+                <Link to={step.to} className="text-link">
+                  {step.cta}
+                </Link>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <p className="care-bridge">
+          <Link to="/how-it-works" className="text-link">
+            Full how-care-works explainer
+          </Link>
+          <span aria-hidden="true"> · </span>
+          <Link to="/help" className="text-link">
+            Help center
+          </Link>
+        </p>
+      </div>
+    </section>
+  );
+}
+
 export function CategoryLanding({ slug }: { slug: CareArea }) {
   const { content, mediaById } = useContent();
   const category = content.categories.find((item) => item.slug === slug);
@@ -34,6 +117,9 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
 
   if (!category) return null;
   const hero = mediaById[category.heroImageId];
+  const eyebrow = category.eyebrow.toLowerCase().startsWith("demo")
+    ? category.eyebrow
+    : `Demo · ${category.eyebrow}`;
 
   return (
     <div className="category-page">
@@ -49,21 +135,26 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
               ]}
             />
             <StepIndicator current={0} />
-            <p className="eyebrow">{category.eyebrow}</p>
+            <p className="eyebrow">{eyebrow}</p>
             <h1>{category.title}</h1>
             <p className="lede">{category.lede}</p>
             <div className="cta-row">
               <Link to={quizHref} className="btn btn-primary">
                 Start demo quiz
               </Link>
-              <Link to={visitHref} className="btn btn-secondary">
-                {category.ctaLabel}
+              <Link to="/how-it-works" className="btn btn-secondary">
+                How care works
               </Link>
-              <a href="#options" className="btn btn-secondary">
-                See options
-              </a>
+              <Link to="/help" className="btn btn-secondary">
+                Help center
+              </Link>
             </div>
-            <p className="cat-fine">Quiz → visit → checkout · Back/Edit stay available</p>
+            <p className="cat-fine">
+              Quiz → visit → coverage → plan review ·{" "}
+              <a href="#options">See options</a>
+              {" · "}
+              <Link to="/#find-care">Other care areas</Link>
+            </p>
           </div>
           <div className="feature-panel">
             {hero ? <img className="cat-hero-img" src={hero.src} alt={hero.alt} /> : null}
@@ -77,27 +168,11 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
         </div>
       </section>
 
-      {category.steps && category.steps.length > 0 ? (
-        <section className="section-tight timeline">
-          <div className="container">
-            <p className="section-kicker">Process</p>
-            <h2>How it works</h2>
-            <p className="section-dek">Short path from interest to a fictional visit in this demo.</p>
-            <ol>
-              {category.steps.map((step, index) => (
-                <li key={step}>
-                  <span>{index + 1}</span>
-                  <p>{step}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-      ) : null}
+      <CareFunnelSteps slug={slug} quizHref={quizHref} visitHref={visitHref} />
 
       <section className="section" id="options">
         <div className="container">
-          <p className="section-kicker">Options</p>
+          <p className="section-kicker">Options · Demo</p>
           <div className="section-head">
             <h2>Options</h2>
             <p>Demo catalog · verified prices are not published on this preview.</p>
@@ -106,9 +181,9 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
             {products.length === 0 ? (
               <article className="empty-stub">
                 <h3>Formats coming soon</h3>
-                <p>This category has no active products yet—start a visit to explore the flow.</p>
-                <Link to={visitPath(slug)} className="btn btn-primary">
-                  Start demo visit
+                <p>This category has no active products yet—start the demo quiz to explore the flow.</p>
+                <Link to={quizHref} className="btn btn-primary">
+                  Start demo quiz
                 </Link>
               </article>
             ) : (
@@ -125,8 +200,8 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
                       <Link to={`/products/${option.id}`} className="btn btn-secondary">
                         Details
                       </Link>
-                      <Link to={visitPath(slug, option.id)} className="btn btn-primary">
-                        Start demo visit
+                      <Link to={quizHref} className="btn btn-primary">
+                        Start demo quiz
                       </Link>
                     </div>
                   </article>
@@ -140,7 +215,7 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
       <section className="section membership">
         <div className="container membership-grid">
           <div>
-            <p className="section-kicker">Membership</p>
+            <p className="section-kicker">Membership · Demo</p>
             <h2>What membership covers (demo)</h2>
             <ul>
               {category.bullets.map((bullet) => (
@@ -155,8 +230,8 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
               <Link to={quizHref} className="btn btn-primary">
                 Start demo quiz
               </Link>
-              <Link to="/insurance-check" className="btn btn-secondary">
-                Coverage check
+              <Link to="/how-it-works" className="btn btn-secondary">
+                How care works
               </Link>
             </div>
           </div>
@@ -165,7 +240,7 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
 
       <section className="section-tight">
         <div className="container">
-          <p className="section-kicker">FAQ</p>
+          <p className="section-kicker">FAQ · Demo</p>
           <h2>FAQs</h2>
           <div className="faq-list">
             {faqs.length === 0 ? (
@@ -182,12 +257,19 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
               ))
             )}
           </div>
+          <p className="care-bridge">
+            More answers in the{" "}
+            <Link to="/help" className="text-link">
+              Help center
+            </Link>
+            .
+          </p>
         </div>
       </section>
 
       <section className="section safety-band">
         <div className="container">
-          <p className="section-kicker">Safety</p>
+          <p className="section-kicker">Safety · Demo</p>
           <h2>Safety note (demo)</h2>
           {isiSlug ? (
             <IsiBlock slug={isiSlug} />
@@ -203,23 +285,32 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
               </Link>
             </div>
           )}
+          <p className="care-bridge">
+            <Link to="/safety" className="text-link">
+              Safety hub
+            </Link>
+            <span aria-hidden="true"> · </span>
+            <Link to="/guides" className="text-link">
+              Health guides
+            </Link>
+          </p>
         </div>
       </section>
 
       <section className="cta-band cat-cta-band">
         <div className="container cta-band-inner">
-          <p className="section-kicker section-kicker-on-dark">Next · Visit</p>
-          <h2>Continue to the demo intake</h2>
-          <p>Answers stay in this browser. Use Back and Edit on every step.</p>
+          <p className="section-kicker section-kicker-on-dark">Next · Demo quiz</p>
+          <h2>Continue with this aisle’s demo quiz</h2>
+          <p>Then the shared visit funnel. Answers stay in this browser.</p>
           <div className="hero-actions">
             <Link to={quizHref} className="btn btn-on-dark">
               Start demo quiz
             </Link>
-            <Link to={visitHref} className="btn btn-secondary">
-              Skip to visit
+            <Link to="/how-it-works" className="btn btn-secondary">
+              How care works
             </Link>
-            <Link to="/#find-care" className="btn btn-secondary">
-              Other care areas
+            <Link to="/help" className="btn btn-secondary">
+              Help center
             </Link>
           </div>
         </div>
@@ -228,7 +319,7 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
       <StickyMobileCta
         to={quizHref}
         label="Start demo quiz"
-        fine="Then continue into the shared visit funnel"
+        fine="Then visit → coverage → plan review · Help anytime"
       />
     </div>
   );

@@ -123,6 +123,8 @@ function loadContent(): SiteContent {
     const refreshFunnelCopy = storedVersion < 5;
     // v6: strip invented orphan defaults / force publish flags off (P1-03).
     const refreshOrphanGate = storedVersion < 6;
+    // v7: care landings + guides IA aligned with Help / how-it-works.
+    const refreshCareGuides = storedVersion < 7;
 
     const mergedSettings = { ...defaultContent.settings, ...parsed.settings };
     if (refreshOrphanGate) {
@@ -163,7 +165,16 @@ function loadContent(): SiteContent {
         : Array.isArray(parsed.experts)
           ? parsed.experts
           : defaultContent.experts,
-      guides: parsed.guides?.length ? parsed.guides : defaultContent.guides,
+      categories: refreshCareGuides
+        ? structuredClone(defaultContent.categories)
+        : parsed.categories?.length
+          ? parsed.categories
+          : defaultContent.categories,
+      guides: refreshCareGuides
+        ? structuredClone(defaultContent.guides)
+        : parsed.guides?.length
+          ? parsed.guides
+          : defaultContent.guides,
       products: mergeProducts(parsed.products, defaultContent.products),
     };
   } catch {

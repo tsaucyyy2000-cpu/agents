@@ -8,6 +8,7 @@ import { StickyMobileCta } from "../components/StickyMobileCta";
 import { useContent } from "../data/ContentContext";
 import { PENDING_PRICE } from "../utils/formatPrice";
 import { quizPath, visitPath } from "../utils/careRoutes";
+import { CareFunnelSteps } from "./CategoryLanding";
 import "./Category.css";
 import "./Flows.css";
 import "./Isi.css";
@@ -21,19 +22,15 @@ export function WeightLoss() {
   const faqs = content.faqs.filter((faq) => faq.area === "weight" || faq.area === "general");
   const hero = category ? mediaById[category.heroImageId] : undefined;
   const [weight, setWeight] = useState(220);
-  const steps =
-    category?.steps ??
-    [
-      "Answer a short online health questionnaire.",
-      "A provider reviews eligibility for the demo pathway.",
-      "Insurance or cash-pay pathways are explained clearly.",
-      "Begin a sample plan metaphor with ongoing check-ins.",
-    ];
   const firstProductId = products[0]?.id;
   const visitHref = visitPath("weight", firstProductId);
   const quizHref = quizPath("weight");
 
   if (!category) return null;
+
+  const eyebrow = category.eyebrow.toLowerCase().startsWith("demo")
+    ? category.eyebrow
+    : `Demo · ${category.eyebrow}`;
 
   return (
     <div className="category-page">
@@ -49,21 +46,26 @@ export function WeightLoss() {
               ]}
             />
             <StepIndicator current={0} />
-            <p className="eyebrow">{category.eyebrow}</p>
+            <p className="eyebrow">{eyebrow}</p>
             <h1>{category.title}</h1>
             <p className="lede">{category.lede}</p>
             <div className="hero-actions">
               <Link to={quizHref} className="btn btn-primary">
                 Start demo quiz
               </Link>
-              <Link to={visitHref} className="btn btn-secondary">
-                {category.ctaLabel}
+              <Link to="/how-it-works" className="btn btn-secondary">
+                How care works
               </Link>
-              <a href="#meds" className="btn btn-secondary">
-                Browse options
-              </a>
+              <Link to="/help" className="btn btn-secondary">
+                Help center
+              </Link>
             </div>
-            <p className="cat-fine">Quiz → visit → checkout · Back/Edit stay available</p>
+            <p className="cat-fine">
+              Quiz → visit → coverage → plan review ·{" "}
+              <a href="#meds">Browse options</a>
+              {" · "}
+              <Link to="/#find-care">Other care areas</Link>
+            </p>
           </div>
           <aside className="weight-widget">
             {hero ? <img className="cat-hero-img" src={hero.src} alt={hero.alt} /> : null}
@@ -93,25 +95,16 @@ export function WeightLoss() {
         </div>
       </section>
 
-      <section className="section-tight timeline">
-        <div className="container">
-          <p className="section-kicker">Process</p>
-          <h2>How it works</h2>
-          <p className="section-dek">Short path from interest to a fictional visit in this demo.</p>
-          <ol>
-            {steps.map((step, index) => (
-              <li key={step}>
-                <span>{index + 1}</span>
-                <p>{step}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+      <CareFunnelSteps
+        slug="weight"
+        quizHref={quizHref}
+        visitHref={visitHref}
+        quizTitle="Start the weight demo quiz"
+      />
 
       <section className="section" id="meds">
         <div className="container">
-          <p className="section-kicker">Options</p>
+          <p className="section-kicker">Options · Demo</p>
           <div className="section-head">
             <h2>Options</h2>
             <p>Demo catalog · verified prices are not published on this preview.</p>
@@ -121,8 +114,8 @@ export function WeightLoss() {
               <article className="empty-stub">
                 <h3>Options coming soon</h3>
                 <p>No active weight products in the demo catalog yet.</p>
-                <Link to={visitPath("weight")} className="btn btn-primary">
-                  Start demo visit
+                <Link to={quizHref} className="btn btn-primary">
+                  Start demo quiz
                 </Link>
               </article>
             ) : (
@@ -139,8 +132,8 @@ export function WeightLoss() {
                       <Link to={`/products/${med.id}`} className="btn btn-secondary">
                         Details
                       </Link>
-                      <Link to={visitPath("weight", med.id)} className="btn btn-primary">
-                        Start demo visit
+                      <Link to={quizHref} className="btn btn-primary">
+                        Start demo quiz
                       </Link>
                     </div>
                   </article>
@@ -154,7 +147,7 @@ export function WeightLoss() {
       <section className="section membership">
         <div className="container membership-grid">
           <div>
-            <p className="section-kicker">Membership</p>
+            <p className="section-kicker">Membership · Demo</p>
             <h2>What’s in the membership (demo)</h2>
             <ul>
               {category.bullets.map((bullet) => (
@@ -170,8 +163,8 @@ export function WeightLoss() {
               <Link to={quizHref} className="btn btn-primary">
                 Start demo quiz
               </Link>
-              <Link to="/insurance-check" className="btn btn-secondary">
-                Coverage check
+              <Link to="/how-it-works" className="btn btn-secondary">
+                How care works
               </Link>
             </div>
           </div>
@@ -180,7 +173,7 @@ export function WeightLoss() {
 
       <section className="section-tight">
         <div className="container">
-          <p className="section-kicker">FAQ</p>
+          <p className="section-kicker">FAQ · Demo</p>
           <h2>Weight FAQs</h2>
           <div className="faq-list">
             {faqs.map((faq) => (
@@ -190,31 +183,51 @@ export function WeightLoss() {
               </details>
             ))}
           </div>
+          <p className="care-bridge">
+            More answers in the{" "}
+            <Link to="/help" className="text-link">
+              Help center
+            </Link>
+            .
+          </p>
         </div>
       </section>
 
       <section className="section safety-band">
         <div className="container">
-          <p className="section-kicker">Safety</p>
+          <p className="section-kicker">Safety · Demo</p>
           <h2>Safety note (demo)</h2>
           <IsiBlock slug="glp1" />
+          <p className="care-bridge">
+            <Link to="/safety" className="text-link">
+              Safety hub
+            </Link>
+            <span aria-hidden="true"> · </span>
+            <Link to="/isi/glp1" className="text-link">
+              GLP-1 ISI stub
+            </Link>
+            <span aria-hidden="true"> · </span>
+            <Link to="/guides" className="text-link">
+              Health guides
+            </Link>
+          </p>
         </div>
       </section>
 
       <section className="cta-band cat-cta-band">
         <div className="container cta-band-inner">
-          <p className="section-kicker section-kicker-on-dark">Next · Quiz</p>
-          <h2>Continue to the demo quiz</h2>
+          <p className="section-kicker section-kicker-on-dark">Next · Demo quiz</p>
+          <h2>Continue to the weight demo quiz</h2>
           <p>Then the shared visit funnel. Answers stay in this browser.</p>
           <div className="hero-actions">
             <Link to={quizHref} className="btn btn-on-dark">
               Start demo quiz
             </Link>
-            <Link to={visitHref} className="btn btn-secondary">
-              Skip to visit
+            <Link to="/how-it-works" className="btn btn-secondary">
+              How care works
             </Link>
-            <Link to="/#find-care" className="btn btn-secondary">
-              Other care areas
+            <Link to="/help" className="btn btn-secondary">
+              Help center
             </Link>
           </div>
         </div>
@@ -223,7 +236,7 @@ export function WeightLoss() {
       <StickyMobileCta
         to={quizHref}
         label="Start demo quiz"
-        fine="Then continue into the shared visit funnel"
+        fine="Then visit → coverage → plan review · Help anytime"
       />
     </div>
   );
