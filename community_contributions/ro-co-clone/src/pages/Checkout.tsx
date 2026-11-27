@@ -63,8 +63,22 @@ export function Checkout() {
             <h1>{confirmed ? "Plan confirmed locally" : "Confirm a sample membership cadence"}</h1>
             <p className="lede">
               Prototype only: choose a cadence and save a local lead. No payments and no verified
-              prices are shown.
+              prices are shown. Care-membership fees are separate from medication costs (membership
+              TBD / pending). For the labeled sandbox billing flow, use{" "}
+              <Link to="/membership">membership plans</Link>.
             </p>
+            <div className="cta-row" style={{ marginTop: "0.75rem" }}>
+              <Link to="/membership" className="btn btn-secondary" data-testid="checkout-to-membership">
+                Compare membership plans
+              </Link>
+              <Link
+                to="/membership/checkout"
+                className="btn btn-secondary"
+                data-testid="checkout-to-sandbox"
+              >
+                Sandbox checkout
+              </Link>
+            </div>
           </div>
           {image ? <img src={image.src} alt={image.alt} className="flow-hero-img" /> : null}
         </div>
@@ -189,6 +203,7 @@ export function Checkout() {
               <li>Progress tracking placeholders</li>
               <li>Shipping / pharmacy routing story</li>
               <li>No published dollar prices in this preview</li>
+              <li>Membership fees TBD · medication costs separate</li>
             </ul>
             <div className="cta-row" style={{ marginTop: "1rem" }}>
               <Link to={visitHref} className="text-link">
@@ -196,6 +211,9 @@ export function Checkout() {
               </Link>
               <Link to={insuranceHref} className="text-link">
                 Coverage check
+              </Link>
+              <Link to="/membership" className="text-link">
+                Membership sandbox
               </Link>
             </div>
           </aside>

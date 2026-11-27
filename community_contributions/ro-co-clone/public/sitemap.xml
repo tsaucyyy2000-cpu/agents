@@ -13,6 +13,8 @@
   <url><loc>http://127.0.0.1:5173/how-it-works</loc></url>
   <url><loc>http://127.0.0.1:5173/insurance-check</loc></url>
   <url><loc>http://127.0.0.1:5173/checkout</loc></url>
+  <url><loc>http://127.0.0.1:5173/membership</loc></url>
+  <url><loc>http://127.0.0.1:5173/membership/checkout</loc></url>
   <url><loc>http://127.0.0.1:5173/guides</loc></url>
   <url><loc>http://127.0.0.1:5173/guides/g1</loc></url>
   <url><loc>http://127.0.0.1:5173/guides/g2</loc></url>

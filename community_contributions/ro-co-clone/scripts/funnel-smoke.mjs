@@ -80,6 +80,8 @@ async function main() {
     "/quiz/hair",
     "/guides/g1",
     "/isi/glp1",
+    "/membership",
+    "/membership/checkout",
     "/this-route-does-not-exist",
   ];
   for (const p of deepPaths) {
@@ -303,6 +305,76 @@ async function main() {
     await shot(page, "health-seo-desktop-home.png");
     await page.goto(`${BASE}/checkout?product=weekly-glp1`, { waitUntil: "networkidle" });
     await shot(page, "health-seo-desktop-checkout.png");
+
+    // Membership sandbox: plans compare → billing profile → confirmation (no payment).
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE}/membership`, { waitUntil: "networkidle" });
+    const membershipBody = await page.locator("body").innerText();
+    check(
+      "membership plans sandbox",
+      (await page.getByTestId("membership-plans").count()) > 0 &&
+        (await page.getByTestId("membership-compare-table").count()) > 0 &&
+        /Pricing pending verification/i.test(membershipBody) &&
+        /Sandbox/i.test(membershipBody) &&
+        !/\$\d/.test(membershipBody),
+      membershipBody.replace(/\s+/g, " ").slice(0, 120),
+    );
+    check(
+      "membership fees separate from medication",
+      /separate from medication|medication costs/i.test(membershipBody),
+    );
+    await shot(page, "membership-sandbox-plans-mobile.png");
+
+    const planCta = page.getByTestId("membership-checkout-care-plus-monthly");
+    check(
+      "membership plan CTA href",
+      (await planCta.count()) > 0 &&
+        /\/membership\/checkout\?.*plan=care-plus.*cadence=monthly/.test(
+          (await planCta.getAttribute("href")) || "",
+        ),
+    );
+
+    await page.goto(`${BASE}/membership/checkout?plan=care-plus&cadence=monthly`, {
+      waitUntil: "networkidle",
+    });
+    check("sandbox checkout form", (await page.getByTestId("sandbox-billing-form").count()) > 0);
+    await shot(page, "membership-sandbox-checkout-mobile.png");
+    await page.getByTestId("sandbox-full-name").fill("Alex Sandbox");
+    await page.getByTestId("sandbox-email").fill("alex.sandbox@example.local");
+    await page.getByTestId("sandbox-address").fill("100 Demo Street");
+    await page.getByTestId("sandbox-city").fill("Austin");
+    await page.getByTestId("sandbox-region").fill("TX");
+    await page.getByTestId("sandbox-postal").fill("78701");
+    await page.getByTestId("sandbox-ack").check();
+    await page.getByTestId("sandbox-submit").click();
+    await page.getByTestId("sandbox-confirmation").waitFor({ state: "visible", timeout: 5000 });
+    const confirm = page.getByTestId("sandbox-confirmation");
+    check(
+      "sandbox confirmation no payment",
+      (await confirm.count()) > 0 &&
+        /Sandbox \/ simulated — no payment processed/i.test(await confirm.innerText()),
+    );
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await shot(page, "membership-sandbox-confirm-mobile.png");
+
+    await page.goto(`${BASE}/account/membership?previewShell=1`, { waitUntil: "networkidle" });
+    check(
+      "account membership demo records",
+      (await page.getByTestId("account-membership-demo-records").count()) > 0 &&
+        (await page.getByTestId("account-membership-demo-item").count()) > 0 &&
+        /no payment processed/i.test(await page.locator("body").innerText()),
+    );
+    await shot(page, "membership-sandbox-account-mobile.png");
+
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE}/membership`, { waitUntil: "networkidle" });
+    await shot(page, "membership-sandbox-plans-desktop.png");
+    await page.goto(`${BASE}/membership/checkout?plan=care-plus&cadence=quarterly`, {
+      waitUntil: "networkidle",
+    });
+    await shot(page, "membership-sandbox-checkout-desktop.png");
+    await page.goto(`${BASE}/account/membership?previewShell=1`, { waitUntil: "networkidle" });
+    await shot(page, "membership-sandbox-account-desktop.png");
   } finally {
     await browser.close();
     stopServer();

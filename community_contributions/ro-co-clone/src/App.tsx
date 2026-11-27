@@ -2,6 +2,8 @@ import { lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { Checkout } from "./pages/Checkout";
+import { MembershipPlans } from "./pages/MembershipPlans";
+import { SandboxCheckout } from "./pages/SandboxCheckout";
 import { GuideDetail, GuidesIndex } from "./pages/Guides";
 import { Hair } from "./pages/Hair";
 import { Home } from "./pages/Home";
@@ -73,6 +75,8 @@ export default function App() {
         <Route path="how-it-works" element={<HowItWorks />} />
         <Route path="insurance-check" element={<InsuranceCheck />} />
         <Route path="checkout" element={<Checkout />} />
+        <Route path="membership" element={<MembershipPlans />} />
+        <Route path="membership/checkout" element={<SandboxCheckout />} />
         <Route path="guides" element={<GuidesIndex />} />
         <Route path="guides/:guideId" element={<GuideDetail />} />
         <Route path="products/:productId" element={<ProductDetail />} />
