@@ -47,6 +47,8 @@ function hostSeoRewritePlugin(): Plugin {
             "User-agent: *",
             "Disallow: /admin",
             "Disallow: /admin/",
+            "Disallow: /provider",
+            "Disallow: /provider/",
             "Disallow: /account",
             "Disallow: /account/",
             "Disallow: /sign-in",

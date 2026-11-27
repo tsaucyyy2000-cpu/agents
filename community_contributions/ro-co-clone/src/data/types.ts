@@ -131,6 +131,27 @@ export interface OrphanPublishFlags {
   vanityStats: boolean;
 }
 
+/** Staff roles stored in the CMS allowlist (local). Not a clinical credential. */
+export type StaffRole = "admin" | "provider";
+
+/**
+ * Email + role tags for staff surfaces.
+ * Prefer tagging `provider` here (Admin → Settings) over inventing new secrets.
+ * Optional `VITE_PROVIDER_EMAILS` remains a clean env alternative.
+ */
+export interface StaffAllowlistEntry {
+  email: string;
+  roles: StaffRole[];
+}
+
+/** Local provider annotation on a submission — not a chart note / Rx. */
+export interface ProviderCaseNote {
+  id: string;
+  createdAt: string;
+  body: string;
+  authorLabel: string;
+}
+
 export interface Lead {
   id: string;
   createdAt: string;
@@ -143,6 +164,8 @@ export interface Lead {
   quizSlug?: string;
   /** Demo answers only — not a clinical record. */
   answers?: Record<string, string>;
+  /** Provider portal case notes (localStorage demo only). */
+  providerNotes?: ProviderCaseNote[];
 }
 
 export interface SiteContent {
@@ -170,4 +193,12 @@ export interface SiteContent {
   /** Admin-editable quiz questionnaires (shared engine). */
   questionnaires: SiteQuestionnaire[];
   leads: Lead[];
+  /**
+   * Role-tagged staff emails for provider (and optional admin) access notes.
+   * Live `/admin` still requires `VITE_ADMIN_EMAILS`; this list gates `/provider`
+   * when `VITE_PROVIDER_EMAILS` is empty.
+   */
+  staffAllowlist: StaffAllowlistEntry[];
+  /** Reusable non-clinical note snippets for the provider portal. */
+  providerNoteTemplates: string[];
 }

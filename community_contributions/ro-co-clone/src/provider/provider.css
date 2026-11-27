@@ -1,0 +1,205 @@
+/* Provider portal — reuses admin shell tokens with peach / editorial accents. */
+
+.provider-shell .admin-brand span {
+  color: #f0c9b0;
+}
+
+.provider-rx-banner {
+  margin: 0 0 1.25rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid #e8b4a0;
+  background: linear-gradient(135deg, #fff4ee 0%, #ffe8dc 100%);
+  color: #5c2e22;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.provider-rx-banner strong {
+  display: inline;
+  font-weight: 700;
+}
+
+.provider-demo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 0.75rem;
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  background: #fff6d8;
+  color: #7a5a00;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.provider-design-preview-banner {
+  margin: 0 0 1rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 10px;
+  background: #e8f4f7;
+  color: #0a5a6a;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.provider-worklist-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+.provider-stat {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  min-width: 7.5rem;
+}
+
+.provider-stat span {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--color-ink-muted);
+}
+
+.provider-stat strong {
+  font-size: 1.45rem;
+  letter-spacing: -0.03em;
+}
+
+.provider-case-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1.1fr 0.9fr;
+}
+
+.provider-answers {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.provider-answers li {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  background: #faf7f4;
+  border: 1px solid var(--color-border);
+}
+
+.provider-answers dt,
+.provider-answers strong {
+  font-size: 0.78rem;
+  color: var(--color-ink-muted);
+  font-weight: 600;
+}
+
+.provider-note-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.provider-note-list li {
+  padding: 0.75rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background: #fff;
+}
+
+.provider-note-list time {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-ink-muted);
+  margin-bottom: 0.25rem;
+}
+
+.provider-template-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.provider-template-row button {
+  font-size: 0.82rem;
+}
+
+.provider-thread-list {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.provider-thread-card {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+}
+
+.provider-thread-card:hover {
+  border-color: var(--color-border-strong);
+  background: #fffaf7;
+}
+
+.provider-thread-card strong {
+  letter-spacing: -0.02em;
+}
+
+.provider-thread-card span {
+  font-size: 0.82rem;
+  color: var(--color-ink-muted);
+}
+
+.provider-empty {
+  margin: 0;
+  color: var(--color-ink-muted);
+  line-height: 1.45;
+}
+
+.provider-appointments-stub {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.provider-appointments-stub .admin-panel {
+  background: linear-gradient(180deg, #fff 0%, #fff8f4 100%);
+}
+
+@media (max-width: 900px) {
+  .provider-case-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .provider-shell.admin-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .provider-shell .admin-sidebar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .provider-shell .admin-sidebar nav {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .provider-shell .admin-sidebar-footer {
+    width: 100%;
+    margin-top: 0;
+  }
+}

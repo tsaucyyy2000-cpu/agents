@@ -19,10 +19,45 @@ import type {
   MediaAsset,
   OrphanPublishFlags,
   Product,
+  ProviderCaseNote,
   SiteContent,
   SiteSettings,
+  StaffAllowlistEntry,
+  StaffRole,
 } from "./types";
 import { normalizeWorkflowStatus, type WorkflowStatus } from "./workflowStates";
+
+function normalizeStaffAllowlist(raw: unknown): StaffAllowlistEntry[] {
+  if (!Array.isArray(raw)) return [];
+  const out: StaffAllowlistEntry[] = [];
+  for (const item of raw) {
+    if (!item || typeof item !== "object") continue;
+    const email = String((item as StaffAllowlistEntry).email ?? "")
+      .trim()
+      .toLowerCase();
+    if (!email) continue;
+    const rolesRaw = (item as StaffAllowlistEntry).roles;
+    const roles: StaffRole[] = [];
+    if (Array.isArray(rolesRaw)) {
+      for (const role of rolesRaw) {
+        if (role === "admin" || role === "provider") {
+          if (!roles.includes(role)) roles.push(role);
+        }
+      }
+    }
+    if (roles.length === 0) continue;
+    out.push({ email, roles });
+  }
+  return out;
+}
+
+function normalizeProviderNoteTemplates(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return structuredClone(defaultContent.providerNoteTemplates);
+  const cleaned = raw
+    .map((item) => String(item ?? "").trim())
+    .filter((item) => item.length > 0);
+  return cleaned.length > 0 ? cleaned : structuredClone(defaultContent.providerNoteTemplates);
+}
 
 interface ContentContextValue {
   content: SiteContent;
@@ -41,6 +76,13 @@ interface ContentContextValue {
   removeMedia: (id: string) => void;
   addLead: (lead: Omit<Lead, "id" | "createdAt" | "status"> & { status?: Lead["status"] }) => void;
   updateLeadStatus: (id: string, status: WorkflowStatus) => void;
+  appendProviderNote: (
+    leadId: string,
+    body: string,
+    authorLabel: string,
+  ) => ProviderCaseNote | null;
+  setStaffAllowlist: (entries: StaffAllowlistEntry[]) => void;
+  setProviderNoteTemplates: (templates: string[]) => void;
   updateCategory: (
     slug: SiteContent["categories"][number]["slug"],
     patch: Partial<SiteContent["categories"][number]>,
@@ -134,6 +176,8 @@ function loadContent(): SiteContent {
     const refreshGoLive = storedVersion < 8;
     // v9: seed admin-editable questionnaires for the shared quiz engine.
     const refreshQuestionnaires = storedVersion < 9;
+    // v10: provider portal staff roles + note templates.
+    const refreshProviderPortal = storedVersion < 10;
 
     const mergedSettings = { ...defaultContent.settings, ...parsed.settings };
     if (refreshOrphanGate) {
@@ -198,8 +242,15 @@ function loadContent(): SiteContent {
         ? parsed.leads.map((lead) => ({
             ...lead,
             status: normalizeWorkflowStatus(lead.status),
+            providerNotes: Array.isArray(lead.providerNotes) ? lead.providerNotes : [],
           }))
         : [],
+      staffAllowlist: refreshProviderPortal
+        ? structuredClone(defaultContent.staffAllowlist)
+        : normalizeStaffAllowlist(parsed.staffAllowlist),
+      providerNoteTemplates: refreshProviderPortal
+        ? structuredClone(defaultContent.providerNoteTemplates)
+        : normalizeProviderNoteTemplates(parsed.providerNoteTemplates),
     };
   } catch {
     return structuredClone(defaultContent);
@@ -242,6 +293,8 @@ export function ContentProvider({ children }: { children: ReactNode }) {
             ...structuredClone(defaultContent),
             ...parsed,
             orphanPublish: normalizeOrphanPublish(parsed.orphanPublish),
+            staffAllowlist: normalizeStaffAllowlist(parsed.staffAllowlist),
+            providerNoteTemplates: normalizeProviderNoteTemplates(parsed.providerNoteTemplates),
             updatedAt: new Date().toISOString(),
           });
           return { ok: true };
@@ -331,6 +384,39 @@ export function ContentProvider({ children }: { children: ReactNode }) {
           leads: current.leads.map((lead) =>
             lead.id === id ? { ...lead, status: normalizeWorkflowStatus(status) } : lead,
           ),
+        })),
+      appendProviderNote: (leadId, body, authorLabel) => {
+        const trimmed = body.trim();
+        if (!trimmed) return null;
+        if (!content.leads.some((lead) => lead.id === leadId)) return null;
+        const note: ProviderCaseNote = {
+          id: crypto.randomUUID(),
+          createdAt: new Date().toISOString(),
+          body: trimmed,
+          authorLabel: authorLabel.trim() || "provider",
+        };
+        setContent((current) => ({
+          ...current,
+          updatedAt: new Date().toISOString(),
+          leads: current.leads.map((lead) =>
+            lead.id === leadId
+              ? { ...lead, providerNotes: [note, ...(lead.providerNotes ?? [])] }
+              : lead,
+          ),
+        }));
+        return note;
+      },
+      setStaffAllowlist: (entries) =>
+        setContent((current) => ({
+          ...current,
+          updatedAt: new Date().toISOString(),
+          staffAllowlist: normalizeStaffAllowlist(entries),
+        })),
+      setProviderNoteTemplates: (templates) =>
+        setContent((current) => ({
+          ...current,
+          updatedAt: new Date().toISOString(),
+          providerNoteTemplates: normalizeProviderNoteTemplates(templates),
         })),
       updateCategory: (slug, patch) =>
         setContent((current) => ({

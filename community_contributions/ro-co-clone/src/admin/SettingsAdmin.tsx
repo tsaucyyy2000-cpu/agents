@@ -1,13 +1,53 @@
 import { useState } from "react";
 import { defaultContent } from "../data/defaultContent";
 import { useContent } from "../data/ContentContext";
+import type { StaffAllowlistEntry, StaffRole } from "../data/types";
 
 export function SettingsAdmin() {
-  const { content, updateSettings, exportJson, importJson, resetToDefaults } = useContent();
+  const {
+    content,
+    updateSettings,
+    exportJson,
+    importJson,
+    resetToDefaults,
+    setStaffAllowlist,
+    setProviderNoteTemplates,
+  } = useContent();
   const [settings, setSettings] = useState(content.settings);
+  const [staffDraft, setStaffDraft] = useState(() => serializeStaff(content.staffAllowlist));
+  const [templatesDraft, setTemplatesDraft] = useState(
+    () => content.providerNoteTemplates.join("\n"),
+  );
   const [importText, setImportText] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+
+  function serializeStaff(entries: StaffAllowlistEntry[]): string {
+    return entries
+      .map((entry) => `${entry.email}:${entry.roles.join("+")}`)
+      .join("\n");
+  }
+
+  function parseStaff(raw: string): StaffAllowlistEntry[] {
+    const out: StaffAllowlistEntry[] = [];
+    for (const line of raw.split("\n")) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith("#")) continue;
+      const [emailPart, rolesPart = "provider"] = trimmed.split(":");
+      const email = emailPart.trim().toLowerCase();
+      if (!email) continue;
+      const roles: StaffRole[] = [];
+      for (const role of rolesPart.split(/[+|,]/)) {
+        const r = role.trim().toLowerCase();
+        if (r === "admin" || r === "provider") {
+          if (!roles.includes(r)) roles.push(r);
+        }
+      }
+      if (roles.length === 0) roles.push("provider");
+      out.push({ email, roles });
+    }
+    return out;
+  }
 
   return (
     <div>
@@ -81,6 +121,68 @@ export function SettingsAdmin() {
           </fieldset>
           <button className="btn btn-primary" type="submit">
             Save settings
+          </button>
+        </form>
+      </div>
+
+      <div className="admin-panel" data-testid="admin-staff-roles">
+        <h2>Staff roles (provider portal)</h2>
+        <p className="admin-orphan-lede">
+          Prefer tagging <code>provider</code> emails here instead of inventing new secrets. Live{" "}
+          <code>/admin</code> still requires <code>VITE_ADMIN_EMAILS</code>. Optional{" "}
+          <code>VITE_PROVIDER_EMAILS</code> merges with this list for <code>/provider</code>. Format:{" "}
+          <code>email@example.com:provider</code> or <code>email@example.com:admin+provider</code>{" "}
+          (one per line).
+        </p>
+        <form
+          className="admin-form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            const entries = parseStaff(staffDraft);
+            setStaffAllowlist(entries);
+            setStaffDraft(serializeStaff(entries));
+            setMessage("Staff roles saved to local content store.");
+            setError("");
+          }}
+        >
+          <label>
+            Role-tagged emails
+            <textarea
+              value={staffDraft}
+              onChange={(event) => setStaffDraft(event.target.value)}
+              placeholder={"clinician@example.com:provider\nops@example.com:admin+provider"}
+              rows={5}
+            />
+          </label>
+          <button className="btn btn-primary" type="submit">
+            Save staff roles
+          </button>
+        </form>
+        <form
+          className="admin-form"
+          style={{ marginTop: "1rem" }}
+          onSubmit={(event) => {
+            event.preventDefault();
+            const templates = templatesDraft
+              .split("\n")
+              .map((line) => line.trim())
+              .filter(Boolean);
+            setProviderNoteTemplates(templates);
+            setTemplatesDraft(templates.join("\n"));
+            setMessage("Provider note templates saved.");
+            setError("");
+          }}
+        >
+          <label>
+            Provider note templates (one per line)
+            <textarea
+              value={templatesDraft}
+              onChange={(event) => setTemplatesDraft(event.target.value)}
+              rows={5}
+            />
+          </label>
+          <button className="btn btn-secondary" type="submit">
+            Save note templates
           </button>
         </form>
       </div>

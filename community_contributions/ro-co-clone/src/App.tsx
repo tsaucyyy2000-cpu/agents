@@ -29,6 +29,7 @@ import { Skin } from "./pages/Skin";
 import { Visit } from "./pages/Visit";
 import { WeightLoss } from "./pages/WeightLoss";
 import { AccountPage } from "./pages/AccountPage";
+import { ProviderPage } from "./pages/ProviderPage";
 import { SignInPage } from "./pages/SignInPage";
 import { SignUpPage } from "./pages/SignUpPage";
 
@@ -119,6 +120,13 @@ export default function App() {
             <MessagesAdminPreview />
           </Suspense>
         }
+      />
+
+      <Route path="provider/*" element={<ProviderPage />} />
+
+      <Route
+        path="design/provider"
+        element={<Navigate to="/provider?previewShell=1" replace />}
       />
 
       <Route
