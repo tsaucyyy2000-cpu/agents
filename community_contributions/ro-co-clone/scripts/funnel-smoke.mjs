@@ -176,6 +176,59 @@ async function main() {
     await shot(page, "clerk-auth-account-locked-desktop.png");
     await page.setViewportSize({ width: 390, height: 844 });
 
+    // Quiz engine: consent → steps → branching → review → submit
+    await page.goto(`${BASE}/quiz/weight-loss`, { waitUntil: "networkidle" });
+    check(
+      "quiz storage note",
+      (await page.getByTestId("quiz-storage-note").count()) > 0 &&
+        /Non-PHI demo storage/i.test(await page.getByTestId("quiz-storage-note").innerText()),
+    );
+    const consentGate = page.getByTestId("quiz-consent-gate");
+    if ((await consentGate.count()) > 0) {
+      await page.getByRole("checkbox").check();
+      await page.getByTestId("quiz-consent-accept").click();
+    }
+    if ((await page.getByTestId("quiz-start").count()) > 0) {
+      await page.getByTestId("quiz-start").click();
+    } else if ((await page.getByTestId("quiz-start-fresh").count()) > 0) {
+      await page.getByTestId("quiz-start-fresh").click();
+    }
+    check("quiz shell", (await page.getByTestId("quiz-shell").count()) > 0);
+    await shot(page, "quiz-engine-weight-step.png");
+
+    async function answerNumber(value) {
+      await page.locator(".quiz-number-field input").fill(String(value));
+      await page.getByTestId("quiz-next").click();
+    }
+    async function answerChoice(label) {
+      await page.getByRole("button", { name: label, exact: true }).click();
+      await page.getByTestId("quiz-next").click();
+    }
+
+    await answerNumber(70);
+    await answerNumber(210);
+    await answerNumber(180);
+    await answerChoice("Type 2 diabetes");
+    // Branching: optional conditions_notes appears
+    check(
+      "quiz branch note step",
+      /clinician story|optional/i.test(await page.locator(".quiz-shell h2").innerText()),
+    );
+    await page.getByTestId("quiz-next").click(); // optional text can be empty
+    await answerChoice("Yes, currently");
+    check(
+      "quiz prior notes branch",
+      /prior medication/i.test(await page.locator(".quiz-shell h2").innerText()),
+    );
+    await page.getByTestId("quiz-next").click();
+    check("quiz review", (await page.getByTestId("quiz-review").count()) > 0);
+    await shot(page, "quiz-engine-review.png");
+    await page.getByTestId("quiz-review-ack").check();
+    await page.getByTestId("quiz-review-submit").click();
+    await page.waitForURL(/\/visit/);
+    check("quiz → visit", /\/visit/.test(page.url()));
+    await shot(page, "quiz-engine-visit-handoff.png");
+
     await page.goto(`${BASE}/insurance-check?goal=weight&product=weekly-glp1`, {
       waitUntil: "networkidle",
     });
@@ -197,7 +250,12 @@ async function main() {
     await page.getByText(/non-clinical intake/i).click();
     await page.getByRole("button", { name: /Finish visit/i }).click();
     check("visit done", await page.getByRole("heading", { name: /Visit saved/i }).isVisible());
+    check(
+      "visit no auto-eligibility",
+      /admin workflow status|does not decide eligibility/i.test(await page.locator(".visit-done").innerText()),
+    );
     await shot(page, "health-seo-mobile-visit-done.png");
+    await shot(page, "quiz-engine-visit-done.png");
 
     await page.getByRole("link", { name: /Review sample plan/i }).click();
     await page.waitForURL(/\/checkout/);

@@ -1,4 +1,32 @@
+import type { WorkflowStatus } from "./workflowStates";
+
 export type CareArea = "weight" | "sexual-health" | "hair" | "skin";
+export type { WorkflowStatus };
+
+/** Mirrors quizEngine.QuizDefinition — kept here to avoid a circular import. */
+export type SiteQuestionnaire = {
+  slug: string;
+  name: string;
+  careArea: CareArea;
+  blurb: string;
+  steps: Array<{
+    id: string;
+    label: string;
+    help?: string;
+    type: "choice" | "number" | "text";
+    options?: string[];
+    unit?: string;
+    required?: boolean;
+    min?: number;
+    max?: number;
+    showIf?: {
+      fieldId: string;
+      equals?: string;
+      notEquals?: string;
+      anyOf?: string[];
+    };
+  }>;
+};
 
 export interface NavLink {
   to: string;
@@ -109,7 +137,12 @@ export interface Lead {
   goal: string;
   state: string;
   notes: string;
-  status: "new" | "reviewed" | "closed";
+  /** Admin-set workflow only — never auto-set from quiz answers. */
+  status: WorkflowStatus;
+  source?: "visit" | "quiz";
+  quizSlug?: string;
+  /** Demo answers only — not a clinical record. */
+  answers?: Record<string, string>;
 }
 
 export interface SiteContent {
@@ -134,5 +167,7 @@ export interface SiteContent {
   faqs: FaqItem[];
   /** Staged only until orphanPublish.moreCare — no faux vertical tiles. */
   moreCare: MoreCareItem[];
+  /** Admin-editable quiz questionnaires (shared engine). */
+  questionnaires: SiteQuestionnaire[];
   leads: Lead[];
 }

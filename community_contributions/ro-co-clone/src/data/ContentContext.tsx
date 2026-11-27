@@ -12,6 +12,8 @@ import {
   normalizeOrphanPublish,
   stripUnpublishedOrphans,
 } from "./orphanContentGate";
+import type { QuizDefinition } from "./quizEngine";
+import { normalizeQuestionnaires } from "./quizQuestions";
 import type {
   Lead,
   MediaAsset,
@@ -20,6 +22,7 @@ import type {
   SiteContent,
   SiteSettings,
 } from "./types";
+import { normalizeWorkflowStatus, type WorkflowStatus } from "./workflowStates";
 
 interface ContentContextValue {
   content: SiteContent;
@@ -37,7 +40,7 @@ interface ContentContextValue {
   upsertMedia: (asset: MediaAsset) => void;
   removeMedia: (id: string) => void;
   addLead: (lead: Omit<Lead, "id" | "createdAt" | "status"> & { status?: Lead["status"] }) => void;
-  updateLeadStatus: (id: string, status: Lead["status"]) => void;
+  updateLeadStatus: (id: string, status: WorkflowStatus) => void;
   updateCategory: (
     slug: SiteContent["categories"][number]["slug"],
     patch: Partial<SiteContent["categories"][number]>,
@@ -47,6 +50,8 @@ interface ContentContextValue {
   setGuides: (guides: SiteContent["guides"]) => void;
   setExperts: (experts: SiteContent["experts"]) => void;
   setMoreCare: (moreCare: SiteContent["moreCare"]) => void;
+  setQuestionnaires: (questionnaires: QuizDefinition[]) => void;
+  upsertQuestionnaire: (questionnaire: QuizDefinition) => void;
 }
 
 const ContentContext = createContext<ContentContextValue | null>(null);
@@ -127,6 +132,8 @@ function loadContent(): SiteContent {
     const refreshCareGuides = storedVersion < 7;
     // v8: strip Demo chrome copy + SVG→JPG media defaults for go-live prep.
     const refreshGoLive = storedVersion < 8;
+    // v9: seed admin-editable questionnaires for the shared quiz engine.
+    const refreshQuestionnaires = storedVersion < 9;
 
     const mergedSettings = { ...defaultContent.settings, ...parsed.settings };
     if (refreshOrphanGate) {
@@ -184,6 +191,15 @@ function loadContent(): SiteContent {
       products: refreshGoLive
         ? structuredClone(defaultContent.products)
         : mergeProducts(parsed.products, defaultContent.products),
+      questionnaires: refreshQuestionnaires
+        ? structuredClone(defaultContent.questionnaires)
+        : normalizeQuestionnaires(parsed.questionnaires),
+      leads: Array.isArray(parsed.leads)
+        ? parsed.leads.map((lead) => ({
+            ...lead,
+            status: normalizeWorkflowStatus(lead.status),
+          }))
+        : [],
     };
   } catch {
     return structuredClone(defaultContent);
@@ -297,10 +313,13 @@ export function ContentProvider({ children }: { children: ReactNode }) {
             {
               id: crypto.randomUUID(),
               createdAt: new Date().toISOString(),
-              status: lead.status ?? "new",
+              status: lead.status ?? "submitted",
               goal: lead.goal,
               state: lead.state,
               notes: lead.notes,
+              source: lead.source,
+              quizSlug: lead.quizSlug,
+              answers: lead.answers,
             },
             ...current.leads,
           ],
@@ -309,7 +328,9 @@ export function ContentProvider({ children }: { children: ReactNode }) {
         setContent((current) => ({
           ...current,
           updatedAt: new Date().toISOString(),
-          leads: current.leads.map((lead) => (lead.id === id ? { ...lead, status } : lead)),
+          leads: current.leads.map((lead) =>
+            lead.id === id ? { ...lead, status: normalizeWorkflowStatus(status) } : lead,
+          ),
         })),
       updateCategory: (slug, patch) =>
         setContent((current) => ({
@@ -349,6 +370,26 @@ export function ContentProvider({ children }: { children: ReactNode }) {
           updatedAt: new Date().toISOString(),
           moreCare,
         })),
+      setQuestionnaires: (questionnaires) =>
+        setContent((current) => ({
+          ...current,
+          updatedAt: new Date().toISOString(),
+          questionnaires: normalizeQuestionnaires(questionnaires),
+        })),
+      upsertQuestionnaire: (questionnaire) =>
+        setContent((current) => {
+          const exists = current.questionnaires.some((item) => item.slug === questionnaire.slug);
+          const next = exists
+            ? current.questionnaires.map((item) =>
+                item.slug === questionnaire.slug ? questionnaire : item,
+              )
+            : [...current.questionnaires, questionnaire];
+          return {
+            ...current,
+            updatedAt: new Date().toISOString(),
+            questionnaires: normalizeQuestionnaires(next),
+          };
+        }),
     }),
     [content, customerContent, mediaById],
   );

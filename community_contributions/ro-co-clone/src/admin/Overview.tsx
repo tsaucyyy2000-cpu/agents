@@ -4,7 +4,14 @@ import { useContent } from "../data/ContentContext";
 export function Overview() {
   const { content } = useContent();
   const activeProducts = content.products.filter((product) => product.active).length;
-  const newLeads = content.leads.filter((lead) => lead.status === "new").length;
+  const openSubmissions = content.leads.filter(
+    (lead) =>
+      lead.status === "submitted" ||
+      lead.status === "awaiting_review" ||
+      lead.status === "more_information_required" ||
+      lead.status === "under_clinician_review" ||
+      lead.status === "draft",
+  ).length;
 
   return (
     <div>
@@ -33,8 +40,12 @@ export function Overview() {
           <strong>{content.media.length}</strong>
         </div>
         <div className="admin-card">
-          <span>New leads</span>
-          <strong>{newLeads}</strong>
+          <span>Open submissions</span>
+          <strong>{openSubmissions}</strong>
+        </div>
+        <div className="admin-card">
+          <span>Questionnaires</span>
+          <strong>{content.questionnaires.length}</strong>
         </div>
         <div className="admin-card">
           <span>Guides</span>
@@ -58,7 +69,10 @@ export function Overview() {
             Media library
           </Link>
           <Link to="/admin/leads" className="btn btn-secondary">
-            Review leads
+            Review submissions
+          </Link>
+          <Link to="/admin/content" className="btn btn-secondary">
+            Edit questionnaires
           </Link>
           <Link to="/admin/settings" className="btn btn-secondary">
             Settings / import-export

@@ -1,6 +1,6 @@
 # Health marketing SPA (host-ready)
 
-A Vite + React telehealth **marketing** SPA with care-area landings, quizzes, a shared visit funnel, and a local **admin dashboard** for content, products, media, and visit leads.
+A Vite + React telehealth **marketing** SPA with care-area landings, a configurable quiz engine, a shared visit funnel, and a local **admin dashboard** for content, questionnaires, products, media, and submission workflow states.
 
 Not affiliated with Ro. Uses original placeholder copy and locally hosted photoreal media (including approved local copies of lifestyle assets). Verified prices and clinician bios stay gated until supplied.
 
@@ -64,7 +64,7 @@ VITE_SITE_ORIGIN=https://example.com
 - `/` home marketing composition
 - `/weight-loss` category landing (no outcome projection)
 - `/sexual-health`, `/hair`, `/skin` category landings
-- `/quiz/:slug` versioned-consent quiz → shared `/visit` funnel
+- `/quiz/:slug` versioned-consent quiz engine (progress, branching, review, localStorage resume) → shared `/visit` funnel
 - `/how-it-works`, `/insurance-check`, `/checkout`, `/guides`
 - `/products/:id` detail with sticky subnav + PriceTag (`amount: null` → —)
 - `/visit` multi-step intake
@@ -97,7 +97,8 @@ CMS content and visit leads still persist in browser `localStorage` (`ro-clone-s
 - `/admin/content` home + category + gated orphan staging (testimonials / experts / moreCare)
 - `/admin/products` product catalog CRUD (includes placeholder price labels)
 - `/admin/media` media library (paths/URLs)
-- `/admin/leads` visit lead inbox
+- `/admin/leads` submission inbox with admin-only workflow states
+- `/admin/content` questionnaire editor (no code deploy for copy/steps)
 - `/admin/settings` brand knobs + vanity stats (gated) + JSON import/export + reset
 
 ### Orphan content gate (P1-03)
