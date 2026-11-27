@@ -382,6 +382,104 @@ async function main() {
     );
     await page.setViewportSize({ width: 390, height: 844 });
 
+    // Weight progress dashboard (localStorage; unit toggle; escalation → messages/appointments; no dose advice).
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE}/account/progress?previewShell=1`, { waitUntil: "networkidle" });
+    const progressRoot = page.getByTestId("account-progress");
+    const progressText = (await progressRoot.count()) > 0 ? await progressRoot.innerText() : "";
+    check(
+      "account progress shell preview",
+      (await progressRoot.count()) > 0 &&
+        (await page.getByTestId("progress-unit-toggle").count()) > 0 &&
+        (await page.getByTestId("progress-goals-form").count()) > 0 &&
+        /localStorage|No dose advice|never invents clinician notes/i.test(progressText) &&
+        !/increase your dose|decrease your dose|take \d+ mg/i.test(progressText),
+      progressText.slice(0, 140),
+    );
+    await page.getByTestId("progress-start-input").fill("220");
+    await page.getByTestId("progress-goal-input").fill("180");
+    await page.getByTestId("progress-goals-save").evaluate((el) => {
+      /** @type {HTMLElement} */ (el).click();
+    });
+    await page.waitForTimeout(150);
+    check(
+      "progress goals saved stats",
+      /220/.test(await page.getByTestId("progress-stat-starting").innerText()) &&
+        /180/.test(await page.getByTestId("progress-stat-goal").innerText()),
+    );
+    await page.getByTestId("progress-unit-kg").evaluate((el) => {
+      /** @type {HTMLElement} */ (el).click();
+    });
+    await page.waitForTimeout(100);
+    const startKg = await page.getByTestId("progress-stat-starting").innerText();
+    check(
+      "progress unit toggle kg",
+      /kg/i.test(startKg) && !/220 lb/i.test(startKg),
+      startKg,
+    );
+    await page.getByTestId("progress-unit-lb").evaluate((el) => {
+      /** @type {HTMLElement} */ (el).click();
+    });
+    await page.waitForTimeout(100);
+    await page.getByTestId("progress-checkin-weight").fill("214");
+    await page.getByTestId("progress-se-nausea").check();
+    await page.getByTestId("progress-checkin-save").evaluate((el) => {
+      /** @type {HTMLElement} */ (el).click();
+    });
+    await page.waitForTimeout(200);
+    const progressToast =
+      (await page.getByTestId("progress-toast").count()) > 0
+        ? await page.getByTestId("progress-toast").innerText()
+        : "";
+    check(
+      "progress escalation toast no dose advice",
+      /does not change medication doses/i.test(progressToast) &&
+        !/increase|decrease|mg\b/i.test(progressToast),
+      progressToast.slice(0, 100),
+    );
+    check(
+      "progress escalation panel links",
+      (await page.getByTestId("progress-escalation").count()) > 0 &&
+        (await page.getByTestId("progress-escalate-messages").count()) > 0 &&
+        (await page.getByTestId("progress-escalate-appointments").count()) > 0 &&
+        /does not recommend medication dose/i.test(
+          await page.getByTestId("progress-escalation").innerText(),
+        ),
+    );
+    check(
+      "progress chart after check-in",
+      (await page.getByTestId("progress-chart").count()) > 0,
+    );
+    await page.getByTestId("progress-hydration").fill("5");
+    await page.getByTestId("progress-activity").fill("30");
+    await page.getByTestId("progress-habit-protein").check();
+    await page.getByTestId("progress-habits-save").evaluate((el) => {
+      /** @type {HTMLElement} */ (el).click();
+    });
+    await page.waitForTimeout(150);
+    check(
+      "progress habits stub saved",
+      (await page.getByTestId("progress-hydration-value").innerText()).includes("5") &&
+        /habit stubs were updated/i.test(
+          (await page.getByTestId("progress-toast").count()) > 0
+            ? await page.getByTestId("progress-toast").innerText()
+            : "",
+        ),
+    );
+    const escalateHref = await page.getByTestId("progress-escalate-messages").getAttribute("href");
+    check(
+      "progress escalate messages keeps preview",
+      typeof escalateHref === "string" &&
+        escalateHref.includes("/account/messages") &&
+        escalateHref.includes("previewShell=1"),
+      escalateHref || "",
+    );
+    await shot(page, "weight-progress-desktop.png");
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE}/account/progress?previewShell=1`, { waitUntil: "networkidle" });
+    await shot(page, "weight-progress-mobile.png");
+    await page.setViewportSize({ width: 1440, height: 900 });
+
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(`${BASE}/sign-in`, { waitUntil: "networkidle" });
     await shot(page, "clerk-auth-signin-locked-desktop.png");

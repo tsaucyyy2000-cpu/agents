@@ -77,7 +77,7 @@ Customer chrome links to **Account** / **Sign in** (`/account`, `/sign-in`, `/si
 
 ## Customer accounts (Clerk)
 
-Same Vite + `@clerk/react` app as admin. Routes: `/sign-in`, `/sign-up`, `/account` (patient dashboard shell: overview, care, orders, membership, progress, documents, **messages**, settings). Missing `VITE_CLERK_PUBLISHABLE_KEY` keeps these routes fail-closed. Google / Apple appear when enabled in the Clerk Dashboard for app `app_3MVcZ8Rr2hLFhPnnmb9aa1eWhgz`. Account UI is client-route protection only — visit leads / CMS / support threads remain `localStorage` (`ro-clone-support-messages-v1` for messaging). Toast previews never include message body.
+Same Vite + `@clerk/react` app as admin. Routes: `/sign-in`, `/sign-up`, `/account` (patient dashboard shell: overview, care, appointments, orders, membership, **progress**, documents, messages, settings). Missing `VITE_CLERK_PUBLISHABLE_KEY` keeps these routes fail-closed. Google / Apple appear when enabled in the Clerk Dashboard for app `app_3MVcZ8Rr2hLFhPnnmb9aa1eWhgz`. Account UI is client-route protection only — visit leads / CMS / support threads / weight progress remain `localStorage` (`ro-clone-support-messages-v1`, `ro-clone-weight-progress-v1`). Progress never recommends medication doses; side-effect escalation links to messaging / appointments. Toast previews never include message body or dose advice.
 
 ## Admin (direct URL · Clerk + email allowlist)
 
