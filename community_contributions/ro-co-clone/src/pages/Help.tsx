@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { isClerkConfigured } from "../auth/clerkConfig";
 import { useContent } from "../data/ContentContext";
 import { quizPath } from "../utils/careRoutes";
 import "./Help.css";
@@ -117,6 +118,9 @@ const HELP_FAQS = [
 export function HelpPage() {
   const { content } = useContent();
   const supportEmail = content.settings.supportEmail || "ops@clone.local";
+  const messagesTo = isClerkConfigured()
+    ? "/account/messages"
+    : "/account/messages?previewShell=1";
 
   return (
     <div className="info-page help-hub">
@@ -180,10 +184,11 @@ export function HelpPage() {
       <section className="container help-hub-contact" aria-labelledby="help-contact-heading">
         <h2 id="help-contact-heading">Contact </h2>
         <p>
-          There is no phone line or chat agent for this preview. For questions about running the
-          clone locally, email{" "}
-          <a href={`mailto:${supportEmail}`}>{supportEmail}</a>. Do not send real patient
-          information.
+          Use the floating <strong>Site help</strong> assistant for website, membership, and
+          navigation FAQs (local knowledge base — no diagnoses or prescription advice). Escalate to{" "}
+          <Link to={messagesTo}>Account → Messages</Link> or email{" "}
+          <a href={`mailto:${supportEmail}`}>{supportEmail}</a>. There is no phone line. Do not send
+          real patient information.
         </p>
       </section>
     </div>

@@ -658,6 +658,48 @@ async function main() {
     await shot(page, "membership-sandbox-checkout-desktop.png");
     await page.goto(`${BASE}/account/membership?previewShell=1`, { waitUntil: "networkidle" });
     await shot(page, "membership-sandbox-account-desktop.png");
+
+    // AI support assistant shell (local FAQ; clinical refuse; escalate)
+    await page.goto(`${BASE}/help`, { waitUntil: "networkidle" });
+    check(
+      "support assistant launcher",
+      (await page.getByTestId("support-assistant").count()) > 0 &&
+        (await page.getByTestId("support-assistant-launch").count()) > 0,
+    );
+    await page.getByTestId("support-assistant-launch").click();
+    check(
+      "support assistant panel opens",
+      (await page.getByTestId("support-assistant-panel").count()) > 0,
+    );
+    await page.getByTestId("support-assistant-input").fill("How does membership work?");
+    await page.getByTestId("support-assistant-send").click();
+    await page.waitForTimeout(350);
+    const faqReply = await page.getByTestId("support-assistant-reply").last().innerText();
+    check(
+      "support assistant membership FAQ",
+      /membership|sandbox|pricing pending|TBD/i.test(faqReply),
+      faqReply.replace(/\s+/g, " ").slice(0, 120),
+    );
+    await page.getByTestId("support-assistant-input").fill("What medication should I take?");
+    await page.getByTestId("support-assistant-send").click();
+    await page.waitForTimeout(350);
+    const clinicalReply = await page.getByTestId("support-assistant-reply").last().innerText();
+    check(
+      "support assistant clinical refusal",
+      /can.?t help|diagnos|prescription|licensed clinician/i.test(clinicalReply),
+      clinicalReply.replace(/\s+/g, " ").slice(0, 120),
+    );
+    check(
+      "support assistant escalate CTA",
+      (await page.getByTestId("support-assistant-escalate-messages").count()) > 0,
+    );
+    const modeText = await page.getByTestId("support-assistant-mode").innerText();
+    check(
+      "support assistant local FAQ mode",
+      /local FAQ/i.test(modeText),
+      modeText,
+    );
+    await shot(page, "ai-support-smoke-desktop.png");
   } finally {
     await browser.close();
     stopServer();

@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "seo:audit": "node scripts/seo-audit.mjs",
     "seo:audit:built": "npm run build && npm run seo:audit",
-    "funnel:smoke": "node scripts/funnel-smoke.mjs"
+    "funnel:smoke": "node scripts/funnel-smoke.mjs",
+    "ai-support:shots": "node scripts/ai-support-shots.mjs"
   },
   "dependencies": {
     "@clerk/react": "^6.19.4",

@@ -3,6 +3,7 @@ import { DocumentMeta } from "../seo/DocumentMeta";
 import { ConsentBanner } from "./ConsentBanner";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
+import { SupportAssistant } from "./SupportAssistant";
 import "./Layout.css";
 
 export function Layout() {
@@ -27,6 +28,7 @@ export function Layout() {
       </main>
       <Footer />
       <ConsentBanner />
+      <SupportAssistant />
     </div>
   );
 }
