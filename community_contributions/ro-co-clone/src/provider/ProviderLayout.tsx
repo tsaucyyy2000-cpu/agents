@@ -13,6 +13,8 @@ const links = [
   { to: "/provider", label: "Worklist", end: true },
   { to: "/provider/messages", label: "Messaging" },
   { to: "/provider/appointments", label: "Appointments" },
+  { to: "/provider/labs", label: "Labs" },
+  { to: "/provider/pharmacy", label: "Pharmacy" },
   { to: "/provider/templates", label: "Note templates" },
 ];
 

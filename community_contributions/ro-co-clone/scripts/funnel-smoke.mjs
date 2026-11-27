@@ -219,7 +219,71 @@ async function main() {
     check(
       "account shell preview orders empty",
       (await page.getByTestId("account-orders-empty").count()) > 0 &&
-        /Coming when integrations live/i.test(await page.locator("body").innerText()),
+        /Coming when integrations live/i.test(await page.locator("body").innerText()) &&
+        /awaiting partner integration/i.test(await page.locator("body").innerText()) &&
+        !/tracking\s*#|1Z[A-Z0-9]{10,}|UPS|FedEx/i.test(await page.locator("body").innerText()),
+    );
+    await page.goto(`${BASE}/account/labs?previewShell=1`, { waitUntil: "networkidle" });
+    check(
+      "account shell preview labs empty",
+      (await page.getByTestId("account-labs").count()) > 0 &&
+        (await page.getByTestId("account-labs-empty").count()) > 0 &&
+        /awaiting partner integration/i.test(await page.locator("body").innerText()) &&
+        !/hemoglobin|ng\/dL|positive|negative result/i.test(await page.locator("body").innerText()),
+    );
+    // Lab + pharmacy pending shell request (no fabricated results / tracking).
+    await page.getByTestId("labs-request-btn").evaluate((el) => {
+      /** @type {HTMLElement} */ (el).click();
+    });
+    await page.waitForTimeout(200);
+    check(
+      "labs pending request pipeline",
+      (await page.getByTestId("labs-item").count()) > 0 &&
+        (await page.getByTestId("labs-partner-chip").count()) > 0 &&
+        /Awaiting partner integration/i.test(
+          await page.getByTestId("labs-partner-chip").first().innerText(),
+        ) &&
+        (await page.getByTestId("pipeline-step-result_review").count()) > 0,
+    );
+    await page.goto(`${BASE}/account/orders?previewShell=1`, { waitUntil: "networkidle" });
+    await page.getByTestId("orders-request-btn").evaluate((el) => {
+      /** @type {HTMLElement} */ (el).click();
+    });
+    await page.waitForTimeout(200);
+    check(
+      "orders pharmacy pending pipeline",
+      (await page.getByTestId("orders-item").count()) > 0 &&
+        (await page.getByTestId("orders-partner-chip").count()) > 0 &&
+        /tracking: none/i.test(await page.getByTestId("orders-item").first().innerText()) &&
+        !/tracking\s*#|1Z[A-Z0-9]{10,}/i.test(await page.locator("body").innerText()),
+    );
+    await page.goto(`${BASE}/design/labs-queue?previewShell=1`, { waitUntil: "networkidle" });
+    check(
+      "admin labs design preview queue",
+      (await page.getByTestId("admin-labs-preview").count()) > 0 &&
+        (await page.getByTestId("admin-labs").count()) > 0 &&
+        (await page.getByTestId("admin-labs-row").count()) > 0,
+    );
+    await page.goto(`${BASE}/design/pharmacy-queue?previewShell=1`, { waitUntil: "networkidle" });
+    check(
+      "admin pharmacy design preview queue",
+      (await page.getByTestId("admin-pharmacy-preview").count()) > 0 &&
+        (await page.getByTestId("admin-pharmacy").count()) > 0 &&
+        (await page.getByTestId("admin-pharmacy-row").count()) > 0,
+    );
+    await page.goto(`${BASE}/provider/labs?previewShell=1`, { waitUntil: "networkidle" });
+    check(
+      "provider labs read-only queue",
+      (await page.getByTestId("provider-labs").count()) > 0 &&
+        (await page.getByTestId("provider-labs-row").count()) > 0 &&
+        /awaiting partner integration/i.test(await page.locator("body").innerText()),
+    );
+    await page.goto(`${BASE}/provider/pharmacy?previewShell=1`, { waitUntil: "networkidle" });
+    check(
+      "provider pharmacy read-only queue",
+      (await page.getByTestId("provider-pharmacy").count()) > 0 &&
+        (await page.getByTestId("provider-pharmacy-row").count()) > 0 &&
+        /tracking: none/i.test(await page.locator("body").innerText()),
     );
     await page.goto(`${BASE}/account/settings?previewShell=1`, { waitUntil: "networkidle" });
     check(

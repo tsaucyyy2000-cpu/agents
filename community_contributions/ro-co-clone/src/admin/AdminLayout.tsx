@@ -14,6 +14,8 @@ const links = [
   { to: "/admin/leads", label: "Submissions" },
   { to: "/admin/messages", label: "Messages" },
   { to: "/admin/appointments", label: "Appointments" },
+  { to: "/admin/labs", label: "Labs" },
+  { to: "/admin/pharmacy", label: "Pharmacy" },
   { to: "/admin/settings", label: "Settings" },
 ];
 

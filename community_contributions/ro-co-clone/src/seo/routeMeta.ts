@@ -353,6 +353,8 @@ export function metaForPathname(pathname: string): RouteMeta {
     const accountTitles: Record<string, string> = {
       overview: "Account overview",
       care: "My care",
+      appointments: "Appointments",
+      labs: "Labs",
       orders: "Orders",
       membership: "Membership",
       progress: "Progress",

@@ -77,6 +77,22 @@ const AppointmentsAdminPreview = lazy(async () => {
   const mod = await import("./admin/AppointmentsAdminPreview");
   return { default: mod.AppointmentsAdminPreview };
 });
+const LabsAdmin = lazy(async () => {
+  const mod = await import("./admin/LabsAdmin");
+  return { default: mod.LabsAdmin };
+});
+const LabsAdminPreview = lazy(async () => {
+  const mod = await import("./admin/LabsAdminPreview");
+  return { default: mod.LabsAdminPreview };
+});
+const PharmacyAdmin = lazy(async () => {
+  const mod = await import("./admin/PharmacyAdmin");
+  return { default: mod.PharmacyAdmin };
+});
+const PharmacyAdminPreview = lazy(async () => {
+  const mod = await import("./admin/PharmacyAdminPreview");
+  return { default: mod.PharmacyAdminPreview };
+});
 
 export default function App() {
   return (
@@ -139,6 +155,24 @@ export default function App() {
       />
 
       <Route
+        path="design/labs-queue"
+        element={
+          <Suspense fallback={<p style={{ padding: "2rem" }}>Loading…</p>}>
+            <LabsAdminPreview />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path="design/pharmacy-queue"
+        element={
+          <Suspense fallback={<p style={{ padding: "2rem" }}>Loading…</p>}>
+            <PharmacyAdminPreview />
+          </Suspense>
+        }
+      />
+
+      <Route
         path="admin"
         element={
           <Suspense fallback={<p style={{ padding: "2rem" }}>Loading admin…</p>}>
@@ -153,6 +187,8 @@ export default function App() {
         <Route path="leads" element={<LeadsAdmin />} />
         <Route path="messages" element={<MessagesAdmin />} />
         <Route path="appointments" element={<AppointmentsAdmin />} />
+        <Route path="labs" element={<LabsAdmin />} />
+        <Route path="pharmacy" element={<PharmacyAdmin />} />
         <Route path="settings" element={<SettingsAdmin />} />
         <Route path="*" element={<Navigate to="/admin" replace />} />
       </Route>
