@@ -197,6 +197,62 @@ async function main() {
         (await page.getByTestId("account-clerk-stub").count()) > 0,
     );
 
+    // Appointment booking shell (fake calendar; Care team slots; safe toasts; no video provider).
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE}/account/appointments?previewShell=1`, { waitUntil: "networkidle" });
+    const apptRoot = page.getByTestId("account-appointments");
+    const apptText = (await apptRoot.count()) > 0 ? await apptRoot.innerText() : "";
+    check(
+      "account appointments shell preview",
+      (await apptRoot.count()) > 0 &&
+        (await page.getByTestId("appointments-upcoming").count()) > 0 &&
+        /localStorage|sandbox|Video integration pending/i.test(apptText) &&
+        !/Dr\.|MD,|licensed clinician/i.test(apptText),
+      apptText.slice(0, 120),
+    );
+    await page.getByTestId("appointments-book-open").evaluate((el) => {
+      /** @type {HTMLElement} */ (el).click();
+    });
+    await page.waitForTimeout(150);
+    check(
+      "appointments book panel calendar",
+      (await page.getByTestId("appointments-book-panel").count()) > 0 &&
+        (await page.getByTestId("appointments-calendar").count()) > 0 &&
+        (await page.getByTestId("appointments-slot").count()) > 0,
+    );
+    await page.getByTestId("appointments-slot").first().evaluate((el) => {
+      /** @type {HTMLElement} */ (el).click();
+    });
+    await page.getByTestId("appointments-confirm-btn").evaluate((el) => {
+      /** @type {HTMLElement} */ (el).click();
+    });
+    await page.waitForTimeout(200);
+    const apptToast = ((await page.getByTestId("appointments-toast").count()) > 0
+      ? await page.getByTestId("appointments-toast").innerText()
+      : "");
+    check(
+      "appointments toast has no PHI",
+      /visit was booked/i.test(apptToast) && !/lab|diagnosis|prescription/i.test(apptToast),
+      apptToast.slice(0, 80),
+    );
+    check(
+      "appointments upcoming after book",
+      (await page.getByTestId("appointments-upcoming-item").count()) > 0 &&
+        /Care team/i.test(await page.getByTestId("appointments-upcoming-item").first().innerText()),
+    );
+    await page.getByTestId("appointments-video-cta").first().evaluate((el) => {
+      /** @type {HTMLElement} */ (el).click();
+    });
+    await page.waitForTimeout(150);
+    const videoToast = ((await page.getByTestId("appointments-toast").count()) > 0
+      ? await page.getByTestId("appointments-toast").innerText()
+      : "");
+    check(
+      "appointments video pending toast",
+      /integration is pending/i.test(videoToast),
+      videoToast.slice(0, 80),
+    );
+
     // Support messaging shell (localStorage demo; safe toasts; no PHI in previews).
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(`${BASE}/account/messages?previewShell=1`, { waitUntil: "networkidle" });

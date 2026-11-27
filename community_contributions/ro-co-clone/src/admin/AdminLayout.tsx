@@ -13,6 +13,7 @@ const links = [
   { to: "/admin/media", label: "Media library" },
   { to: "/admin/leads", label: "Submissions" },
   { to: "/admin/messages", label: "Messages" },
+  { to: "/admin/appointments", label: "Appointments" },
   { to: "/admin/settings", label: "Settings" },
 ];
 

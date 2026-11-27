@@ -13,6 +13,7 @@ import { AccountOrders } from "../account/AccountOrders";
 import { AccountMembership } from "../account/AccountMembership";
 import { AccountProgress } from "../account/AccountProgress";
 import { AccountDocuments } from "../account/AccountDocuments";
+import { AccountAppointments } from "../account/AccountAppointments";
 import { AccountMessages } from "../account/AccountMessages";
 import { AccountSettings } from "../account/AccountSettings";
 import { AuthUnavailable } from "../auth/AuthUnavailable";
@@ -34,7 +35,17 @@ function AccountSectionRoutes({
         index
         element={<AccountOverview displayName={identity.displayName} preview={preview} />}
       />
-      <Route path="care" element={<AccountCare />} />
+      <Route path="care" element={<AccountCare preview={preview} />} />
+      <Route
+        path="appointments"
+        element={
+          <AccountAppointments
+            patientKey={patientKey}
+            patientLabel={identity.displayName}
+            preview={preview}
+          />
+        }
+      />
       <Route path="orders" element={<AccountOrders />} />
       <Route path="membership" element={<AccountMembership />} />
       <Route path="progress" element={<AccountProgress />} />

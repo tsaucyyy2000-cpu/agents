@@ -68,6 +68,14 @@ const MessagesAdminPreview = lazy(async () => {
   const mod = await import("./admin/MessagesAdminPreview");
   return { default: mod.MessagesAdminPreview };
 });
+const AppointmentsAdmin = lazy(async () => {
+  const mod = await import("./admin/AppointmentsAdmin");
+  return { default: mod.AppointmentsAdmin };
+});
+const AppointmentsAdminPreview = lazy(async () => {
+  const mod = await import("./admin/AppointmentsAdminPreview");
+  return { default: mod.AppointmentsAdminPreview };
+});
 
 export default function App() {
   return (
@@ -114,6 +122,15 @@ export default function App() {
       />
 
       <Route
+        path="design/appointments-queue"
+        element={
+          <Suspense fallback={<p style={{ padding: "2rem" }}>Loading…</p>}>
+            <AppointmentsAdminPreview />
+          </Suspense>
+        }
+      />
+
+      <Route
         path="admin"
         element={
           <Suspense fallback={<p style={{ padding: "2rem" }}>Loading admin…</p>}>
@@ -127,6 +144,7 @@ export default function App() {
         <Route path="media" element={<MediaAdmin />} />
         <Route path="leads" element={<LeadsAdmin />} />
         <Route path="messages" element={<MessagesAdmin />} />
+        <Route path="appointments" element={<AppointmentsAdmin />} />
         <Route path="settings" element={<SettingsAdmin />} />
         <Route path="*" element={<Navigate to="/admin" replace />} />
       </Route>
