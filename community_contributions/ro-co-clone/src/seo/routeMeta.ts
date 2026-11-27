@@ -146,9 +146,9 @@ export const PUBLIC_ROUTES: RouteMeta[] = [
   },
   {
     path: "/insurance-check",
-    title: "Coverage check",
+    title: "Insurance assistance",
     description:
-      "Local insurance pathway. No payer APIs—enter placeholders to unlock a sample result.",
+      "Local insurance inquiry shell. No payer APIs — saves a demo admin-review status only; never claims coverage without a verified payer.",
     schemaType: "WebPage",
   },
   {
@@ -356,6 +356,7 @@ export function metaForPathname(pathname: string): RouteMeta {
       appointments: "Appointments",
       labs: "Labs",
       orders: "Orders",
+      insurance: "Insurance",
       membership: "Membership",
       progress: "Progress",
       documents: "Documents",

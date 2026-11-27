@@ -11,6 +11,7 @@ export const ACCOUNT_NAV: AccountNavItem[] = [
   { to: "/account/appointments", label: "Appointments" },
   { to: "/account/labs", label: "Labs" },
   { to: "/account/orders", label: "Orders" },
+  { to: "/account/insurance", label: "Insurance" },
   { to: "/account/membership", label: "Membership" },
   { to: "/account/progress", label: "Progress" },
   { to: "/account/documents", label: "Documents" },

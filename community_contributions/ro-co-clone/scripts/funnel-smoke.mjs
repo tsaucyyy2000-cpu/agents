@@ -285,6 +285,49 @@ async function main() {
         (await page.getByTestId("provider-pharmacy-row").count()) > 0 &&
         /tracking: none/i.test(await page.locator("body").innerText()),
     );
+    // Insurance assistance shell — no fabricated coverage / approval on status chips.
+    await page.goto(`${BASE}/account/insurance?previewShell=1`, { waitUntil: "networkidle" });
+    await page.evaluate(() => localStorage.removeItem("ro-clone-insurance-inquiries-v1"));
+    await page.reload({ waitUntil: "networkidle" });
+    check(
+      "account insurance shell empty",
+      (await page.getByTestId("account-insurance").count()) > 0 &&
+        (await page.getByTestId("insurance-form").count()) > 0 &&
+        (await page.getByTestId("insurance-cashpay-link").count()) > 0 &&
+        /No verified payer/i.test(await page.getByTestId("insurance-payer-chip").innerText()),
+    );
+    await page.getByTestId("insurance-carrier").fill("Acme Health");
+    await page.getByTestId("insurance-member-id").fill("MEM-42");
+    await page.getByTestId("insurance-submit").evaluate((el) => {
+      /** @type {HTMLElement} */ (el).click();
+    });
+    await page.waitForTimeout(250);
+    const statusChip = await page.getByTestId("insurance-status-chip").first().innerText();
+    check(
+      "account insurance inquiry saved (no coverage claim)",
+      (await page.getByTestId("insurance-item").count()) > 0 &&
+        /awaiting admin review \(demo\)/i.test(statusChip) &&
+        !/\b(approved|covered|eligible|authorized)\b/i.test(statusChip) &&
+        /Payer verified:\s*no/i.test(await page.getByTestId("insurance-unverified").first().innerText()),
+    );
+    await page.goto(`${BASE}/design/insurance-queue?previewShell=1`, { waitUntil: "networkidle" });
+    check(
+      "admin insurance design preview queue",
+      (await page.getByTestId("admin-insurance-preview").count()) > 0 &&
+        (await page.getByTestId("admin-insurance").count()) > 0 &&
+        (await page.getByTestId("admin-insurance-row").count()) > 0 &&
+        /Payer verified:\s*no/i.test(await page.getByTestId("admin-insurance-payer").first().innerText()),
+    );
+    await page.getByTestId("admin-insurance-set-under_review").first().evaluate((el) => {
+      /** @type {HTMLElement} */ (el).click();
+    });
+    await page.waitForTimeout(200);
+    const adminStatus = await page.getByTestId("admin-insurance-status").first().innerText();
+    check(
+      "admin insurance demo status (under review)",
+      /Under admin review \(demo\)/i.test(adminStatus) &&
+        !/\b(approved|covered|eligible|authorized)\b/i.test(adminStatus),
+    );
     await page.goto(`${BASE}/account/settings?previewShell=1`, { waitUntil: "networkidle" });
     check(
       "account shell preview settings stubs",
@@ -543,10 +586,18 @@ async function main() {
     await page.goto(`${BASE}/insurance-check?goal=weight&product=weekly-glp1`, {
       waitUntil: "networkidle",
     });
-    await page.getByPlaceholder("Sample Health Plan").fill("Acme Health");
-    await page.getByPlaceholder("ABC123").fill("MEM-1");
-    await page.getByRole("button", { name: /Run coverage check/i }).click();
-    check("insurance result", await page.getByRole("heading", { name: /Coverage result/i }).isVisible());
+    await page.getByTestId("funnel-insurance-carrier").fill("Acme Health");
+    await page.getByTestId("funnel-insurance-member").fill("MEM-1");
+    await page.getByTestId("funnel-insurance-submit").click();
+    check(
+      "insurance inquiry submitted (no coverage claim)",
+      (await page.getByRole("heading", { name: /Inquiry submitted/i }).count()) > 0 &&
+        /Payer verified:\s*no/i.test(await page.getByTestId("insurance-funnel-unverified").innerText()) &&
+        /awaiting admin review \(demo\)/i.test(
+          await page.getByTestId("insurance-funnel-status").innerText(),
+        ) &&
+        !/\b(approved|covered|eligible|authorized)\b/i.test(await page.locator("body").innerText()),
+    );
     await shot(page, "health-seo-mobile-insurance.png");
     await page.getByRole("link", { name: /Continue to visit/i }).click();
     await page.waitForURL(/\/visit/);

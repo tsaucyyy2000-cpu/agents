@@ -49,7 +49,7 @@ export const defaultContent: SiteContent = {
       path: "/weight-loss",
       eyebrow: "Weight care",
       title: "Online weight-care pathways",
-      lede: "Start the matching quiz, then continue into the shared visit. How care works and Help stay one tap away—eligibility, coverage check, and plan review are layout metaphors only.",
+      lede: "Start the matching quiz, then continue into the shared visit. How care works and Help stay one tap away—eligibility metaphors, insurance inquiry, and plan review are layout only.",
       ctaLabel: "Start quiz",
       heroImageId: "cat-weight",
       bullets: [
@@ -418,8 +418,8 @@ export const defaultContent: SiteContent = {
     },
     {
       id: "h3",
-      title: "Optional coverage check",
-      copy: "Try the insurance pathway metaphor when you want that branch. No payer APIs.",
+      title: "Optional insurance inquiry",
+      copy: "Save placeholder carrier details for admin review. No payer APIs — coverage never claimed without a verified partner.",
     },
     {
       id: "h4",
