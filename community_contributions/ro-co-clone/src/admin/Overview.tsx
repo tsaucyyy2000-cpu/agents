@@ -71,6 +71,9 @@ export function Overview() {
           <Link to="/admin/leads" className="btn btn-secondary">
             Review submissions
           </Link>
+          <Link to="/admin/messages" className="btn btn-secondary">
+            Support messages
+          </Link>
           <Link to="/admin/content" className="btn btn-secondary">
             Edit questionnaires
           </Link>

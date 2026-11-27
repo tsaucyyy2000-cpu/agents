@@ -6,6 +6,14 @@ type AccountOverviewProps = {
   preview?: boolean;
 };
 
+function previewPath(to: string, preview: boolean): string {
+  if (!preview) return to;
+  const [path, existing] = to.split("?");
+  const params = new URLSearchParams(existing ?? "");
+  params.set("previewShell", "1");
+  return `${path}?${params.toString()}`;
+}
+
 const DEMO_CHIPS = [
   { label: "Shell only", tone: "mint" as const },
   { label: "No live care record", tone: "peach" as const },
@@ -86,7 +94,10 @@ export function AccountOverview({ displayName, preview = false }: AccountOvervie
               receipts.
             </p>
             <div className="account-toolbar">
-              <Link className="btn btn-primary" to="/how-it-works">
+              <Link className="btn btn-primary" to={previewPath("/account/messages", preview)}>
+                Messages
+              </Link>
+              <Link className="btn btn-ghost" to="/how-it-works">
                 How care works
               </Link>
               <Link className="btn btn-ghost" to="/help">

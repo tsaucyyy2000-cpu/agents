@@ -77,7 +77,7 @@ Customer chrome links to **Account** / **Sign in** (`/account`, `/sign-in`, `/si
 
 ## Customer accounts (Clerk)
 
-Same Vite + `@clerk/react` app as admin. Routes: `/sign-in`, `/sign-up`, `/account` (profile / password / connected accounts via Clerk `UserProfile`). Missing `VITE_CLERK_PUBLISHABLE_KEY` keeps these routes fail-closed. Google / Apple appear when enabled in the Clerk Dashboard for app `app_3MVcZ8Rr2hLFhPnnmb9aa1eWhgz`. Account UI is client-route protection only — visit leads / CMS remain `localStorage`.
+Same Vite + `@clerk/react` app as admin. Routes: `/sign-in`, `/sign-up`, `/account` (patient dashboard shell: overview, care, orders, membership, progress, documents, **messages**, settings). Missing `VITE_CLERK_PUBLISHABLE_KEY` keeps these routes fail-closed. Google / Apple appear when enabled in the Clerk Dashboard for app `app_3MVcZ8Rr2hLFhPnnmb9aa1eWhgz`. Account UI is client-route protection only — visit leads / CMS / support threads remain `localStorage` (`ro-clone-support-messages-v1` for messaging). Toast previews never include message body.
 
 ## Admin (direct URL · Clerk + email allowlist)
 
@@ -98,6 +98,7 @@ CMS content and visit leads still persist in browser `localStorage` (`ro-clone-s
 - `/admin/products` product catalog CRUD (includes placeholder price labels)
 - `/admin/media` media library (paths/URLs)
 - `/admin/leads` submission inbox with admin-only workflow states
+- `/admin/messages` patient ↔ support queue (localStorage demo; status open/pending/closed)
 - `/admin/content` questionnaire editor (no code deploy for copy/steps)
 - `/admin/settings` brand knobs + vanity stats (gated) + JSON import/export + reset
 

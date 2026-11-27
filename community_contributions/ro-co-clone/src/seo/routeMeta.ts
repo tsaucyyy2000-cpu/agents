@@ -345,6 +345,7 @@ export function metaForPathname(pathname: string): RouteMeta {
       membership: "Membership",
       progress: "Progress",
       documents: "Documents",
+      messages: "Support messages",
       settings: "Account settings",
     };
     const kind = normalized.startsWith("/sign-up")

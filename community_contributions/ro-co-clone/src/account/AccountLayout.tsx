@@ -57,9 +57,9 @@ export function AccountChrome({ identity, children, onSignOut }: AccountChromePr
           <p className="section-kicker">Your account</p>
           <h1>{identity.displayName ? `Hi, ${identity.displayName}` : "Your account"}</h1>
           <p className="account-hero-dek">
-            Patient dashboard shell for overview, care, orders, membership, progress, documents, and
-            settings. Durable medical records, pharmacy, and payments need a future backend — this
-            SPA keeps honest empty states instead of inventing PHI.
+            Patient dashboard shell for overview, care, orders, membership, progress, documents,
+            messages, and settings. Durable medical records, pharmacy, and payments need a future
+            backend — this SPA keeps honest empty states instead of inventing PHI.
           </p>
           <div className="account-meta">
             {identity.email ? (
