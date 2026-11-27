@@ -68,5 +68,22 @@
     "alreadyHaveAccount": "Vous avez déjà un compte ?",
     "signInUnavailable": "Connexion indisponible",
     "signUpUnavailable": "Inscription indisponible"
+  },
+  "support": {
+    "kicker": "Aide du site",
+    "title": "Questions sur le site",
+    "closeAria": "Fermer l'assistant d'aide",
+    "disclaimer": "Aide FAQ non clinique pour le site, l'abonnement et la navigation. Pas de diagnostics ni de recommandations d'ordonnance.",
+    "messageSupport": "Contacter le support",
+    "emailOps": "Envoyer un e-mail à ops",
+    "lookingUp": "Recherche dans la FAQ locale…",
+    "suggestionsAria": "Questions suggérées",
+    "modeLocal": "Mode : correspondance FAQ locale (aucune API assistant configurée)",
+    "modeApi": "Mode : FAQ locale d'abord · API facultative (bascule sur le local en cas d'échec)",
+    "inputLabel": "Posez une question sur le site ou l'abonnement",
+    "placeholder": "Site, abonnement ou navigation…",
+    "ask": "Demander",
+    "launchOpen": "Aide du site",
+    "launchClose": "Fermer l'aide"
   }
 }

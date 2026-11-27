@@ -68,5 +68,22 @@
     "alreadyHaveAccount": "Already have an account?",
     "signInUnavailable": "Sign-in unavailable",
     "signUpUnavailable": "Sign-up unavailable"
+  },
+  "support": {
+    "kicker": "Site helper",
+    "title": "Ask about the site",
+    "closeAria": "Close support assistant",
+    "disclaimer": "Nonclinical FAQ helper for website, membership, and navigation. No diagnoses or prescription recommendations.",
+    "messageSupport": "Message support",
+    "emailOps": "Email ops",
+    "lookingUp": "Looking up a local FAQ…",
+    "suggestionsAria": "Suggested questions",
+    "modeLocal": "Mode: local FAQ matcher (no assistant API configured)",
+    "modeApi": "Mode: local FAQ first · optional API (fails closed to local)",
+    "inputLabel": "Ask a website or membership question",
+    "placeholder": "Website, membership, or nav…",
+    "ask": "Ask",
+    "launchOpen": "Site help",
+    "launchClose": "Close helper"
   }
 }
