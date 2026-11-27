@@ -1,14 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { IsiBlock } from "../components/IsiBlock";
 import { JourneyRail } from "../components/JourneyRail";
-import { PriceTag } from "../components/PriceTag";
 import { StepIndicator } from "../components/StepIndicator";
 import { StickyMobileCta } from "../components/StickyMobileCta";
 import { useContent } from "../data/ContentContext";
-import { PENDING_PRICE } from "../utils/formatPrice";
 import { quizPath, visitPath } from "../utils/careRoutes";
-import { CareFunnelSteps } from "./CategoryLanding";
+import { CareLandingBody } from "./CategoryLanding";
 import "./Category.css";
 import "./Flows.css";
 import "./Isi.css";
@@ -19,7 +16,6 @@ export function WeightLoss() {
   const products = content.products.filter(
     (product) => product.category === "weight" && product.active,
   );
-  const faqs = content.faqs.filter((faq) => faq.area === "weight" || faq.area === "general");
   const hero = category ? mediaById[category.heroImageId] : undefined;
   const [weight, setWeight] = useState(220);
   const firstProductId = products[0]?.id;
@@ -60,7 +56,11 @@ export function WeightLoss() {
             </div>
             <p className="cat-fine">
               Quiz → visit → coverage → plan review ·{" "}
+              <a href="#pathways">See pathways</a>
+              {" · "}
               <a href="#meds">Browse options</a>
+              {" · "}
+              <a href="#safety">Safety</a>
               {" · "}
               <Link to="/#find-care">Other care areas</Link>
             </p>
@@ -93,143 +93,15 @@ export function WeightLoss() {
         </div>
       </section>
 
-      <CareFunnelSteps
+      <CareLandingBody
         slug="weight"
         quizHref={quizHref}
         visitHref={visitHref}
+        optionsId="meds"
         quizTitle="Start the weight quiz"
+        extraMembershipBullets={["Progress tracking placeholders"]}
+        isiSlug="glp1"
       />
-
-      <section className="section" id="meds">
-        <div className="container">
-          <p className="section-kicker">Options</p>
-          <div className="section-head">
-            <h2>Options</h2>
-            <p>Catalog · verified prices are not published yet.</p>
-          </div>
-          <div className="med-grid">
-            {products.length === 0 ? (
-              <article className="empty-stub">
-                <h3>Options coming soon</h3>
-                <p>No active weight products in the catalog yet.</p>
-                <Link to={quizHref} className="btn btn-primary">
-                  Start quiz
-                </Link>
-              </article>
-            ) : (
-              products.map((med) => {
-                const image = mediaById[med.imageId];
-                return (
-                  <article key={med.id}>
-                    {image ? <img src={image.src} alt="" className="med-thumb" /> : null}
-                    {med.tag ? <span className="chip">{med.tag}</span> : null}
-                    <h3>{med.name}</h3>
-                    <p>{med.meta}</p>
-                    <PriceTag price={PENDING_PRICE} />
-                    <div className="cta-row">
-                      <Link to={`/products/${med.id}`} className="btn btn-secondary">
-                        Details
-                      </Link>
-                      <Link to={quizHref} className="btn btn-primary">
-                        Start quiz
-                      </Link>
-                    </div>
-                  </article>
-                );
-              })
-            )}
-          </div>
-        </div>
-      </section>
-
-      <section className="section membership">
-        <div className="container membership-grid">
-          <div>
-            <p className="section-kicker">Membership</p>
-            <h2>What’s in the membership </h2>
-            <ul>
-              {category.bullets.map((bullet) => (
-                <li key={bullet}>{bullet}</li>
-              ))}
-              <li>Progress tracking placeholders</li>
-            </ul>
-          </div>
-          <div className="price-card">
-            <p className="eyebrow">Cost</p>
-            <PriceTag price={{ ...PENDING_PRICE, unit: "membership" }} />
-            <div className="cta-row">
-              <Link to={quizHref} className="btn btn-primary">
-                Start quiz
-              </Link>
-              <Link to="/how-it-works" className="btn btn-secondary">
-                How care works
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-tight">
-        <div className="container">
-          <p className="section-kicker">FAQ</p>
-          <h2>Weight FAQs</h2>
-          <div className="faq-list">
-            {faqs.map((faq) => (
-              <details key={faq.id}>
-                <summary>{faq.question}</summary>
-                <p>{faq.answer}</p>
-              </details>
-            ))}
-          </div>
-          <p className="care-bridge">
-            More answers in the{" "}
-            <Link to="/help" className="text-link">
-              Help center
-            </Link>
-            .
-          </p>
-        </div>
-      </section>
-
-      <section className="section safety-band">
-        <div className="container">
-          <p className="section-kicker">Safety</p>
-          <h2>Safety note </h2>
-          <IsiBlock slug="glp1" />
-          <p className="care-bridge">
-            <Link to="/safety" className="text-link">
-              Safety hub
-            </Link>
-            <span aria-hidden="true"> · </span>
-            <Link to="/isi/glp1" className="text-link">
-              GLP-1 ISI stub
-            </Link>
-            <span aria-hidden="true"> · </span>
-            <Link to="/guides" className="text-link">
-              Health guides
-            </Link>
-          </p>
-        </div>
-      </section>
-
-      <section className="cta-band cat-cta-band">
-        <div className="container cta-band-inner">
-          <p className="section-kicker section-kicker-on-dark">Next · Quiz</p>
-          <h2>Continue to the weight quiz</h2>
-          <p>Then the shared visit funnel. Answers stay in this browser.</p>
-          <div className="hero-actions">
-            <Link to={quizHref} className="btn btn-on-dark">
-              Start quiz
-            </Link>
-            <Link to="/how-it-works" className="btn btn-secondary">
-              How care works
-            </Link>
-            <Link to="/help" className="btn btn-secondary">
-              Help center
-            </Link>
-          </div>
-        </div>
-      </section>
 
       <StickyMobileCta
         to={quizHref}

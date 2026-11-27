@@ -59,7 +59,7 @@ export const PUBLIC_ROUTES: RouteMeta[] = [
     path: "/weight-loss",
     title: "Weight care pathways",
     description:
-      "Weight-care landing: start the matching quiz, then visit → coverage → plan review. Options without verified prices; safety stub. Not medical advice.",
+      "Weight-care landing with how-it-works, pathway cards, options, FAQ, and GLP-1 ISI stub links. No verified prices or outcome claims.",
     careArea: "weight",
     schemaType: "MedicalWebPage",
   },
@@ -67,7 +67,7 @@ export const PUBLIC_ROUTES: RouteMeta[] = [
     path: "/sexual-health",
     title: "Sexual health care",
     description:
-      "Sexual-health landing with format comparisons, quiz CTA, and bridges to how-it-works / Help. Placeholder education only.",
+      "Sexual-health landing: format pathways, quiz CTA, FAQ, and safety hub bridges. Education only—no invented drug labeling.",
     careArea: "sexual-health",
     schemaType: "MedicalWebPage",
   },
@@ -75,7 +75,7 @@ export const PUBLIC_ROUTES: RouteMeta[] = [
     path: "/hair",
     title: "Hair care plans",
     description:
-      "Hair-care landing for thinning and density goals. Quiz → shared visit funnel; structural recreation—no clinical claims.",
+      "Hair-care landing for thinning and density goals: pathways, options, FAQ, and minoxidil ISI stub links. No clinical claims.",
     careArea: "hair",
     schemaType: "MedicalWebPage",
   },
@@ -83,7 +83,7 @@ export const PUBLIC_ROUTES: RouteMeta[] = [
     path: "/skin",
     title: "Skin care routines",
     description:
-      "Skin-care landing for texture, tone, and breakout goals. Matching quiz CTA and Help bridges. Placeholder education only.",
+      "Skin-care landing for texture, tone, and breakout goals: pathways, options, FAQ, and safety hub bridges. Placeholder education only.",
     careArea: "skin",
     schemaType: "MedicalWebPage",
   },

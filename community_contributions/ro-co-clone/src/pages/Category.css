@@ -114,6 +114,22 @@
   margin-bottom: 0.85rem;
 }
 
+.feature-panel-jump {
+  margin-top: 1rem;
+  font-size: 0.92rem;
+  color: var(--color-ink-muted);
+}
+
+.feature-panel-jump a {
+  color: var(--color-teal-deep);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.feature-panel-jump a:hover {
+  text-decoration: underline;
+}
+
 .feature-panel ul,
 .membership ul {
   margin: 0;
@@ -121,6 +137,62 @@
   display: grid;
   gap: 0.55rem;
   color: var(--color-ink-muted);
+}
+
+.membership-dek {
+  margin-bottom: 1rem;
+}
+
+.price-card-note {
+  margin: 0.35rem 0 1rem;
+  font-size: 0.9rem;
+  color: var(--color-ink-muted);
+}
+
+.care-pathways {
+  background: linear-gradient(180deg, rgba(255, 219, 199, 0.28), transparent 70%);
+}
+
+.pathway-card,
+.expect-card,
+.guide-bridge-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.pathway-card h3,
+.expect-card h3,
+.guide-bridge-card h3 {
+  font-size: 1.15rem;
+}
+
+.pathway-card .text-link,
+.expect-card .text-link,
+.guide-bridge-card .text-link {
+  margin-top: auto;
+  font-weight: 600;
+}
+
+.guide-bridge-thumb {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 0.35rem;
+}
+
+.care-expect {
+  background: var(--color-plaster);
+}
+
+.care-safety-lead {
+  margin-bottom: 1rem;
+}
+
+.care-guides-bridge .plain-card {
+  background: rgba(255, 255, 255, 0.92);
 }
 
 .med-grid {
