@@ -155,7 +155,21 @@ export const PUBLIC_ROUTES: RouteMeta[] = [
     path: "/checkout",
     title: "Plan review",
     description:
-      "Confirm a sample membership cadence and save a local lead. No payments or verified prices.",
+      "Confirm a sample membership cadence and save a local lead. No payments or verified prices. Membership fees TBD and separate from medication.",
+    schemaType: "WebPage",
+  },
+  {
+    path: "/membership",
+    title: "Membership plans (sandbox)",
+    description:
+      "Compare placeholder monthly, quarterly, and annual membership plans. Pricing pending verification — sandbox only, no live billing.",
+    schemaType: "WebPage",
+  },
+  {
+    path: "/membership/checkout",
+    title: "Sandbox membership checkout",
+    description:
+      "Sandbox billing profile and simulated confirmation. No payment processed; membership fees TBD and separate from medication.",
     schemaType: "WebPage",
   },
   {

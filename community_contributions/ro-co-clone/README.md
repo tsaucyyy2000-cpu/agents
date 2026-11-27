@@ -65,7 +65,7 @@ VITE_SITE_ORIGIN=https://example.com
 - `/weight-loss` category landing (no outcome projection)
 - `/sexual-health`, `/hair`, `/skin` category landings
 - `/quiz/:slug` versioned-consent quiz engine (progress, branching, review, localStorage resume) → shared `/visit` funnel
-- `/how-it-works`, `/insurance-check`, `/checkout`, `/guides`
+- `/how-it-works`, `/insurance-check`, `/checkout`, `/membership`, `/membership/checkout` (sandbox), `/guides`
 - `/products/:id` detail with sticky subnav + PriceTag (`amount: null` → —)
 - `/visit` multi-step intake
 - Safety hub `/safety` + ISI stubs `/isi/glp1`, `/isi/minoxidil` (illustrative only)

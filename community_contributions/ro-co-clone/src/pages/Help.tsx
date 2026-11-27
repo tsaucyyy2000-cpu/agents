@@ -32,6 +32,12 @@ const HELP_CATEGORIES: HelpCategory[] = [
       { to: "/visit", label: "Visit", note: "Shared intake · sample data only" },
       { to: "/insurance-check", label: "Coverage check", note: "Optional · no payer APIs" },
       { to: "/checkout", label: "Plan review", note: "No payments · pricing pending" },
+      { to: "/membership", label: "Membership plans", note: "Sandbox compare · fees TBD" },
+      {
+        to: "/membership/checkout",
+        label: "Sandbox checkout",
+        note: "Simulated · no payment processed",
+      },
     ],
   },
   {
