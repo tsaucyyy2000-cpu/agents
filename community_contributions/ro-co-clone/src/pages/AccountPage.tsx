@@ -1,117 +1,81 @@
-import { UserProfile, useClerk, useUser } from "@clerk/react";
-import { Link } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import {
+  AccountLayout,
+  AccountPreviewLayout,
+  isAccountShellPreview,
+  PREVIEW_IDENTITY,
+  useAccountIdentity,
+  type ShellIdentity,
+} from "../account/AccountLayout";
+import { AccountOverview } from "../account/AccountOverview";
+import { AccountCare } from "../account/AccountCare";
+import { AccountOrders } from "../account/AccountOrders";
+import { AccountMembership } from "../account/AccountMembership";
+import { AccountProgress } from "../account/AccountProgress";
+import { AccountDocuments } from "../account/AccountDocuments";
+import { AccountSettings } from "../account/AccountSettings";
+import { AuthUnavailable } from "../auth/AuthUnavailable";
 import { RequireSignedIn } from "../auth/RequireSignedIn";
-import { clerkAppearance } from "../auth/clerkConfig";
-import { isAdminEmail } from "../admin/adminAllowlist";
+import { isClerkConfigured } from "../auth/clerkConfig";
 import "../auth/auth.css";
 
-function AccountDashboard() {
-  const { user, isLoaded } = useUser();
-  const { signOut } = useClerk();
-  const email = user?.primaryEmailAddress?.emailAddress;
-  const displayName =
-    user?.fullName?.trim() ||
-    [user?.firstName, user?.lastName].filter(Boolean).join(" ").trim() ||
-    email ||
-    "Customer";
-  const staff = isAdminEmail(email);
-
+function AccountSectionRoutes({
+  identity,
+  preview = false,
+}: {
+  identity: ShellIdentity;
+  preview?: boolean;
+}) {
   return (
-    <div className="account-page" data-testid="account-dashboard">
-      <section className="account-hero">
-        <div className="container account-hero-inner">
-          <p className="section-kicker">Your account</p>
-          <h1>{isLoaded ? `Hi, ${displayName}` : "Your account"}</h1>
-          <p className="account-hero-dek">
-            Manage your profile, email, and password with Clerk. Care quizzes, visit answers, and
-            plan reviews on this marketing SPA still stay in browser localStorage — not a production
-            orders or PHI backend.
-          </p>
-          <div className="account-meta">
-            {email ? (
-              <span>
-                Signed in as <strong>{email}</strong>
-              </span>
-            ) : null}
-            <span>Role: {staff ? "Administrator / staff" : "Customer"}</span>
-          </div>
-          <div className="account-toolbar">
-            <button
-              type="button"
-              className="btn btn-ghost"
-              data-testid="account-sign-out"
-              onClick={() => {
-                void signOut({ redirectUrl: "/" });
-              }}
-            >
-              Sign out
-            </button>
-            {staff ? (
-              <Link className="btn btn-primary" to="/admin">
-                Open admin
-              </Link>
-            ) : null}
-          </div>
-        </div>
-      </section>
-
-      <div className="container account-body">
-        <div className="account-grid">
-          <div className="account-card account-profile-mount">
-            <h2>Profile & security</h2>
-            <p>
-              Update name, email, password, and connected accounts. Email verification and password
-              recovery are provided by Clerk when enabled for this app.
-            </p>
-            <UserProfile
-              routing="hash"
-              appearance={clerkAppearance}
-            />
-          </div>
-
-          <aside className="account-card">
-            <h2>Care shortcuts</h2>
-            <p>Continue the marketing funnel — these paths do not sync to a clinic API yet.</p>
-            <ul className="account-link-list">
-              <li>
-                <Link to="/#find-care">
-                  Find care <span>Quiz start</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/visit">
-                  Visit intake <span>Local lead</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/how-it-works">
-                  How care works <span>Funnel</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/help">
-                  Help center <span>FAQs</span>
-                </Link>
-              </li>
-            </ul>
-            <div className="callout">
-              <p>
-                <strong>Data note:</strong> CMS edits and visit leads use{" "}
-                <code>localStorage</code> (<code>ro-clone-site-content-v2</code>). Do not treat this
-                account UI as HIPAA-ready storage.
-              </p>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </div>
+    <Routes>
+      <Route
+        index
+        element={<AccountOverview displayName={identity.displayName} preview={preview} />}
+      />
+      <Route path="care" element={<AccountCare />} />
+      <Route path="orders" element={<AccountOrders />} />
+      <Route path="membership" element={<AccountMembership />} />
+      <Route path="progress" element={<AccountProgress />} />
+      <Route path="documents" element={<AccountDocuments />} />
+      <Route path="settings" element={<AccountSettings preview={preview} />} />
+      <Route
+        path="*"
+        element={<Navigate to={preview ? "/account?previewShell=1" : "/account"} replace />}
+      />
+    </Routes>
   );
 }
 
+function SignedInAccount() {
+  const identity = useAccountIdentity();
+  return (
+    <AccountLayout identity={identity}>
+      <AccountSectionRoutes identity={identity} />
+    </AccountLayout>
+  );
+}
+
+/**
+ * Customer account dashboard shell.
+ * Requires Clerk signed-in when configured; optional ?previewShell=1 design preview when not.
+ */
 export function AccountPage() {
+  const location = useLocation();
+
+  if (!isClerkConfigured()) {
+    if (isAccountShellPreview(location.search)) {
+      return (
+        <AccountPreviewLayout>
+          <AccountSectionRoutes identity={PREVIEW_IDENTITY} preview />
+        </AccountPreviewLayout>
+      );
+    }
+    return <AuthUnavailable />;
+  }
+
   return (
     <RequireSignedIn>
-      <AccountDashboard />
+      <SignedInAccount />
     </RequireSignedIn>
   );
 }
