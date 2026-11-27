@@ -319,16 +319,30 @@ export function metaForPathname(pathname: string): RouteMeta {
     normalized === "/account" ||
     normalized.startsWith("/account/")
   ) {
+    const accountSection = normalized.startsWith("/account/")
+      ? normalized.slice("/account/".length).split("/")[0]
+      : normalized === "/account"
+        ? "overview"
+        : "";
+    const accountTitles: Record<string, string> = {
+      overview: "Account overview",
+      care: "My care",
+      orders: "Orders",
+      membership: "Membership",
+      progress: "Progress",
+      documents: "Documents",
+      settings: "Account settings",
+    };
     const kind = normalized.startsWith("/sign-up")
       ? "Sign up"
       : normalized.startsWith("/sign-in")
         ? "Sign in"
-        : "Account";
+        : accountTitles[accountSection] || "Account";
     return {
       path: normalized,
       title: `${kind} · customer`,
       description:
-        "Clerk customer authentication for this marketing SPA. Private account UI; not a production PHI backend.",
+        "Patient dashboard shell for this marketing SPA. Honest empty states; not a production PHI, pharmacy, or billing backend.",
       robots: "noindex,nofollow",
       sitemap: false,
       schemaType: "WebPage",

@@ -169,6 +169,32 @@ async function main() {
         (await page.getByRole("link", { name: /^Account$/i }).count()) > 0,
     );
 
+    // Patient dashboard shell design preview (no Clerk key) — honest empty states, no fake orders.
+    await page.goto(`${BASE}/account?previewShell=1`, { waitUntil: "networkidle" });
+    const dash = page.getByTestId("account-dashboard");
+    const dashText = await page.locator("body").innerText();
+    check(
+      "account shell preview overview",
+      (await dash.count()) > 0 &&
+        (await page.getByTestId("account-preview-banner").count()) > 0 &&
+        (await page.getByTestId("account-subnav").count()) > 0 &&
+        (await page.getByTestId("account-overview").count()) > 0 &&
+        (await page.getByTestId("account-activity-empty").count()) > 0 &&
+        !/tracking\s*#|UPS|FedEx|\$\d+\.\d{2}/i.test(dashText),
+    );
+    await page.goto(`${BASE}/account/orders?previewShell=1`, { waitUntil: "networkidle" });
+    check(
+      "account shell preview orders empty",
+      (await page.getByTestId("account-orders-empty").count()) > 0 &&
+        /Coming when integrations live/i.test(await page.locator("body").innerText()),
+    );
+    await page.goto(`${BASE}/account/settings?previewShell=1`, { waitUntil: "networkidle" });
+    check(
+      "account shell preview settings stubs",
+      (await page.getByTestId("account-notif-prefs").count()) > 0 &&
+        (await page.getByTestId("account-clerk-stub").count()) > 0,
+    );
+
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(`${BASE}/sign-in`, { waitUntil: "networkidle" });
     await shot(page, "clerk-auth-signin-locked-desktop.png");
