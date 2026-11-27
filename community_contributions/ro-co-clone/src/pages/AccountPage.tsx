@@ -10,6 +10,7 @@ import {
 import { AccountOverview } from "../account/AccountOverview";
 import { AccountCare } from "../account/AccountCare";
 import { AccountOrders } from "../account/AccountOrders";
+import { AccountLabs } from "../account/AccountLabs";
 import { AccountMembership } from "../account/AccountMembership";
 import { AccountProgress } from "../account/AccountProgress";
 import { AccountDocuments } from "../account/AccountDocuments";
@@ -46,7 +47,26 @@ function AccountSectionRoutes({
           />
         }
       />
-      <Route path="orders" element={<AccountOrders />} />
+      <Route
+        path="labs"
+        element={
+          <AccountLabs
+            patientKey={patientKey}
+            patientLabel={identity.displayName}
+            preview={preview}
+          />
+        }
+      />
+      <Route
+        path="orders"
+        element={
+          <AccountOrders
+            patientKey={patientKey}
+            patientLabel={identity.displayName}
+            preview={preview}
+          />
+        }
+      />
       <Route path="membership" element={<AccountMembership />} />
       <Route path="progress" element={<AccountProgress />} />
       <Route path="documents" element={<AccountDocuments />} />

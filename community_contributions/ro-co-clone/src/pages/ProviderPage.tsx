@@ -9,6 +9,8 @@ import { ProviderWorklist } from "../provider/ProviderWorklist";
 import { ProviderCaseDetail } from "../provider/ProviderCaseDetail";
 import { ProviderMessages } from "../provider/ProviderMessages";
 import { ProviderAppointments } from "../provider/ProviderAppointments";
+import { ProviderLabs } from "../provider/ProviderLabs";
+import { ProviderPharmacy } from "../provider/ProviderPharmacy";
 import { ProviderTemplates } from "../provider/ProviderTemplates";
 import { ProviderMisconfigured } from "../provider/ProviderMisconfigured";
 import { isClerkConfigured } from "../provider/providerAllowlist";
@@ -20,6 +22,8 @@ function ProviderSectionRoutes({ preview = false }: { preview?: boolean }) {
       <Route path="cases/:caseId" element={<ProviderCaseDetail preview={preview} />} />
       <Route path="messages" element={<ProviderMessages />} />
       <Route path="appointments" element={<ProviderAppointments />} />
+      <Route path="labs" element={<ProviderLabs />} />
+      <Route path="pharmacy" element={<ProviderPharmacy />} />
       <Route path="templates" element={<ProviderTemplates />} />
       <Route
         path="*"
@@ -56,6 +60,8 @@ export function ProviderPage() {
         <Route path="cases/:caseId" element={<ProviderCaseDetail />} />
         <Route path="messages" element={<ProviderMessages />} />
         <Route path="appointments" element={<ProviderAppointments />} />
+        <Route path="labs" element={<ProviderLabs />} />
+        <Route path="pharmacy" element={<ProviderPharmacy />} />
         <Route path="templates" element={<ProviderTemplates />} />
         <Route path="*" element={<Navigate to="/provider" replace />} />
       </Route>
