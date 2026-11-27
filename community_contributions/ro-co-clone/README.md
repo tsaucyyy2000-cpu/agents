@@ -70,6 +70,7 @@ VITE_SITE_ORIGIN=https://example.com
 - `/visit` multi-step intake
 - Safety hub `/safety` + ISI stubs `/isi/glp1`, `/isi/minoxidil` (illustrative only)
 - Info: `/about`, `/help`, `/how-it-works`, `/privacy`, `/terms`
+- Floating **Site help** assistant (Layout): local FAQ for website / membership / nav; refuses clinical asks; escalates to Account → Messages. Optional `VITE_SUPPORT_ASSISTANT_API_URL` fails closed to local FAQ.
 - Legal/consent stubs: `/cookie-policy`, `/privacy-choices`, `/consumer-health-privacy`, `/disclosure`
 - Soft 404 for unknown customer paths (home + care-area links)
 
