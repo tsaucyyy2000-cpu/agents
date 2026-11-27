@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { ClerkRoot } from "./auth/ClerkRoot";
 import { ContentProvider } from "./data/ContentContext";
+import "./i18n";
 import "./styles/global.css";
 
 const rootElement = document.getElementById("root");

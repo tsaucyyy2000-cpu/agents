@@ -1,5 +1,6 @@
 import { Show } from "@clerk/react";
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import { AuthUnavailable } from "./AuthUnavailable";
 import { isClerkConfigured } from "./clerkConfig";
@@ -11,31 +12,28 @@ type RequireSignedInProps = {
 
 function SignedOutGate() {
   const location = useLocation();
+  const { t } = useTranslation("common");
   const redirect = `${location.pathname}${location.search}`;
   const signInTo = `/sign-in?redirect_url=${encodeURIComponent(redirect || "/account")}`;
 
   return (
     <div className="auth-shell" data-testid="auth-signed-out-gate">
       <div className="auth-panel">
-        <p className="auth-badge">Account required</p>
-        <h1>Sign in to continue</h1>
-        <p className="auth-lede">
-          This area is for signed-in customers. Quiz answers, visit leads, and plan reviews still
-          live in this browser&apos;s <code>localStorage</code> until a real backend exists — not
-          production PHI storage.
-        </p>
+        <p className="auth-badge">{t("auth.accountRequired")}</p>
+        <h1>{t("auth.signInToContinue")}</h1>
+        <p className="auth-lede">{t("auth.signedOutLede")}</p>
         <div className="auth-actions">
           <Link className="btn btn-primary" to={signInTo} data-testid="auth-gate-sign-in">
-            Sign in
+            {t("cta.signIn")}
           </Link>
           <Link className="btn btn-ghost" to="/sign-up">
-            Create account
+            {t("cta.signUp")}
           </Link>
         </div>
         <p className="auth-hint">
-          Prefer a hard redirect? <Link to={signInTo}>Open sign-in</Link>
+          {t("auth.preferRedirect")} <Link to={signInTo}>{t("auth.openSignIn")}</Link>
           {" · "}
-          <Link to="/">Home</Link>
+          <Link to="/">{t("auth.home")}</Link>
         </p>
       </div>
     </div>

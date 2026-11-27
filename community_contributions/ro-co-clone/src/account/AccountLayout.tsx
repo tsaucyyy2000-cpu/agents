@@ -1,8 +1,9 @@
 import { useClerk, useUser } from "@clerk/react";
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, NavLink } from "react-router-dom";
 import { isAdminEmail } from "../admin/adminAllowlist";
-import { ACCOUNT_NAV } from "./accountNav";
+import { ACCOUNT_NAV_KEYS } from "../i18n/carePaths";
 
 export type ShellIdentity = {
   displayName: string;
@@ -39,6 +40,9 @@ type AccountChromeProps = {
 };
 
 export function AccountChrome({ identity, children, onSignOut }: AccountChromeProps) {
+  const { t } = useTranslation(["account", "common"]);
+  const roleLabel = identity.staff ? t("account:roleStaff") : t("account:roleCustomer");
+
   return (
     <div
       className="account-page"
@@ -47,28 +51,27 @@ export function AccountChrome({ identity, children, onSignOut }: AccountChromePr
     >
       {identity.preview ? (
         <div className="account-preview-banner" data-testid="account-preview-banner" role="status">
-          Design preview · Clerk not configured · <code>?previewShell=1</code> shows this shell for
-          screenshots only. Not a signed-in session.
+          {t("account:previewBanner")}
         </div>
       ) : null}
 
       <section className="account-hero">
         <div className="container account-hero-inner">
-          <p className="section-kicker">Your account</p>
-          <h1>{identity.displayName ? `Hi, ${identity.displayName}` : "Your account"}</h1>
-          <p className="account-hero-dek">
-            Patient dashboard shell for overview, care, appointments, orders, membership, progress,
-            documents, messages, and settings. Durable medical records, pharmacy, and payments need
-            a future backend — this SPA keeps honest empty states instead of inventing PHI.
-          </p>
+          <p className="section-kicker">{t("account:kicker")}</p>
+          <h1>
+            {identity.displayName
+              ? t("account:greeting", { name: identity.displayName })
+              : t("account:titleFallback")}
+          </h1>
+          <p className="account-hero-dek">{t("account:heroDek")}</p>
           <div className="account-meta">
             {identity.email ? (
               <span>
-                {identity.preview ? "Preview identity" : "Signed in as"}{" "}
+                {identity.preview ? t("account:previewIdentity") : t("account:signedInAs")}{" "}
                 <strong>{identity.email}</strong>
               </span>
             ) : null}
-            <span>Role: {identity.staff ? "Administrator / staff" : "Customer"}</span>
+            <span>{t("account:role", { role: roleLabel })}</span>
           </div>
           <div className="account-toolbar">
             {onSignOut ? (
@@ -78,34 +81,38 @@ export function AccountChrome({ identity, children, onSignOut }: AccountChromePr
                 data-testid="account-sign-out"
                 onClick={onSignOut}
               >
-                Sign out
+                {t("common:cta.signOut")}
               </button>
             ) : null}
             {identity.staff ? (
               <Link className="btn btn-primary" to="/admin">
-                Open admin
+                {t("common:cta.openAdmin")}
               </Link>
             ) : null}
             <Link className="btn btn-ghost" to="/help">
-              Help
+              {t("common:cta.getHelp")}
             </Link>
           </div>
         </div>
       </section>
 
       <div className="container account-body">
-        <nav className="account-subnav" aria-label="Account sections" data-testid="account-subnav">
+        <nav
+          className="account-subnav"
+          aria-label={t("account:sectionsAria")}
+          data-testid="account-subnav"
+        >
           <div className="account-subnav-scroll">
-            {ACCOUNT_NAV.map((item) => (
+            {ACCOUNT_NAV_KEYS.map((item) => (
               <NavLink
                 key={item.to}
                 to={withPreviewQuery(item.to, identity.preview)}
-                end={item.end}
+                end={"end" in item ? item.end : false}
                 className={({ isActive }) =>
                   isActive ? "account-subnav-link is-active" : "account-subnav-link"
                 }
               >
-                {item.label}
+                {t(`account:${item.key}`)}
               </NavLink>
             ))}
           </div>
@@ -119,12 +126,13 @@ export function AccountChrome({ identity, children, onSignOut }: AccountChromePr
 /** Resolve signed-in customer identity. Must run under ClerkProvider. */
 export function useAccountIdentity(): ShellIdentity {
   const { user, isLoaded } = useUser();
+  const { t } = useTranslation("account");
   const email = user?.primaryEmailAddress?.emailAddress;
   const displayName =
     user?.fullName?.trim() ||
     [user?.firstName, user?.lastName].filter(Boolean).join(" ").trim() ||
     email ||
-    (isLoaded ? "Customer" : "Your account");
+    (isLoaded ? t("customerFallback") : t("titleFallback"));
   return {
     displayName,
     email,

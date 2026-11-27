@@ -1,4 +1,5 @@
 import { SignIn } from "@clerk/react";
+import { useTranslation } from "react-i18next";
 import { Link, useSearchParams } from "react-router-dom";
 import { AuthUnavailable } from "../auth/AuthUnavailable";
 import { clerkAppearance, isClerkConfigured } from "../auth/clerkConfig";
@@ -12,21 +13,19 @@ function redirectFromQuery(raw: string | null): string {
 
 export function SignInPage() {
   const [params] = useSearchParams();
+  const { t } = useTranslation("common");
   const forceRedirectUrl = redirectFromQuery(params.get("redirect_url"));
 
   if (!isClerkConfigured()) {
-    return <AuthUnavailable title="Sign-in unavailable" context="sign-in" />;
+    return <AuthUnavailable title={t("auth.signInUnavailable")} context="sign-in" />;
   }
 
   return (
     <div className="auth-shell" data-testid="sign-in-page">
       <div className="auth-panel">
-        <p className="auth-badge">Customer account</p>
-        <h1>Sign in</h1>
-        <p className="auth-lede">
-          Use your email and password, or Google / Apple when those providers are enabled in the
-          Clerk Dashboard. Password recovery and email verification are handled by Clerk.
-        </p>
+        <p className="auth-badge">{t("auth.customerAccount")}</p>
+        <h1>{t("auth.signInTitle")}</h1>
+        <p className="auth-lede">{t("auth.signInLede")}</p>
         <div className="auth-clerk-mount">
           <SignIn
             routing="path"
@@ -38,9 +37,9 @@ export function SignInPage() {
           />
         </div>
         <p className="auth-hint">
-          New here? <Link to="/sign-up">Create an account</Link>
+          {t("auth.newHere")} <Link to="/sign-up">{t("auth.createAnAccount")}</Link>
           {" · "}
-          <Link to="/">Back to home</Link>
+          <Link to="/">{t("cta.backHome")}</Link>
         </p>
       </div>
     </div>

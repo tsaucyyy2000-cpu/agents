@@ -1,0 +1,30 @@
+{
+  "blurb": "Parcours de soins en ligne pour des objectifs de santé courants. Non affilié à Ro. Contact {{email}}.",
+  "disclaimer": "Ceci n'est pas un avis médical · Des cliniciens agréés sont requis pour tout traitement réel",
+  "columns": {
+    "careAreas": "Domaines de soins",
+    "company": "Entreprise",
+    "support": "Assistance",
+    "privacyChoices": "Choix de confidentialité"
+  },
+  "links": {
+    "about": "À propos",
+    "weightQuiz": "Quiz poids",
+    "hairQuiz": "Quiz cheveux",
+    "sexualHealthQuiz": "Quiz santé sexuelle",
+    "skinQuiz": "Quiz peau",
+    "startVisit": "Démarrer une consultation",
+    "howItWorks": "Comment ça marche",
+    "guides": "Guides santé",
+    "help": "Centre d'aide",
+    "safety": "Infos sécurité",
+    "glp1Isi": "ISI GLP-1 (ébauche)",
+    "minoxidilIsi": "ISI minoxidil (ébauche)",
+    "privacy": "Confidentialité",
+    "terms": "Conditions",
+    "privacyChoices": "Vos choix de confidentialité",
+    "cookiePolicy": "Politique relative aux cookies",
+    "consumerHealth": "Données de santé du consommateur",
+    "disclosure": "Divulgation"
+  }
+}

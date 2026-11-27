@@ -1,0 +1,19 @@
+{
+  "careAreas": "Care areas",
+  "featured": "Featured",
+  "help": "Help",
+  "exploreCarePath": "Explore this care path",
+  "startCareQuiz": "Start {{care}} quiz",
+  "care": {
+    "weightLoss": "Weight loss",
+    "sexualHealth": "Sexual health",
+    "hair": "Hair",
+    "skin": "Skin"
+  },
+  "featuredLinks": {
+    "howItWorks": "How care works",
+    "guides": "Health guides",
+    "help": "Help center",
+    "findCare": "Choose care area"
+  }
+}

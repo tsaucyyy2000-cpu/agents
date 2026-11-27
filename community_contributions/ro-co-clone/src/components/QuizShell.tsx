@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   getVisibleSteps,
   validateStep,
@@ -28,6 +29,7 @@ export function QuizShell({
   initialPhase = "questions",
   onComplete,
 }: Props) {
+  const { t } = useTranslation("common");
   const visible = useMemo(() => getVisibleSteps(treatment, answers), [treatment, answers]);
   const [phase, setPhase] = useState<Phase>(initialPhase);
   const [index, setIndex] = useState(() => {
@@ -156,7 +158,7 @@ export function QuizShell({
         ) : null}
         <div className="quiz-actions">
           <button type="button" className="btn btn-secondary" onClick={goBack}>
-            Back
+            {t("cta.back")}
           </button>
           <button
             type="button"
@@ -164,7 +166,7 @@ export function QuizShell({
             data-testid="quiz-review-submit"
             onClick={submitReview}
           >
-            Submit and continue to visit
+            {t("cta.submit")}
           </button>
         </div>
       </div>
@@ -243,10 +245,10 @@ export function QuizShell({
 
       <div className="quiz-actions">
         <button type="button" className="btn btn-secondary" onClick={goBack} disabled={safeIndex === 0}>
-          Back
+          {t("cta.back")}
         </button>
         <button type="button" className="btn btn-primary" onClick={goNext} data-testid="quiz-next">
-          {safeIndex >= total - 1 ? "Review answers" : "Next"}
+          {safeIndex >= total - 1 ? t("cta.reviewAnswers") : t("cta.next")}
         </button>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import {
   CONSENT_VERSION,
@@ -14,6 +15,7 @@ function initialVisible() {
 }
 
 export function ConsentBanner() {
+  const { t } = useTranslation("common");
   const titleId = useId();
   const firstActionRef = useRef<HTMLButtonElement>(null);
   const [visible, setVisible] = useState(initialVisible);
@@ -81,49 +83,51 @@ export function ConsentBanner() {
       <button
         type="button"
         className="consent-backdrop"
-        aria-label="Dismiss is not available — choose a privacy option below"
+        aria-label={t("consent.dismissUnavailable")}
         tabIndex={-1}
       />
       <div className="consent" role="dialog" aria-modal="true" aria-labelledby={titleId}>
         <div className="consent-body">
-          <h2 id={titleId}>Privacy & cookie choices</h2>
+          <h2 id={titleId}>{t("consent.title")}</h2>
           <p>
-            We store preferences and visit answers in your browser. Nothing is sold. Consent version{" "}
-            {CONSENT_VERSION}. See the <Link to="/privacy">privacy note</Link> and{" "}
-            <Link to="/cookie-policy">cookie policy</Link>.
+            {t("consent.bodyBefore", { version: CONSENT_VERSION })}{" "}
+            <Link to="/privacy">{t("consent.privacyLink")}</Link> {t("consent.bodyMid")}{" "}
+            <Link to="/cookie-policy">{t("consent.cookieLink")}</Link>.
           </p>
 
           {showPrefs ? (
             <div className="consent-prefs">
               <div className="consent-switch-row">
                 <div>
-                  <b>Essential storage</b>
-                  <p>Visit answers and site content edits stay in localStorage.</p>
+                  <b>{t("consent.essentialStorage")}</b>
+                  <p>{t("consent.essentialStorageHint")}</p>
                 </div>
                 <label className="consent-switch">
-                  <input type="checkbox" checked disabled aria-label="Essential storage always on" />
+                  <input
+                    type="checkbox"
+                    checked
+                    disabled
+                    aria-label={t("consent.essentialAlwaysOn")}
+                  />
                   <span />
                 </label>
               </div>
               <div className="consent-switch-row">
                 <div>
-                  <b>Optional analytics</b>
-                  <p>No third-party tracker is wired yet. Toggle saves your preference for launch.</p>
+                  <b>{t("consent.optionalAnalytics")}</b>
+                  <p>{t("consent.optionalAnalyticsHint")}</p>
                 </div>
                 <label className="consent-switch">
                   <input
                     type="checkbox"
                     checked={analytics}
                     onChange={(event) => setAnalytics(event.target.checked)}
-                    aria-label="Optional analytics preference"
+                    aria-label={t("consent.optionalAnalyticsLabel")}
                   />
                   <span />
                 </label>
               </div>
-              <p className="consent-note">
-                No Google tags, pixels, or affiliate scripts load until you enable them in a later
-                release.
-              </p>
+              <p className="consent-note">{t("consent.note")}</p>
             </div>
           ) : null}
         </div>
@@ -136,7 +140,7 @@ export function ConsentBanner() {
               className="btn btn-primary"
               onClick={() => save({ analytics })}
             >
-              Save choices
+              {t("consent.saveChoices")}
             </button>
           ) : (
             <>
@@ -147,17 +151,17 @@ export function ConsentBanner() {
                 data-testid="consent-essential"
                 onClick={() => save({ analytics: false })}
               >
-                Essential only
+                {t("consent.essentialOnly")}
               </button>
               <button type="button" className="btn btn-secondary" onClick={() => setShowPrefs(true)}>
-                Customize
+                {t("consent.customize")}
               </button>
               <button
                 type="button"
                 className="btn btn-secondary"
                 onClick={() => save({ analytics: true })}
               >
-                Accept all
+                {t("consent.acceptAll")}
               </button>
             </>
           )}

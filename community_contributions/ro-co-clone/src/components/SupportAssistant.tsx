@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { isClerkConfigured } from "../auth/clerkConfig";
 import { useContent } from "../data/ContentContext";
@@ -47,6 +48,7 @@ function toChatFromMatch(
 }
 
 export function SupportAssistant() {
+  const { t } = useTranslation("common");
   const titleId = useId();
   const inputId = useId();
   const listRef = useRef<HTMLDivElement>(null);
@@ -120,13 +122,13 @@ export function SupportAssistant() {
         >
           <header className="support-assistant-head">
             <div>
-              <p className="support-assistant-kicker">Site helper</p>
-              <h2 id={titleId}>Ask about the site</h2>
+              <p className="support-assistant-kicker">{t("support.kicker")}</p>
+              <h2 id={titleId}>{t("support.title")}</h2>
             </div>
             <button
               type="button"
               className="support-assistant-close"
-              aria-label="Close support assistant"
+              aria-label={t("support.closeAria")}
               data-testid="support-assistant-close"
               onClick={() => setOpen(false)}
             >
@@ -134,10 +136,7 @@ export function SupportAssistant() {
             </button>
           </header>
 
-          <p className="support-assistant-disclaimer">
-            Nonclinical FAQ helper for website, membership, and navigation. No diagnoses or
-            prescription recommendations.
-          </p>
+          <p className="support-assistant-disclaimer">{t("support.disclaimer")}</p>
 
           <div
             className="support-assistant-messages"
@@ -175,10 +174,10 @@ export function SupportAssistant() {
                       data-testid="support-assistant-escalate-messages"
                       onClick={() => setOpen(false)}
                     >
-                      Message support
+                      {t("support.messageSupport")}
                     </Link>
                     <a href={`mailto:${supportEmail}`} data-testid="support-assistant-escalate-email">
-                      Email ops
+                      {t("support.emailOps")}
                     </a>
                     <p className="support-assistant-meta">{ESCALATE_HINT}</p>
                   </div>
@@ -187,12 +186,12 @@ export function SupportAssistant() {
             ))}
             {busy ? (
               <div className="support-assistant-bubble" data-role="assistant" aria-busy="true">
-                <p>Looking up a local FAQ…</p>
+                <p>{t("support.lookingUp")}</p>
               </div>
             ) : null}
           </div>
 
-          <div className="support-assistant-suggestions" aria-label="Suggested questions">
+          <div className="support-assistant-suggestions" aria-label={t("support.suggestionsAria")}>
             {SUGGESTED_PROMPTS.map((prompt) => (
               <button
                 key={prompt}
@@ -208,21 +207,19 @@ export function SupportAssistant() {
           </div>
 
           <p className="support-assistant-status" data-testid="support-assistant-mode">
-            {apiOn
-              ? "Mode: local FAQ first · optional API (fails closed to local)"
-              : "Mode: local FAQ matcher (no assistant API configured)"}
+            {apiOn ? t("support.modeApi") : t("support.modeLocal")}
           </p>
 
           <form className="support-assistant-form" onSubmit={handleSubmit}>
             <label className="sr-only" htmlFor={inputId}>
-              Ask a website or membership question
+              {t("support.inputLabel")}
             </label>
             <input
               id={inputId}
               data-testid="support-assistant-input"
               type="text"
               autoComplete="off"
-              placeholder="Website, membership, or nav…"
+              placeholder={t("support.placeholder")}
               value={input}
               disabled={busy}
               onChange={(e) => setInput(e.target.value)}
@@ -232,7 +229,7 @@ export function SupportAssistant() {
               data-testid="support-assistant-send"
               disabled={busy || !input.trim()}
             >
-              Ask
+              {t("support.ask")}
             </button>
           </form>
         </div>
@@ -247,7 +244,9 @@ export function SupportAssistant() {
         onClick={() => setOpen((v) => !v)}
       >
         <span className="support-assistant-launch-dot" aria-hidden="true" />
-        <span className="support-assistant-launch-label">{open ? "Close helper" : "Site help"}</span>
+        <span className="support-assistant-launch-label">
+          {open ? t("support.launchClose") : t("support.launchOpen")}
+        </span>
       </button>
     </div>
   );

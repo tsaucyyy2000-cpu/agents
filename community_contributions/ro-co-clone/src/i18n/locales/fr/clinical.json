@@ -1,0 +1,5 @@
+{
+  "_meta": {
+    "note": "Copie clinique profonde : EN d'abord. Les clés FR seront remplies après relecture conseil ; i18next retombe sur l'anglais (fallbackLng) pour les clés absentes."
+  }
+}

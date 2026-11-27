@@ -1,0 +1,19 @@
+{
+  "careAreas": "Domaines de soins",
+  "featured": "À la une",
+  "help": "Aide",
+  "exploreCarePath": "Explorer ce parcours de soins",
+  "startCareQuiz": "Commencer le quiz {{care}}",
+  "care": {
+    "weightLoss": "Perte de poids",
+    "sexualHealth": "Santé sexuelle",
+    "hair": "Cheveux",
+    "skin": "Peau"
+  },
+  "featuredLinks": {
+    "howItWorks": "Comment fonctionnent les soins",
+    "guides": "Guides santé",
+    "help": "Centre d'aide",
+    "findCare": "Choisir un domaine de soins"
+  }
+}

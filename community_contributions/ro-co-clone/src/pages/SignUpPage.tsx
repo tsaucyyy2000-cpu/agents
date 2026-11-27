@@ -1,23 +1,23 @@
 import { SignUp } from "@clerk/react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { AuthUnavailable } from "../auth/AuthUnavailable";
 import { clerkAppearance, isClerkConfigured } from "../auth/clerkConfig";
 import "../auth/auth.css";
 
 export function SignUpPage() {
+  const { t } = useTranslation("common");
+
   if (!isClerkConfigured()) {
-    return <AuthUnavailable title="Sign-up unavailable" context="sign-up" />;
+    return <AuthUnavailable title={t("auth.signUpUnavailable")} context="sign-up" />;
   }
 
   return (
     <div className="auth-shell" data-testid="sign-up-page">
       <div className="auth-panel">
-        <p className="auth-badge">Customer account</p>
-        <h1>Create your account</h1>
-        <p className="auth-lede">
-          Sign up with email (verification required when enabled in Clerk) or Google / Apple when
-          those social providers are turned on in the Dashboard for this application.
-        </p>
+        <p className="auth-badge">{t("auth.customerAccount")}</p>
+        <h1>{t("auth.signUpTitle")}</h1>
+        <p className="auth-lede">{t("auth.signUpLede")}</p>
         <div className="auth-clerk-mount">
           <SignUp
             routing="path"
@@ -29,9 +29,9 @@ export function SignUpPage() {
           />
         </div>
         <p className="auth-hint">
-          Already have an account? <Link to="/sign-in">Sign in</Link>
+          {t("auth.alreadyHaveAccount")} <Link to="/sign-in">{t("cta.signIn")}</Link>
           {" · "}
-          <Link to="/">Back to home</Link>
+          <Link to="/">{t("cta.backHome")}</Link>
         </p>
       </div>
     </div>
