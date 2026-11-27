@@ -68,7 +68,7 @@ function AccountSectionRoutes({
         }
       />
       <Route path="membership" element={<AccountMembership />} />
-      <Route path="progress" element={<AccountProgress />} />
+      <Route path="progress" element={<AccountProgress preview={preview} />} />
       <Route path="documents" element={<AccountDocuments />} />
       <Route
         path="messages"
