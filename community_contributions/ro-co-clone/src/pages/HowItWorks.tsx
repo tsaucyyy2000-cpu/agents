@@ -20,10 +20,10 @@ const FUNNEL_STEPS = [
   },
   {
     id: "coverage",
-    title: "Optional coverage check",
-    copy: "Try the insurance pathway metaphor if you want to see that branch. No payer APIs — placeholders unlock a fake result.",
+    title: "Optional insurance inquiry",
+    copy: "Save placeholder carrier details for an admin review workflow. No payer APIs — coverage is never claimed without a verified partner.",
     to: "/insurance-check",
-    cta: "Try coverage check",
+    cta: "Try insurance inquiry",
   },
   {
     id: "plan",

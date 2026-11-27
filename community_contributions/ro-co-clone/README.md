@@ -65,7 +65,7 @@ VITE_SITE_ORIGIN=https://example.com
 - `/weight-loss` category landing (no outcome projection)
 - `/sexual-health`, `/hair`, `/skin` category landings
 - `/quiz/:slug` versioned-consent quiz engine (progress, branching, review, localStorage resume) → shared `/visit` funnel
-- `/how-it-works`, `/insurance-check`, `/checkout`, `/membership`, `/membership/checkout` (sandbox), `/guides`
+- `/how-it-works`, `/insurance-check` (inquiry shell · no coverage claims), `/checkout`, `/membership`, `/membership/checkout` (sandbox), `/guides`
 - `/products/:id` detail with sticky subnav + PriceTag (`amount: null` → —)
 - `/visit` multi-step intake
 - Safety hub `/safety` + ISI stubs `/isi/glp1`, `/isi/minoxidil` (illustrative only)
@@ -78,7 +78,7 @@ Customer chrome links to **Account** / **Sign in** (`/account`, `/sign-in`, `/si
 
 ## Customer accounts (Clerk)
 
-Same Vite + `@clerk/react` app as admin. Routes: `/sign-in`, `/sign-up`, `/account` (patient dashboard shell: overview, care, appointments, orders, membership, **progress**, documents, messages, settings). Missing `VITE_CLERK_PUBLISHABLE_KEY` keeps these routes fail-closed. Google / Apple appear when enabled in the Clerk Dashboard for app `app_3MVcZ8Rr2hLFhPnnmb9aa1eWhgz`. Account UI is client-route protection only — visit leads / CMS / support threads / weight progress remain `localStorage` (`ro-clone-support-messages-v1`, `ro-clone-weight-progress-v1`). Progress never recommends medication doses; side-effect escalation links to messaging / appointments. Toast previews never include message body or dose advice.
+Same Vite + `@clerk/react` app as admin. Routes: `/sign-in`, `/sign-up`, `/account` (patient dashboard shell: overview, care, appointments, labs, orders, **insurance**, membership, progress, documents, messages, settings). Missing `VITE_CLERK_PUBLISHABLE_KEY` keeps these routes fail-closed. Google / Apple appear when enabled in the Clerk Dashboard for app `app_3MVcZ8Rr2hLFhPnnmb9aa1eWhgz`. Account UI is client-route protection only — visit leads / CMS / support threads / weight progress / insurance inquiries remain `localStorage` (`ro-clone-support-messages-v1`, `ro-clone-weight-progress-v1`, `ro-clone-insurance-inquiries-v1`). Insurance statuses are admin/demo labeled only — never claim coverage without a verified payer. Progress never recommends medication doses; side-effect escalation links to messaging / appointments. Toast previews never include message body or dose advice.
 
 ## Admin (direct URL · Clerk + email allowlist)
 

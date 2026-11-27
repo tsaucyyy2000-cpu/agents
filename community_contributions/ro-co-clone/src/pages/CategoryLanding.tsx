@@ -64,10 +64,10 @@ export function CareFunnelSteps({
     },
     {
       id: "coverage",
-      title: "Optional coverage check",
-      copy: "Insurance pathway metaphor — no payer APIs and no verified costs.",
+      title: "Optional insurance inquiry",
+      copy: "Save placeholder details for admin review — no payer APIs and no coverage claims.",
       to: "/insurance-check",
-      cta: "Try coverage check",
+      cta: "Try insurance inquiry",
     },
     {
       id: "plan",

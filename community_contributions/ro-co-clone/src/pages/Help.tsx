@@ -31,7 +31,7 @@ const HELP_CATEGORIES: HelpCategory[] = [
     dek: "Shared funnel steps after a care-area quiz.",
     links: [
       { to: "/visit", label: "Visit", note: "Shared intake · sample data only" },
-      { to: "/insurance-check", label: "Coverage check", note: "Optional · no payer APIs" },
+      { to: "/insurance-check", label: "Insurance inquiry", note: "Optional · no payer APIs · no coverage claim" },
       { to: "/checkout", label: "Plan review", note: "No payments · pricing pending" },
       { to: "/membership", label: "Membership plans", note: "Sandbox compare · fees TBD" },
       {
