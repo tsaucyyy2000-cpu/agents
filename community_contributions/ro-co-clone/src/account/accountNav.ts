@@ -12,5 +12,6 @@ export const ACCOUNT_NAV: AccountNavItem[] = [
   { to: "/account/membership", label: "Membership" },
   { to: "/account/progress", label: "Progress" },
   { to: "/account/documents", label: "Documents" },
+  { to: "/account/messages", label: "Messages" },
   { to: "/account/settings", label: "Settings" },
 ];

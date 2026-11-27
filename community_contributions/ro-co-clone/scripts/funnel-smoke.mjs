@@ -197,6 +197,40 @@ async function main() {
         (await page.getByTestId("account-clerk-stub").count()) > 0,
     );
 
+    // Support messaging shell (localStorage demo; safe toasts; no PHI in previews).
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE}/account/messages?previewShell=1`, { waitUntil: "networkidle" });
+    const msgRoot = page.getByTestId("account-messages");
+    check(
+      "account messages shell preview",
+      (await msgRoot.count()) > 0 &&
+        (await page.getByTestId("messages-thread-list").count()) > 0 &&
+        /localStorage|non-durable|Not clinical messaging/i.test(await page.locator("body").innerText()),
+    );
+    await page.getByTestId("messages-compose-open").evaluate((el) => {
+      /** @type {HTMLElement} */ (el).click();
+    });
+    await page.getByTestId("messages-subject").fill("Billing question");
+    await page.getByTestId("messages-body").fill("Can you clarify my invoice total?");
+    await page.getByTestId("messages-send").evaluate((el) => {
+      /** @type {HTMLElement} */ (el).click();
+    });
+    await page.waitForTimeout(200);
+    const toastText = ((await page.getByTestId("messages-toast").count()) > 0
+      ? await page.getByTestId("messages-toast").innerText()
+      : "");
+    check(
+      "messages toast has no PHI body",
+      /message was sent to support/i.test(toastText) &&
+        !/invoice total|clarify my/i.test(toastText),
+      toastText.slice(0, 80),
+    );
+    check(
+      "messages thread created",
+      (await page.getByTestId("messages-timeline").count()) > 0,
+    );
+    await page.setViewportSize({ width: 390, height: 844 });
+
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(`${BASE}/sign-in`, { waitUntil: "networkidle" });
     await shot(page, "clerk-auth-signin-locked-desktop.png");

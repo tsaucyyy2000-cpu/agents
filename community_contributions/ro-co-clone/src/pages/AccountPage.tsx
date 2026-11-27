@@ -13,6 +13,7 @@ import { AccountOrders } from "../account/AccountOrders";
 import { AccountMembership } from "../account/AccountMembership";
 import { AccountProgress } from "../account/AccountProgress";
 import { AccountDocuments } from "../account/AccountDocuments";
+import { AccountMessages } from "../account/AccountMessages";
 import { AccountSettings } from "../account/AccountSettings";
 import { AuthUnavailable } from "../auth/AuthUnavailable";
 import { RequireSignedIn } from "../auth/RequireSignedIn";
@@ -26,6 +27,7 @@ function AccountSectionRoutes({
   identity: ShellIdentity;
   preview?: boolean;
 }) {
+  const patientKey = identity.email?.trim() || identity.displayName || "preview-patient";
   return (
     <Routes>
       <Route
@@ -37,6 +39,16 @@ function AccountSectionRoutes({
       <Route path="membership" element={<AccountMembership />} />
       <Route path="progress" element={<AccountProgress />} />
       <Route path="documents" element={<AccountDocuments />} />
+      <Route
+        path="messages"
+        element={
+          <AccountMessages
+            patientKey={patientKey}
+            patientLabel={identity.displayName}
+            preview={preview}
+          />
+        }
+      />
       <Route path="settings" element={<AccountSettings preview={preview} />} />
       <Route
         path="*"
