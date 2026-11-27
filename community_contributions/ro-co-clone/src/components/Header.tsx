@@ -1,19 +1,16 @@
 import { useEffect, useId, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useContent } from "../data/ContentContext";
+import { careNavKey, FEATURED_LINK_KEYS } from "../i18n/carePaths";
+import { LanguageSwitcher } from "../i18n/LanguageSwitcher";
 import { quizPath } from "../utils/careRoutes";
 import { HeaderAuth } from "./HeaderAuth";
 import "./Header.css";
 
-const FEATURED_LINKS = [
-  { to: "/how-it-works", label: "How care works" },
-  { to: "/guides", label: "Health guides" },
-  { to: "/help", label: "Help center" },
-  { to: "/#find-care", label: "Choose care area" },
-] as const;
-
 export function Header() {
   const { content } = useContent();
+  const { t } = useTranslation(["nav", "common"]);
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -91,16 +88,27 @@ export function Header() {
   const categoryByPath = (path: string) =>
     content.categories.find((category) => category.path === path);
 
+  const labelForNav = (path: string, fallback: string) => {
+    const key = careNavKey(path);
+    return key ? t(`nav:${key}`) : fallback;
+  };
+
+  const menuOpenLabel = open ? t("common:a11y.closeMenu") : t("common:a11y.openMenu");
+
   return (
     <header className={`site-header ${scrolled ? "is-scrolled" : ""} ${megaOpen ? "mega-open" : ""}`}>
       <div className="container header-inner">
-        <Link to="/" className="logo" aria-label={`${content.settings.brandName} home`}>
+        <Link
+          to="/"
+          className="logo"
+          aria-label={t("common:a11y.brandHome", { brand: content.settings.brandName })}
+        >
           <span className="logo-mark">{content.settings.brandName}</span>
         </Link>
 
         <nav
           className="desktop-nav"
-          aria-label="Primary"
+          aria-label={t("common:a11y.primaryNav")}
           onMouseEnter={openMega}
           onMouseLeave={closeMegaSoon}
           onFocus={openMega}
@@ -118,18 +126,19 @@ export function Header() {
               aria-haspopup="true"
               aria-controls={megaId}
             >
-              {link.label}
+              {labelForNav(link.to, link.label)}
             </NavLink>
           ))}
         </nav>
 
         <div className="header-actions">
+          <LanguageSwitcher />
           <HeaderAuth />
           <Link to="/help" className="nav-link header-help">
-            Help
+            {t("nav:help")}
           </Link>
           <Link to="/#find-care" className="btn btn-primary header-cta">
-            Start quiz
+            {t("common:cta.startQuiz")}
           </Link>
           <button
             ref={toggleRef}
@@ -137,10 +146,10 @@ export function Header() {
             className={`menu-toggle ${open ? "is-open" : ""}`}
             aria-expanded={open}
             aria-controls={drawerId}
-            aria-label={open ? "Close menu" : "Open menu"}
+            aria-label={menuOpenLabel}
             onClick={() => setOpen((value) => !value)}
           >
-            <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+            <span className="sr-only">{menuOpenLabel}</span>
             <span aria-hidden="true" />
             <span aria-hidden="true" />
             <span aria-hidden="true" />
@@ -157,16 +166,17 @@ export function Header() {
       >
         <div className="container mega-inner">
           <div className="mega-categories">
-            <p className="mega-kicker">Care areas</p>
+            <p className="mega-kicker">{t("nav:careAreas")}</p>
             <ul>
               {content.nav.map((link) => {
                 const category = categoryByPath(link.to);
+                const careLabel = labelForNav(link.to, link.label);
                 return (
                   <li key={link.to}>
                     <Link to={link.to} className="mega-cat" onClick={closeMegaNow}>
-                      <span className="mega-cat-label">{link.label}</span>
+                      <span className="mega-cat-label">{careLabel}</span>
                       <span className="mega-cat-lede">
-                        {category?.lede?.slice(0, 72) ?? "Explore this care path"}
+                        {category?.lede?.slice(0, 72) ?? t("nav:exploreCarePath")}
                         {(category?.lede?.length ?? 0) > 72 ? "…" : ""}
                       </span>
                     </Link>
@@ -176,7 +186,7 @@ export function Header() {
                         className="mega-cat-quiz"
                         onClick={closeMegaNow}
                       >
-                        Start {link.label.toLowerCase()} quiz
+                        {t("nav:startCareQuiz", { care: careLabel.toLowerCase() })}
                       </Link>
                     ) : null}
                   </li>
@@ -185,18 +195,18 @@ export function Header() {
             </ul>
           </div>
           <div className="mega-featured">
-            <p className="mega-kicker">Featured</p>
+            <p className="mega-kicker">{t("nav:featured")}</p>
             <ul>
-              {FEATURED_LINKS.map((link) => (
+              {FEATURED_LINK_KEYS.map((link) => (
                 <li key={link.to}>
                   <Link to={link.to} onClick={closeMegaNow}>
-                    {link.label}
+                    {t(`nav:${link.key}`)}
                   </Link>
                 </li>
               ))}
             </ul>
             <Link to="/#find-care" className="btn btn-primary mega-cta" onClick={closeMegaNow}>
-              Start quiz
+              {t("common:cta.startQuiz")}
             </Link>
           </div>
         </div>
@@ -213,7 +223,7 @@ export function Header() {
         className={`mobile-drawer ${open ? "is-open" : ""}`}
         role="dialog"
         aria-modal="true"
-        aria-label="Site menu"
+        aria-label={t("common:a11y.siteMenu")}
         aria-hidden={!open}
         {...(!open ? { inert: true as const } : {})}
       >
@@ -223,21 +233,24 @@ export function Header() {
             ref={closeBtnRef}
             type="button"
             className="drawer-close"
-            aria-label="Close menu"
+            aria-label={t("common:a11y.closeMenu")}
             onClick={() => setOpen(false)}
           >
             <span aria-hidden="true">×</span>
           </button>
         </div>
 
-        <nav className="drawer-nav" aria-label="Mobile">
+        <nav className="drawer-nav" aria-label={t("common:a11y.mobileNav")}>
+          <div className="drawer-lang">
+            <LanguageSwitcher compact />
+          </div>
           <button
             type="button"
             className={`drawer-accordion ${careExpanded ? "is-open" : ""}`}
             aria-expanded={careExpanded}
             onClick={() => setCareExpanded((value) => !value)}
           >
-            Care areas
+            {t("nav:careAreas")}
             <span className="drawer-chevron" aria-hidden="true" />
           </button>
           <div
@@ -250,7 +263,7 @@ export function Header() {
               return (
                 <div key={link.to} className="drawer-cat-block">
                   <NavLink to={link.to} className="mobile-link" onClick={() => setOpen(false)}>
-                    {link.label}
+                    {labelForNav(link.to, link.label)}
                   </NavLink>
                   {category ? (
                     <Link
@@ -258,7 +271,7 @@ export function Header() {
                       className="drawer-sublink"
                       onClick={() => setOpen(false)}
                     >
-                      Start quiz
+                      {t("common:cta.startQuiz")}
                     </Link>
                   ) : null}
                 </div>
@@ -266,14 +279,14 @@ export function Header() {
             })}
           </div>
 
-          {FEATURED_LINKS.map((link) => (
+          {FEATURED_LINK_KEYS.map((link) => (
             <Link
               key={link.to}
               to={link.to}
               className="mobile-link"
               onClick={() => setOpen(false)}
             >
-              {link.label}
+              {t(`nav:${link.key}`)}
             </Link>
           ))}
 
@@ -284,7 +297,7 @@ export function Header() {
             className="btn btn-primary drawer-cta"
             onClick={() => setOpen(false)}
           >
-            Start quiz
+            {t("common:cta.startQuiz")}
           </Link>
         </nav>
       </div>

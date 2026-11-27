@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { IsiBlock } from "../components/IsiBlock";
 import { JourneyRail } from "../components/JourneyRail";
@@ -173,6 +174,8 @@ export function CareOptions({
   quizHref: string;
   optionsId?: string;
 }) {
+  const { t } = useTranslation("common");
+  const startQuizLabel = t("cta.startQuiz");
   const { content, mediaById } = useContent();
   const products = content.products.filter(
     (product) => product.category === slug && product.active,
@@ -195,7 +198,7 @@ export function CareOptions({
               <h3>Formats coming soon</h3>
               <p>This category has no active products yet—start the quiz to explore the flow.</p>
               <Link to={quizHref} className="btn btn-primary">
-                Start quiz
+                {startQuizLabel}
               </Link>
             </article>
           ) : (
@@ -213,7 +216,7 @@ export function CareOptions({
                       Details
                     </Link>
                     <Link to={quizHref} className="btn btn-primary">
-                      Start quiz
+                      {startQuizLabel}
                     </Link>
                   </div>
                 </article>
@@ -235,6 +238,8 @@ export function CareMembership({
   quizHref: string;
   extraBullets?: string[];
 }) {
+  const { t } = useTranslation("common");
+  const startQuizLabel = t("cta.startQuiz");
   const { content } = useContent();
   const category = content.categories.find((item) => item.slug === slug);
   const depth = getCareLandingDepth(slug);
@@ -262,7 +267,7 @@ export function CareMembership({
           <p className="price-card-note">No invented membership dollars on this preview.</p>
           <div className="cta-row">
             <Link to={quizHref} className="btn btn-primary">
-              Start quiz
+              {startQuizLabel}
             </Link>
             <Link to="/how-it-works" className="btn btn-secondary">
               How care works
@@ -420,6 +425,8 @@ export function CareCtaBand({
   slug: CareArea;
   quizHref: string;
 }) {
+  const { t } = useTranslation("common");
+  const startQuizLabel = t("cta.startQuiz");
   return (
     <section className="cta-band cat-cta-band">
       <div className="container cta-band-inner">
@@ -428,7 +435,7 @@ export function CareCtaBand({
         <p>Then the shared visit funnel. Answers stay in this browser.</p>
         <div className="hero-actions">
           <Link to={quizHref} className="btn btn-on-dark">
-            Start quiz
+            {startQuizLabel}
           </Link>
           <Link to="/how-it-works" className="btn btn-secondary">
             How care works
@@ -485,6 +492,8 @@ export function CareLandingBody({
 }
 
 export function CategoryLanding({ slug }: { slug: CareArea }) {
+  const { t } = useTranslation("common");
+  const startQuizLabel = t("cta.startQuiz");
   const { content, mediaById } = useContent();
   const category = content.categories.find((item) => item.slug === slug);
   const products = content.products.filter(
@@ -518,7 +527,7 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
             <p className="lede">{category.lede}</p>
             <div className="cta-row">
               <Link to={quizHref} className="btn btn-primary">
-                Start quiz
+                {startQuizLabel}
               </Link>
               <Link to="/how-it-works" className="btn btn-secondary">
                 How care works
@@ -564,7 +573,7 @@ export function CategoryLanding({ slug }: { slug: CareArea }) {
 
       <StickyMobileCta
         to={quizHref}
-        label="Start quiz"
+        label={startQuizLabel}
         fine="Then visit → coverage → plan review · Help anytime"
       />
     </div>

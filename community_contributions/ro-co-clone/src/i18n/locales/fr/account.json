@@ -1,0 +1,27 @@
+{
+  "kicker": "Votre compte",
+  "greeting": "Bonjour, {{name}}",
+  "titleFallback": "Votre compte",
+  "heroDek": "Tableau de bord patient pour l'aperçu, les soins, les rendez-vous, les commandes, l'assurance, l'abonnement, le suivi, les documents, les messages et les paramètres. Les dossiers médicaux durables, la pharmacie et les paiements nécessitent un backend futur — cette SPA garde des états vides honnêtes au lieu d'inventer des PHI.",
+  "signedInAs": "Connecté en tant que",
+  "previewIdentity": "Identité de prévisualisation",
+  "role": "Rôle : {{role}}",
+  "roleCustomer": "Client",
+  "roleStaff": "Administrateur / personnel",
+  "previewBanner": "Aperçu design · Clerk non configuré · ?previewShell=1 affiche cette coquille pour les captures uniquement. Pas une session connectée.",
+  "sectionsAria": "Sections du compte",
+  "nav": {
+    "overview": "Aperçu",
+    "care": "Mes soins",
+    "appointments": "Rendez-vous",
+    "labs": "Analyses",
+    "orders": "Commandes",
+    "insurance": "Assurance",
+    "membership": "Abonnement",
+    "progress": "Suivi",
+    "documents": "Documents",
+    "messages": "Messages",
+    "settings": "Paramètres"
+  },
+  "customerFallback": "Client"
+}

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import "./StickyMobileCta.css";
 
@@ -9,8 +10,9 @@ type Props = {
 
 /** Mobile-only sticky CTA (guide lander pattern). Hidden on visit form pages. */
 export function StickyMobileCta({ to, label, fine }: Props) {
+  const { t } = useTranslation("common");
   return (
-    <div className="sticky-mobile-cta" role="region" aria-label="Continue">
+    <div className="sticky-mobile-cta" role="region" aria-label={t("a11y.continueRegion")}>
       <div className="sticky-mobile-cta-inner">
         <Link to={to} className="btn btn-primary">
           {label}

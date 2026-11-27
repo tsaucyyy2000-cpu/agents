@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "note": "Deep clinical / care copy stays EN-first. Keys are ready for FR translation without rewriting pages yet. Prefer these keys when migrating landings, quizzes, and ISI."
+  },
+  "categories": {
+    "weight": {
+      "eyebrow": "Weight care",
+      "title": "Online weight-care pathways",
+      "lede": "Start the matching quiz, then continue into the shared visit. How care works and Help stay one tap away—eligibility, coverage check, and plan review are layout metaphors only.",
+      "cta": "Start quiz"
+    },
+    "sexualHealth": {
+      "eyebrow": "Sexual health",
+      "title": "Discrete care that fits real life",
+      "lede": "Compare onset, duration, and format choices in this site aisle, then start the matching quiz. Original copy only—no branded claims.",
+      "cta": "Start quiz"
+    },
+    "hair": {
+      "eyebrow": "Hair",
+      "title": "Plans for thinning, shedding, and density goals",
+      "lede": "Topical/oral combo storytelling with a soft clinical tone. Start the hair quiz when you are ready—Help and how-it-works stay linked.",
+      "cta": "Start quiz"
+    },
+    "skin": {
+      "eyebrow": "Skin",
+      "title": "Clearer, calmer skin with guided routines",
+      "lede": "Soft peach gradients and simple goal cards for everyday skin goals. Quiz first, then the shared visit funnel.",
+      "cta": "Start quiz"
+    }
+  },
+  "home": {
+    "tagline": "Help with what you want next",
+    "support": "Pick a care area, start the matching quiz, then continue into a shared visit. How care works and Help stay one tap away. Browser-only data—not affiliated with Ro."
+  },
+  "isi": {
+    "placeholder": "Important safety information stubs remain English until counsel-reviewed FR copy exists."
+  }
+}

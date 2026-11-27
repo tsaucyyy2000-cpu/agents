@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { JourneyRail } from "../components/JourneyRail";
 import { StickyMobileCta } from "../components/StickyMobileCta";
@@ -16,6 +17,7 @@ import "./Home.css";
 export function Home() {
   // customerContent strips unpublished orphans; selectors double-check the gate.
   const { customerContent: content, mediaById } = useContent();
+  const { t } = useTranslation("common");
   const [goalIndex, setGoalIndex] = useState(0);
   const heroImage = mediaById["hero-home"];
   const publishedTestimonials = customerTestimonials(content);
@@ -127,7 +129,7 @@ export function Home() {
                       How it works
                     </Link>
                     <Link to={quizPath(item.slug)} className="btn btn-primary">
-                      Start quiz
+                      {t("cta.startQuiz")}
                     </Link>
                   </div>
                 </article>
@@ -162,7 +164,7 @@ export function Home() {
                       Details
                     </Link>
                     <Link to={quizPath(product.category)} className="btn btn-primary">
-                      Start quiz
+                      {t("cta.startQuiz")}
                     </Link>
                   </div>
                 </article>

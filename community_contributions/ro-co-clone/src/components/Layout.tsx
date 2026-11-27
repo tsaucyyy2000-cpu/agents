@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Outlet, useLocation } from "react-router-dom";
 import { DocumentMeta } from "../seo/DocumentMeta";
 import { ConsentBanner } from "./ConsentBanner";
@@ -8,6 +9,7 @@ import "./Layout.css";
 
 export function Layout() {
   const { pathname } = useLocation();
+  const { t } = useTranslation("common");
   const stickyCtaPages =
     pathname === "/" ||
     ["/weight-loss", "/sexual-health", "/hair", "/skin"].includes(pathname) ||
@@ -18,7 +20,7 @@ export function Layout() {
     <div className="page">
       <DocumentMeta />
       <a className="skip-link" href="#main-content">
-        Skip to content
+        {t("a11y.skipToContent")}
       </a>
       <div className="site-chrome">
         <Header />

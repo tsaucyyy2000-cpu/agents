@@ -1,46 +1,57 @@
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useContent } from "../data/ContentContext";
+import { careNavKey } from "../i18n/carePaths";
 import { openSiteConsent } from "../utils/siteConsent";
 
 export function Footer() {
   const { content } = useContent();
+  const { t } = useTranslation(["footer", "common", "nav"]);
+
+  const careItems = content.nav.map((item) => {
+    const key = careNavKey(item.to);
+    return {
+      to: item.to,
+      label: key ? t(`nav:${key}`) : item.label,
+    };
+  });
 
   const columns = [
     {
-      title: "Care areas",
-      items: content.nav,
+      title: t("footer:columns.careAreas"),
+      items: careItems,
     },
     {
-      title: "Company",
+      title: t("footer:columns.company"),
       items: [
-        { to: "/about", label: "About" },
-        { to: "/quiz/weight-loss", label: "Weight quiz" },
-        { to: "/quiz/hair", label: "Hair quiz" },
-        { to: "/quiz/sexual-health", label: "Sexual health quiz" },
-        { to: "/quiz/skin", label: "Skin quiz" },
-        { to: "/visit", label: "Start a visit" },
-        { to: "/how-it-works", label: "How it works" },
-        { to: "/guides", label: "Health guides" },
+        { to: "/about", label: t("footer:links.about") },
+        { to: "/quiz/weight-loss", label: t("footer:links.weightQuiz") },
+        { to: "/quiz/hair", label: t("footer:links.hairQuiz") },
+        { to: "/quiz/sexual-health", label: t("footer:links.sexualHealthQuiz") },
+        { to: "/quiz/skin", label: t("footer:links.skinQuiz") },
+        { to: "/visit", label: t("footer:links.startVisit") },
+        { to: "/how-it-works", label: t("footer:links.howItWorks") },
+        { to: "/guides", label: t("footer:links.guides") },
       ],
     },
     {
-      title: "Support",
+      title: t("footer:columns.support"),
       items: [
-        { to: "/help", label: "Help center" },
-        { to: "/safety", label: "Safety info" },
-        { to: "/isi/glp1", label: "GLP-1 ISI stub" },
-        { to: "/isi/minoxidil", label: "Minoxidil ISI stub" },
-        { to: "/privacy", label: "Privacy" },
-        { to: "/terms", label: "Terms" },
+        { to: "/help", label: t("footer:links.help") },
+        { to: "/safety", label: t("footer:links.safety") },
+        { to: "/isi/glp1", label: t("footer:links.glp1Isi") },
+        { to: "/isi/minoxidil", label: t("footer:links.minoxidilIsi") },
+        { to: "/privacy", label: t("footer:links.privacy") },
+        { to: "/terms", label: t("footer:links.terms") },
       ],
     },
     {
-      title: "Privacy choices",
+      title: t("footer:columns.privacyChoices"),
       items: [
-        { to: "/privacy-choices", label: "Your privacy choices" },
-        { to: "/cookie-policy", label: "Cookie policy" },
-        { to: "/consumer-health-privacy", label: "Consumer health data" },
-        { to: "/disclosure", label: "Disclosure" },
+        { to: "/privacy-choices", label: t("footer:links.privacyChoices") },
+        { to: "/cookie-policy", label: t("footer:links.cookiePolicy") },
+        { to: "/consumer-health-privacy", label: t("footer:links.consumerHealth") },
+        { to: "/disclosure", label: t("footer:links.disclosure") },
       ],
     },
   ];
@@ -50,10 +61,7 @@ export function Footer() {
       <div className="container footer-grid">
         <div>
           <div className="footer-brand">{content.settings.brandName}</div>
-          <p>
-            Online care paths for common health goals. Not affiliated with Ro. Contact{" "}
-            {content.settings.supportEmail}.
-          </p>
+          <p>{t("footer:blurb", { email: content.settings.supportEmail })}</p>
         </div>
         {columns.map((column) => (
           <div className="footer-col" key={column.title}>
@@ -69,9 +77,9 @@ export function Footer() {
         ))}
       </div>
       <div className="container footer-bottom">
-        <span>Not medical advice · Licensed clinicians required for any real treatment</span>
+        <span>{t("footer:disclaimer")}</span>
         <button type="button" className="footer-linklike" onClick={() => openSiteConsent()}>
-          Cookie settings
+          {t("common:consent.cookieSettings")}
         </button>
       </div>
     </footer>

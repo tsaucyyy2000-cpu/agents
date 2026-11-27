@@ -1,0 +1,27 @@
+{
+  "kicker": "Your account",
+  "greeting": "Hi, {{name}}",
+  "titleFallback": "Your account",
+  "heroDek": "Patient dashboard shell for overview, care, appointments, orders, insurance, membership, progress, documents, messages, and settings. Durable medical records, pharmacy, and payments need a future backend — this SPA keeps honest empty states instead of inventing PHI.",
+  "signedInAs": "Signed in as",
+  "previewIdentity": "Preview identity",
+  "role": "Role: {{role}}",
+  "roleCustomer": "Customer",
+  "roleStaff": "Administrator / staff",
+  "previewBanner": "Design preview · Clerk not configured · ?previewShell=1 shows this shell for screenshots only. Not a signed-in session.",
+  "sectionsAria": "Account sections",
+  "nav": {
+    "overview": "Overview",
+    "care": "My care",
+    "appointments": "Appointments",
+    "labs": "Labs",
+    "orders": "Orders",
+    "insurance": "Insurance",
+    "membership": "Membership",
+    "progress": "Progress",
+    "documents": "Documents",
+    "messages": "Messages",
+    "settings": "Settings"
+  },
+  "customerFallback": "Customer"
+}

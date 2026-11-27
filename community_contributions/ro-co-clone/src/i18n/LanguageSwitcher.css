@@ -1,0 +1,47 @@
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  flex: 0 0 auto;
+}
+
+.lang-switch-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0.2rem 0.15rem;
+  margin: 0;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: var(--color-slate, #5c5c5c);
+  cursor: pointer;
+  border-radius: 0.2rem;
+}
+
+.lang-switch-btn:hover,
+.lang-switch-btn:focus-visible {
+  color: var(--color-ink, #1a1a1a);
+  outline: none;
+}
+
+.lang-switch-btn:focus-visible {
+  box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.18);
+}
+
+.lang-switch-btn.is-active {
+  color: var(--color-ink, #1a1a1a);
+}
+
+.lang-switch-sep {
+  font-size: 0.7rem;
+  color: rgba(26, 26, 26, 0.28);
+  user-select: none;
+}
+
+.lang-switch.is-compact .lang-switch-btn {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.25rem;
+}

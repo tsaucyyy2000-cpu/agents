@@ -1,4 +1,5 @@
 import { Show, useClerk, useUser } from "@clerk/react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { isClerkConfigured } from "../auth/clerkConfig";
 import "../auth/auth.css";
@@ -9,7 +10,8 @@ import "../auth/auth.css";
 function HeaderAuthClerk({ onNavigate }: { onNavigate?: () => void }) {
   const { user } = useUser();
   const { signOut } = useClerk();
-  const label = user?.firstName?.trim() || "Account";
+  const { t } = useTranslation("common");
+  const label = user?.firstName?.trim() || t("cta.account");
 
   return (
     <>
@@ -20,7 +22,7 @@ function HeaderAuthClerk({ onNavigate }: { onNavigate?: () => void }) {
           data-testid="header-sign-in"
           onClick={onNavigate}
         >
-          Sign in
+          {t("cta.signIn")}
         </Link>
       </Show>
       <Show when="signed-in">
@@ -41,7 +43,7 @@ function HeaderAuthClerk({ onNavigate }: { onNavigate?: () => void }) {
             void signOut({ redirectUrl: "/" });
           }}
         >
-          Sign out
+          {t("cta.signOut")}
         </button>
       </Show>
     </>
@@ -54,6 +56,8 @@ type HeaderAuthProps = {
 };
 
 export function HeaderAuth({ onNavigate, mobile = false }: HeaderAuthProps) {
+  const { t } = useTranslation("common");
+
   if (!isClerkConfigured()) {
     return (
       <Link
@@ -62,7 +66,7 @@ export function HeaderAuth({ onNavigate, mobile = false }: HeaderAuthProps) {
         data-testid="header-account-locked"
         onClick={onNavigate}
       >
-        Account
+        {t("cta.account")}
       </Link>
     );
   }
@@ -72,15 +76,15 @@ export function HeaderAuth({ onNavigate, mobile = false }: HeaderAuthProps) {
       <>
         <Show when="signed-out">
           <Link to="/sign-in" className="mobile-link" data-testid="header-sign-in" onClick={onNavigate}>
-            Sign in
+            {t("cta.signIn")}
           </Link>
           <Link to="/sign-up" className="mobile-link" onClick={onNavigate}>
-            Create account
+            {t("cta.signUp")}
           </Link>
         </Show>
         <Show when="signed-in">
           <Link to="/account" className="mobile-link" data-testid="header-account" onClick={onNavigate}>
-            Your account
+            {t("cta.yourAccount")}
           </Link>
           <HeaderAuthMobileSignOut onNavigate={onNavigate} />
         </Show>
@@ -93,6 +97,7 @@ export function HeaderAuth({ onNavigate, mobile = false }: HeaderAuthProps) {
 
 function HeaderAuthMobileSignOut({ onNavigate }: { onNavigate?: () => void }) {
   const { signOut } = useClerk();
+  const { t } = useTranslation("common");
   return (
     <button
       type="button"
@@ -103,7 +108,7 @@ function HeaderAuthMobileSignOut({ onNavigate }: { onNavigate?: () => void }) {
         void signOut({ redirectUrl: "/" });
       }}
     >
-      Sign out
+      {t("cta.signOut")}
     </button>
   );
 }

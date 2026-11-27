@@ -1,0 +1,30 @@
+{
+  "blurb": "Online care paths for common health goals. Not affiliated with Ro. Contact {{email}}.",
+  "disclaimer": "Not medical advice · Licensed clinicians required for any real treatment",
+  "columns": {
+    "careAreas": "Care areas",
+    "company": "Company",
+    "support": "Support",
+    "privacyChoices": "Privacy choices"
+  },
+  "links": {
+    "about": "About",
+    "weightQuiz": "Weight quiz",
+    "hairQuiz": "Hair quiz",
+    "sexualHealthQuiz": "Sexual health quiz",
+    "skinQuiz": "Skin quiz",
+    "startVisit": "Start a visit",
+    "howItWorks": "How it works",
+    "guides": "Health guides",
+    "help": "Help center",
+    "safety": "Safety info",
+    "glp1Isi": "GLP-1 ISI stub",
+    "minoxidilIsi": "Minoxidil ISI stub",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "privacyChoices": "Your privacy choices",
+    "cookiePolicy": "Cookie policy",
+    "consumerHealth": "Consumer health data",
+    "disclosure": "Disclosure"
+  }
+}
