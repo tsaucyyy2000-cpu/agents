@@ -19,6 +19,7 @@ const MEDIA =
   "/cursor/stores/bc-4def6ec3-e169-4d36-ace1-7746b505cc6d/media";
 const CONTENT_KEY = "ro-clone-site-content-v2";
 const SUPPORT_KEY = "ro-clone-support-messages-v1";
+const APPT_KEY = "ro-clone-appointments-v1";
 
 function getStatic(urlPath) {
   return new Promise((resolve) => {
@@ -78,8 +79,11 @@ const SAMPLE_CASE_ID = "provider-demo-case-1";
 
 async function seedProviderDemo(page) {
   await page.evaluate(
-    ({ contentKey, supportKey, caseId }) => {
+    ({ contentKey, supportKey, apptKey, caseId }) => {
       const now = new Date().toISOString();
+      const slotStart = new Date();
+      slotStart.setDate(slotStart.getDate() + 2);
+      slotStart.setHours(10, 0, 0, 0);
       let base;
       try {
         base = JSON.parse(localStorage.getItem(contentKey) || "null");
@@ -140,8 +144,36 @@ async function seedProviderDemo(page) {
           ],
         }),
       );
+      localStorage.setItem(
+        apptKey,
+        JSON.stringify({
+          version: 1,
+          appointments: [
+            {
+              id: "provider-demo-appt-1",
+              patientKey: "demo-patient@example.com",
+              patientLabel: "Demo patient",
+              category: "weight",
+              slotStart: slotStart.toISOString(),
+              durationMin: 20,
+              careTeamLabel: "Care team",
+              slotLabel: "Slot A",
+              status: "scheduled",
+              modality: "video",
+              reminderEnabled: false,
+              createdAt: now,
+              updatedAt: now,
+            },
+          ],
+        }),
+      );
     },
-    { contentKey: CONTENT_KEY, supportKey: SUPPORT_KEY, caseId: SAMPLE_CASE_ID },
+    {
+      contentKey: CONTENT_KEY,
+      supportKey: SUPPORT_KEY,
+      apptKey: APPT_KEY,
+      caseId: SAMPLE_CASE_ID,
+    },
   );
 }
 

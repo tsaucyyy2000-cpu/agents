@@ -172,13 +172,14 @@ async function main() {
       providerPreview.replace(/\s+/g, " ").slice(0, 140),
     );
     await page.goto(`${BASE}/provider/appointments?previewShell=1`, { waitUntil: "networkidle" });
-    const apptText = await page.locator("body").innerText();
+    const providerApptText = await page.locator("body").innerText();
     check(
-      "provider appointments empty stub",
+      "provider appointments handoff stub",
       (await page.getByTestId("provider-appointments").count()) > 0 &&
-        /Stub list only/i.test(apptText) &&
-        /No appointments are stored here on purpose/i.test(apptText),
-      apptText.replace(/\s+/g, " ").slice(0, 120),
+        /booking sandbox/i.test(providerApptText) &&
+        /Video consult integration is pending/i.test(providerApptText) &&
+        (await page.getByRole("link", { name: /admin appointments/i }).count()) > 0,
+      providerApptText.replace(/\s+/g, " ").slice(0, 140),
     );
 
     // Customer auth routes locked without publishable key (no live sign-in/out without secrets).
