@@ -3,8 +3,15 @@ import type { SiteContent } from "./types";
 
 export const STORAGE_KEY = "ro-clone-site-content-v2";
 
+export const DEFAULT_PROVIDER_NOTE_TEMPLATES = [
+  "Intake answers viewed — no clinical decision recorded (demo).",
+  "Requested more information from the patient via support messaging (demo).",
+  "Routed to support queue for administrative follow-up (demo).",
+  "Appointment list stub noted — no video visit scheduled (demo).",
+];
+
 export const defaultContent: SiteContent = {
-  version: 9,
+  version: 10,
   updatedAt: new Date().toISOString(),
   settings: {
     brandName: "ro",
@@ -463,4 +470,6 @@ export const defaultContent: SiteContent = {
   moreCare: [],
   questionnaires: structuredClone(defaultQuestionnaires),
   leads: [],
+  staffAllowlist: [],
+  providerNoteTemplates: [...DEFAULT_PROVIDER_NOTE_TEMPLATES],
 };

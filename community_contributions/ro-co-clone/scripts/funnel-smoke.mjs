@@ -151,6 +151,36 @@ async function main() {
       adminBody.replace(/\s+/g, " ").slice(0, 120),
     );
 
+    // Provider portal fail-closed without Clerk; design preview shows Rx banner + demo chrome.
+    await page.goto(`${BASE}/provider`, { waitUntil: "networkidle" });
+    const providerLocked = await page.locator("body").innerText();
+    check(
+      "provider fail-closed without Clerk",
+      /Provider locked/i.test(providerLocked) &&
+        /Auth not configured/i.test(providerLocked) &&
+        (await page.getByTestId("provider-locked").count()) > 0,
+      providerLocked.replace(/\s+/g, " ").slice(0, 120),
+    );
+    await page.goto(`${BASE}/provider?previewShell=1`, { waitUntil: "networkidle" });
+    const providerPreview = await page.locator("body").innerText();
+    check(
+      "provider shell preview",
+      (await page.getByTestId("provider-portal").count()) > 0 &&
+        (await page.getByTestId("provider-rx-banner").count()) > 0 &&
+        /Cannot prescribe/i.test(providerPreview) &&
+        /not clinical system of record/i.test(providerPreview),
+      providerPreview.replace(/\s+/g, " ").slice(0, 140),
+    );
+    await page.goto(`${BASE}/provider/appointments?previewShell=1`, { waitUntil: "networkidle" });
+    const apptText = await page.locator("body").innerText();
+    check(
+      "provider appointments empty stub",
+      (await page.getByTestId("provider-appointments").count()) > 0 &&
+        /Stub list only/i.test(apptText) &&
+        /No appointments are stored here on purpose/i.test(apptText),
+      apptText.replace(/\s+/g, " ").slice(0, 120),
+    );
+
     // Customer auth routes locked without publishable key (no live sign-in/out without secrets).
     for (const authPath of ["/sign-in", "/sign-up", "/account"]) {
       await page.goto(`${BASE}${authPath}`, { waitUntil: "networkidle" });

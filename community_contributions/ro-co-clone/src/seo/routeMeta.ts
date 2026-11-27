@@ -325,6 +325,18 @@ export function metaForPathname(pathname: string): RouteMeta {
     };
   }
 
+  if (normalized.startsWith("/provider") || normalized.startsWith("/design/provider")) {
+    return {
+      path: normalized,
+      title: "Provider portal",
+      description:
+        "Role-gated provider worklist shell. Demo only — cannot prescribe; not a clinical system of record.",
+      robots: "noindex,nofollow",
+      sitemap: false,
+      schemaType: "WebPage",
+    };
+  }
+
   if (
     normalized === "/sign-in" ||
     normalized.startsWith("/sign-in/") ||
