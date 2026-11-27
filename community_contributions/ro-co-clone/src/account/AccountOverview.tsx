@@ -94,7 +94,10 @@ export function AccountOverview({ displayName, preview = false }: AccountOvervie
               receipts.
             </p>
             <div className="account-toolbar">
-              <Link className="btn btn-primary" to={previewPath("/account/messages", preview)}>
+              <Link className="btn btn-primary" to={previewPath("/account/appointments", preview)}>
+                Appointments
+              </Link>
+              <Link className="btn btn-ghost" to={previewPath("/account/messages", preview)}>
                 Messages
               </Link>
               <Link className="btn btn-ghost" to="/how-it-works">
