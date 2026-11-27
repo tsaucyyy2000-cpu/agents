@@ -1,49 +1,51 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { JourneyRail } from "../components/JourneyRail";
 import { QuizConsentGate } from "../components/QuizConsentGate";
 import { QuizShell } from "../components/QuizShell";
 import { StepIndicator } from "../components/StepIndicator";
+import { useContent } from "../data/ContentContext";
+import {
+  clearQuizResume,
+  readQuizResume,
+  writeQuizResume,
+  type QuizAnswers,
+} from "../data/quizEngine";
 import { getQuizTreatment } from "../data/quizQuestions";
 import { isiSlugForQuiz } from "../data/isi";
 import { hasCurrentIntakeConsent } from "../utils/intakeConsent";
-import { visitPath } from "../utils/careRoutes";
+import { goalLabelForArea, visitPath } from "../utils/careRoutes";
 import "../components/QuizShell.css";
-
-const ANSWERS_KEY = "ro-clone-quiz-answers-v1";
-
-function readAnswers(slug: string): Record<string, string> {
-  try {
-    const raw = window.sessionStorage.getItem(ANSWERS_KEY);
-    if (!raw) return {};
-    const parsed = JSON.parse(raw) as Record<string, Record<string, string>>;
-    return parsed[slug] ?? {};
-  } catch {
-    return {};
-  }
-}
-
-function writeAnswers(slug: string, answers: Record<string, string>) {
-  try {
-    const raw = window.sessionStorage.getItem(ANSWERS_KEY);
-    const parsed = raw ? (JSON.parse(raw) as Record<string, Record<string, string>>) : {};
-    window.sessionStorage.setItem(ANSWERS_KEY, JSON.stringify({ ...parsed, [slug]: answers }));
-  } catch {
-    /* ignore quota */
-  }
-}
 
 export function Quiz() {
   const { slug = "" } = useParams();
   const navigate = useNavigate();
-  const treatment = getQuizTreatment(slug);
+  const { content, addLead } = useContent();
+  const treatment = getQuizTreatment(slug, content.questionnaires);
   const [consented, setConsented] = useState(() => hasCurrentIntakeConsent());
-  const [started, setStarted] = useState(false);
-  const [answers, setAnswers] = useState<Record<string, string>>(() =>
-    typeof window === "undefined" ? {} : readAnswers(slug),
+  const resume = useMemo(
+    () => (typeof window === "undefined" || !slug ? null : readQuizResume(slug)),
+    [slug],
   );
+  const [started, setStarted] = useState(false);
+  const [answers, setAnswers] = useState<QuizAnswers>(() => resume?.answers ?? {});
+  const [stepId, setStepId] = useState<string | null>(resume?.stepId ?? null);
+  const [phase, setPhase] = useState<"questions" | "review">(resume?.phase ?? "questions");
+  const hasResume = Boolean(resume && Object.keys(resume.answers).length > 0);
 
   const isiSlug = useMemo(() => (treatment ? isiSlugForQuiz(treatment.slug) : null), [treatment]);
+
+  const persist = useCallback(
+    (nextAnswers: QuizAnswers, nextStepId: string | null, nextPhase: "questions" | "review") => {
+      if (!treatment) return;
+      writeQuizResume(treatment.slug, {
+        answers: nextAnswers,
+        stepId: nextStepId,
+        phase: nextPhase,
+      });
+    },
+    [treatment],
+  );
 
   if (!treatment) {
     return <Navigate to="/#find-care" replace />;
@@ -56,9 +58,29 @@ export function Quiz() {
   function setAnswer(id: string, value: string) {
     setAnswers((prev) => {
       const next = { ...prev, [id]: value };
-      writeAnswers(active.slug, next);
+      persist(next, stepId, phase);
       return next;
     });
+  }
+
+  function handleStepChange(nextStepId: string | null, nextPhase: "questions" | "review") {
+    setStepId(nextStepId);
+    setPhase(nextPhase);
+    persist(answers, nextStepId, nextPhase);
+  }
+
+  function handleComplete(finalAnswers: QuizAnswers) {
+    addLead({
+      goal: goalLabelForArea(active.careArea),
+      state: "",
+      notes: `Quiz · ${active.name} · awaiting admin workflow update`,
+      status: "submitted",
+      source: "quiz",
+      quizSlug: active.slug,
+      answers: finalAnswers,
+    });
+    clearQuizResume(active.slug);
+    navigate(visitPath(active.careArea));
   }
 
   return (
@@ -76,6 +98,10 @@ export function Quiz() {
         <p className="visit-flow-chip">Quiz · continues into the shared visit</p>
         <h1>{active.name} quiz</h1>
         <p className="lede">{active.blurb}</p>
+        <p className="quiz-storage-note" data-testid="quiz-storage-note">
+          Non-PHI demo storage — answers resume from this browser&apos;s localStorage only. Not a
+          clinical record and not sent to a clinic.
+        </p>
         {isiSlug ? (
           <p>
             Safety stub:{" "}
@@ -106,28 +132,61 @@ export function Quiz() {
           <div className="quiz-consent-card">
             <h2>Ready when you are</h2>
             <p className="lede">
-              Consent version is current. Start the short question set, then continue into the
-              existing visit flow.
+              Consent version is current. Answer the questionnaire, review, then continue into the
+              existing visit flow. No automatic eligibility outcome.
             </p>
-            <button
-              type="button"
-              className="btn btn-primary"
-              data-testid="quiz-start"
-              onClick={() => {
-                setAnswers({});
-                writeAnswers(active.slug, {});
-                setStarted(true);
-              }}
-            >
-              Start {active.name} questions
-            </button>
+            {hasResume ? (
+              <div className="quiz-resume-banner" data-testid="quiz-resume-banner">
+                <p>Saved demo answers found in this browser.</p>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  data-testid="quiz-resume"
+                  onClick={() => setStarted(true)}
+                >
+                  Resume
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-testid="quiz-start-fresh"
+                  onClick={() => {
+                    setAnswers({});
+                    setStepId(null);
+                    setPhase("questions");
+                    clearQuizResume(active.slug);
+                    setStarted(true);
+                  }}
+                >
+                  Start fresh
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-primary"
+                data-testid="quiz-start"
+                onClick={() => {
+                  setAnswers({});
+                  setStepId(null);
+                  setPhase("questions");
+                  clearQuizResume(active.slug);
+                  setStarted(true);
+                }}
+              >
+                Start {active.name} questions
+              </button>
+            )}
           </div>
         ) : (
           <QuizShell
             treatment={active}
             answers={answers}
             onAnswer={setAnswer}
-            onComplete={() => navigate(visitPath(active.careArea))}
+            onStepChange={handleStepChange}
+            initialStepId={stepId}
+            initialPhase={phase}
+            onComplete={handleComplete}
           />
         )}
 

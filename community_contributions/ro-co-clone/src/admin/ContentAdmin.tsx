@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useContent } from "../data/ContentContext";
+import type { QuizDefinition, QuizStepDef } from "../data/quizEngine";
+import { defaultQuestionnaires } from "../data/quizQuestions";
 import type { CareArea, OrphanPublishFlags } from "../data/types";
 
 const ORPHAN_LABELS: { key: keyof OrphanPublishFlags; label: string; hint: string }[] = [
@@ -25,6 +27,89 @@ const ORPHAN_LABELS: { key: keyof OrphanPublishFlags; label: string; hint: strin
   },
 ];
 
+function stepsToEditor(steps: QuizStepDef[]): string {
+  return steps
+    .map((step) => {
+      const parts = [
+        `id=${step.id}`,
+        `type=${step.type}`,
+        `label=${step.label}`,
+      ];
+      if (step.help) parts.push(`help=${step.help}`);
+      if (step.unit) parts.push(`unit=${step.unit}`);
+      if (step.required === false) parts.push("required=false");
+      if (step.min !== undefined) parts.push(`min=${step.min}`);
+      if (step.max !== undefined) parts.push(`max=${step.max}`);
+      if (step.options?.length) parts.push(`options=${step.options.join("|")}`);
+      if (step.showIf?.fieldId) {
+        if (step.showIf.equals !== undefined) {
+          parts.push(`showIf=${step.showIf.fieldId}==${step.showIf.equals}`);
+        } else if (step.showIf.notEquals !== undefined) {
+          parts.push(`showIf=${step.showIf.fieldId}!=${step.showIf.notEquals}`);
+        } else if (step.showIf.anyOf?.length) {
+          parts.push(`showIf=${step.showIf.fieldId}in:${step.showIf.anyOf.join("|")}`);
+        }
+      }
+      return parts.join("; ");
+    })
+    .join("\n");
+}
+
+function parseStepsEditor(raw: string): QuizStepDef[] {
+  return raw
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const map = new Map<string, string>();
+      for (const part of line.split(";")) {
+        const trimmed = part.trim();
+        const eq = trimmed.indexOf("=");
+        if (eq <= 0) continue;
+        map.set(trimmed.slice(0, eq).trim(), trimmed.slice(eq + 1).trim());
+      }
+      const id = map.get("id") || crypto.randomUUID().slice(0, 8);
+      const typeRaw = map.get("type") || "choice";
+      const type: QuizStepDef["type"] =
+        typeRaw === "number" || typeRaw === "text" ? typeRaw : "choice";
+      const showRaw = map.get("showIf");
+      let showIf: QuizStepDef["showIf"];
+      if (showRaw) {
+        if (showRaw.includes("==")) {
+          const [fieldId, equals] = showRaw.split("==");
+          showIf = { fieldId: fieldId.trim(), equals: equals.trim() };
+        } else if (showRaw.includes("!=")) {
+          const [fieldId, notEquals] = showRaw.split("!=");
+          showIf = { fieldId: fieldId.trim(), notEquals: notEquals.trim() };
+        } else if (showRaw.includes("in:")) {
+          const [fieldId, list] = showRaw.split("in:");
+          showIf = {
+            fieldId: fieldId.trim(),
+            anyOf: list.split("|").map((item) => item.trim()).filter(Boolean),
+          };
+        }
+      }
+      return {
+        id,
+        label: map.get("label") || id,
+        help: map.get("help"),
+        type,
+        unit: map.get("unit"),
+        required: map.get("required") === "false" ? false : undefined,
+        min: map.get("min") ? Number(map.get("min")) : undefined,
+        max: map.get("max") ? Number(map.get("max")) : undefined,
+        options: map.get("options")
+          ? map
+              .get("options")!
+              .split("|")
+              .map((item) => item.trim())
+              .filter(Boolean)
+          : undefined,
+        showIf,
+      } satisfies QuizStepDef;
+    });
+}
+
 export function ContentAdmin() {
   const {
     content,
@@ -34,6 +119,8 @@ export function ContentAdmin() {
     setExperts,
     setMoreCare,
     updateOrphanPublish,
+    upsertQuestionnaire,
+    setQuestionnaires,
   } = useContent();
   const [support, setSupport] = useState(content.homeSupport);
   const [goals, setGoals] = useState(content.heroGoals.join("\n"));
@@ -42,12 +129,32 @@ export function ContentAdmin() {
   const [title, setTitle] = useState(category?.title ?? "");
   const [lede, setLede] = useState(category?.lede ?? "");
   const [message, setMessage] = useState("");
+  const [quizSlug, setQuizSlug] = useState(
+    content.questionnaires[0]?.slug ?? defaultQuestionnaires[0].slug,
+  );
+  const activeQuiz =
+    content.questionnaires.find((item) => item.slug === quizSlug) ??
+    defaultQuestionnaires.find((item) => item.slug === quizSlug) ??
+    defaultQuestionnaires[0];
+  const [quizName, setQuizName] = useState(activeQuiz.name);
+  const [quizBlurb, setQuizBlurb] = useState(activeQuiz.blurb);
+  const [quizSteps, setQuizSteps] = useState(stepsToEditor(activeQuiz.steps));
 
   function loadCategory(next: CareArea) {
     const found = content.categories.find((item) => item.slug === next);
     setSlug(next);
     setTitle(found?.title ?? "");
     setLede(found?.lede ?? "");
+  }
+
+  function loadQuiz(nextSlug: string) {
+    const found =
+      content.questionnaires.find((item) => item.slug === nextSlug) ??
+      defaultQuestionnaires.find((item) => item.slug === nextSlug);
+    setQuizSlug(nextSlug);
+    setQuizName(found?.name ?? nextSlug);
+    setQuizBlurb(found?.blurb ?? "");
+    setQuizSteps(stepsToEditor(found?.steps ?? []));
   }
 
   const anyPublished = Object.values(content.orphanPublish).some(Boolean);
@@ -157,6 +264,84 @@ export function ContentAdmin() {
           <button className="btn btn-primary" type="submit">
             Save category
           </button>
+        </form>
+      </div>
+
+      <div className="admin-panel" data-testid="admin-questionnaires">
+        <h2>Questionnaires</h2>
+        <p className="admin-orphan-lede">
+          Edit quiz copy and steps without a code change. One step per line. Branching uses{" "}
+          <code>showIf=field==value</code>, <code>!=</code>, or <code>in:a|b</code>. Never encode
+          diagnosis or prescribing outcomes in step text.
+        </p>
+        <form
+          className="admin-form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            const steps = parseStepsEditor(quizSteps);
+            if (!steps.length) {
+              setMessage("Add at least one questionnaire step.");
+              return;
+            }
+            const next: QuizDefinition = {
+              slug: quizSlug,
+              name: quizName.trim() || quizSlug,
+              careArea: activeQuiz.careArea,
+              blurb: quizBlurb,
+              steps,
+            };
+            upsertQuestionnaire(next);
+            setMessage(`Saved questionnaire ${quizSlug}.`);
+          }}
+        >
+          <label>
+            Questionnaire
+            <select value={quizSlug} onChange={(event) => loadQuiz(event.target.value)}>
+              {content.questionnaires.map((item) => (
+                <option key={item.slug} value={item.slug}>
+                  {item.name} ({item.slug})
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Display name
+            <input value={quizName} onChange={(event) => setQuizName(event.target.value)} />
+          </label>
+          <label>
+            Blurb
+            <textarea value={quizBlurb} onChange={(event) => setQuizBlurb(event.target.value)} />
+          </label>
+          <label>
+            Steps (one per line)
+            <textarea
+              value={quizSteps}
+              rows={12}
+              data-testid="admin-questionnaire-steps"
+              onChange={(event) => setQuizSteps(event.target.value)}
+            />
+          </label>
+          <div className="admin-actions">
+            <button className="btn btn-primary" type="submit">
+              Save questionnaire
+            </button>
+            <button
+              className="btn btn-secondary"
+              type="button"
+              onClick={() => {
+                const defaults = structuredClone(defaultQuestionnaires);
+                setQuestionnaires(defaults);
+                const found = defaults.find((item) => item.slug === quizSlug) ?? defaults[0];
+                setQuizSlug(found.slug);
+                setQuizName(found.name);
+                setQuizBlurb(found.blurb);
+                setQuizSteps(stepsToEditor(found.steps));
+                setMessage("Questionnaires reset to defaults.");
+              }}
+            >
+              Reset all questionnaires
+            </button>
+          </div>
         </form>
       </div>
 

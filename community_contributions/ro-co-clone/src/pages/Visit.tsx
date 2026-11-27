@@ -97,6 +97,8 @@ export function Visit() {
       notes: `Visit · preferred ${selectedProduct?.name ?? productId}${
         coverageReminder ? " · coverage reminder" : ""
       }`,
+      status: "submitted",
+      source: "visit",
     });
     setDone(true);
   }
@@ -145,7 +147,10 @@ export function Visit() {
         {done ? (
           <div className="visit-done">
             <h1>Visit saved locally</h1>
-            <p>Nothing was sent to a clinic. You can change answers and run again.</p>
+            <p>
+              Nothing was sent to a clinic. Admin workflow status starts as Submitted and is updated
+              only by a person in admin — this screen does not decide eligibility.
+            </p>
             <dl className="visit-summary">
               <div>
                 <dt>Care area</dt>

@@ -17,8 +17,11 @@ export function QuizConsentGate({ treatmentName, treatmentSlug, onAccepted }: Pr
       <p className="eyebrow">Before you start</p>
       <h2>Visit consent</h2>
       <ul>
-        <li>Answers stay in this browser (localStorage) only.</li>
-        <li>No prescription, clinic, or payment is created.</li>
+        <li>
+          Answers use non-PHI demo storage in this browser (localStorage) only — not a clinical
+          record.
+        </li>
+        <li>No prescription, clinic, payment, diagnosis, or eligibility decision is created.</li>
         <li>Published prices use “—” until verified.</li>
       </ul>
       <label className="field checkbox">

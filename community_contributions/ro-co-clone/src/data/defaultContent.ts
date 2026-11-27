@@ -1,9 +1,10 @@
+import { defaultQuestionnaires } from "./quizQuestions";
 import type { SiteContent } from "./types";
 
 export const STORAGE_KEY = "ro-clone-site-content-v2";
 
 export const defaultContent: SiteContent = {
-  version: 8,
+  version: 9,
   updatedAt: new Date().toISOString(),
   settings: {
     brandName: "ro",
@@ -460,5 +461,6 @@ export const defaultContent: SiteContent = {
   ],
   // Trimmed: no faux adjacent verticals until approved tiles exist.
   moreCare: [],
+  questionnaires: structuredClone(defaultQuestionnaires),
   leads: [],
 };

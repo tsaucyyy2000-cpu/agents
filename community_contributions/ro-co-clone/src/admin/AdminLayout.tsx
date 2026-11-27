@@ -11,7 +11,7 @@ const links = [
   { to: "/admin/content", label: "Site content" },
   { to: "/admin/products", label: "Products" },
   { to: "/admin/media", label: "Media library" },
-  { to: "/admin/leads", label: "Leads" },
+  { to: "/admin/leads", label: "Submissions" },
   { to: "/admin/settings", label: "Settings" },
 ];
 
